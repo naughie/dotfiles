@@ -1,0 +1,220 @@
+snippet #
+alias section
+options head
+        \section{${1}}${2}
+
+snippet ##
+alias subsection
+options head
+        \subsection{${1}}${2}
+
+snippet ###
+alias subsubsection
+options head
+        \subsubsection{${1}}${2}
+
+snippet _
+alias italic emph
+        \em{${1}}${2}
+
+snippet __
+alias bold
+        \bld{${1}}${2}
+
+snippet `
+        \verb|${1}|${2}
+
+snippet `*
+        \verb*|${1}|${2}
+
+snippet verb
+        \verb${1}${2}$1${3}
+
+snippet verb*
+        \verb*${1}${2}$1${3}
+
+snippet ```
+alias verbatim
+options head
+        \begin{verbatim}
+        ${1}
+        \end{verbatim}
+        ${2}
+
+snippet ```*
+alias verbatim*
+options head
+        \begin{verbatim*}
+        ${1}
+        \end{verbatim*}
+        ${2}
+
+snippet ^
+alias footnote
+        \footnote{${1}} ${2}
+
+snippet -
+options head
+        \item ${1}
+
+snippet item
+alias it
+options head
+        \begin{itemize}
+        \item ${1}
+        \end{itemize}
+        ${2}
+
+snippet enum
+alias en
+options head
+        \begin{enumerate}${1}
+        \item ${2}
+        \end{enumerate}
+        ${3}
+
+snippet ---
+        \hline
+        ${1}
+
+snippet ----
+alias mid
+        \\ \midrule
+        ${1}
+
+snippet >
+alias quotation quote
+options head
+        \begin{quotation}
+        ${1}
+        \end{quotation}
+        ${2}
+
+snippet $
+        $ ${1} $ ${2}
+
+snippet $d
+        $\displaystyle
+
+snippet $$
+alias align*
+options head
+        \begin{align*}
+        ${1}
+        \end{align*}
+        ${2}
+
+snippet align
+options head
+        \begin{align}
+        ${1}
+        \end{align}
+        ${2}
+
+snippet matrix
+alias mat
+        \begin{matrix}
+        ${1}
+        \end{matrix}
+        ${2}
+
+snippet matrix(
+alias mat( matrixp matp
+        \begin{pmatrix}
+        ${1}
+        \end{pmatrix}
+        ${2}
+
+snippet array
+alias arr
+        \left${1} \begin{array}{${2}}
+        ${3}
+        \end{array} \right${4}
+
+snippet table
+alias tab
+        \begin{tabular}{${1}}
+        ${2} \\
+        \end{tabular}
+        ${3}
+
+snippet talbleb
+alias tabb
+        \begin{tabular}{${1}} \\ \toprule
+        ${2} \\ \bottomrule
+        \end{tabular}
+        ${3}
+
+snippet lf
+        \\
+
+snippet roman
+alias rm
+        \mathrm{${1}}${2}
+
+snippet ''
+        ``${1}''${2}
+
+snippet sum
+        \sum_{ ${1} }^{ ${2} } ${3}
+
+snippet prod
+        \prod_{ ${1} }^{ ${2} } ${3}
+
+snippet int
+        \int_{ ${1} }^{ ${2} } ${3}
+
+snippet lim
+        \lim_{ ${1} } ${2}
+
+snippet frac
+        \frac{ ${1} }{ ${2} } ${3}
+
+snippet rt
+        \sqrt{\smath[b]{\mathstrut ${1} }}\, ${2}
+
+snippet |
+alias abs
+        \left| ${1} \right|
+
+snippet part
+        \frac{\partial ${1} }{\partial ${2} } ${3}
+
+snippet com
+alias c
+        {}_{ ${1} } C_{ ${2} } ${3}
+
+snippet bin
+        \binom{ ${1} }{ ${2} } ${3}
+
+snippet text
+alias txt
+        \text{${1}} ${2}
+
+snippet preamble
+options head
+        \documentclass[${1:uplatex,dvipdfmx}]{${2:jsarticle}}
+        \usepackage{graphicx,xcolor}
+        \usepackage{tikz}
+        \usepackage{amsmath}
+        \usepackage{newtxtext,newtxmath}
+        \usepackage{emath}
+        \usepackage{textcomp}
+        \usepackage{mathcomp}
+        \usepackage{mathrsfs}
+        \usepackage{bm}
+        \usepackage{booktabs}
+        \usepackage[dvipdfmx]{hyperref}
+        \title{${3: }}
+        \date{${4: }}
+        \author{${5: }}
+        \begin{document}
+        \maketitle
+        ${6}
+        \end{document}
+
+snippet \d
+        \displaystyle
+
+snippet pfrac
+        \pfrac{ ${1} }{ ${2} } ${3}
