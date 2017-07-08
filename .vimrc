@@ -31,14 +31,13 @@ if has('vim_starting') && dein#check_install()
 endif
 
 nnoremap <silent><BS> <C-w>h
-nnoremap ,df :Denite file_rec<CR>
-nnoremap ,dr :Denite -resume<CR>
 set mouse-=a
 set sh=zsh
 tnoremap <silent><ESC> <C-\><C-n>
 nnoremap ,tt :terminal<CR><C-\><C-n>:set nospell<CR>i
 nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
-
+let mapleader = "\<Space>"
+nmap <leader>f :Denite file_rec<CR>
 
 elseif 1
 
@@ -54,11 +53,6 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
-
-"Plugins with NeoBundle
-"NeoBundle 'hoge/fuga'
-
-"NeoBundle 'Townk/vim-autoclose'
 
 NeoBundle 'thinca/vim-quickrun'
 
@@ -123,7 +117,6 @@ NeoBundle 'tpope/vim-surround'
 
 call neobundle#end()
 
-filetype plugin indent on
 
 
 NeoBundleCheck
@@ -131,95 +124,125 @@ NeoBundleCheck
 noremap ,ub :Unite buffer<CR>
 noremap ,uu :Unite -buffer-name=file file<CR>
 nnoremap ,un :Unite file/new<CR>
-au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+augroup UniteGroup
+  au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR> |
+                  \ inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+augroup END
 
 nnoremap <silent><C-h> <C-w>h
 endif
 
 syntax on
 
+filetype plugin indent on
 
-
-
-"autocmd BufRead,BufNewFile *.md
-"setfiletype mkd
-
-"set a function in vim
-"set hoge; set hoge=fuga
 set number
+set ruler
 
 set spelllang=en,cjk
 
-set spell
-
 set expandtab
-
 set shiftwidth=2
-
 set softtabstop=2
-
 set autoindent
-
 set smartindent
 
 set pumheight=10
 
 set showmatch
-
 set matchtime=1
 
-set wrap
-
+set nohlsearch
 set ignorecase
-
 set smartcase
 
 set scrolloff=3
 
-set ruler
-
 set display=lastline
+set wrap
 
 set cole=0
 
 set backspace=indent,eol,start
 
 set laststatus=2
-
 set statusline+=%F
 set statusline+=%{fugitive#statusline()}
 
-set nohlsearch
+set noswapfile
 
-"set background similarly to iTerm
-autocmd ColorScheme * highlight Normal ctermbg=none
+set vb t_vb=
 
-autocmd ColorScheme * highlight LineNr ctermbg=none
+augroup colorSchemeSetting
+  au!
+  au ColorScheme * hi Normal ctermbg=none |
+                 \ hi LineNr ctermbg=none
+augroup END
 
 colorscheme molokai
 
-au BufRead,BufNewFile *.md set filetype=markdown
-au BufRead,BufNewfile *.tex set filetype=tex
-au BufRead,BufNewfile *.toml set filetype=vim
-au Filetype qf set nospell
+set cursorline
+hi clear CursorLine
 
-au FileType * setl cole=0
+augroup htmlMarkdownGroup
+  au!
+  au FileType markdown hi htmlItalic ctermfg=3 |
+                     \ hi htmlBold ctermfg=9 |
+                     \ hi link htmlLink Comment |
+                     \ set spell
+  au FileType html hi htmlItalic ctermfg=3 |
+                 \ hi htmlBold ctermfg=9 |
+                 \ hi link htmlLink Comment |
+                 \ set spell
+augroup END
 
-autocmd! FileType markdown hi! def link markdownItalic LineNr
+augroup texGroup
+  au!
+  au FileType tex hi texBoldStyle ctermfg=9 |
+                \ hi texItalStyle ctermfg=3 |
+                \ hi texBoldItalStyle ctermfg=3 |
+                \ hi texItalBoldStyle ctermfg=9 |
+                \ set spell |
+                \ filetype indent off |
+                \ set noautoindent |
+                \ set nosmartindent |
+augroup END
 
-autocmd QuickFixCmdPost *grep* cwindow
+augroup QfGroup
+  au!
+  au QuickFixCmdPost *grep* cwindow
+augroup END
 
-"map a key binding to another
-"[n/i/s/x][nore]map before after
-"a-zA-Z0-9 -> unchanged
-"cursor -> <Up><Down><Right><Left>
-"control-* -> <C-*>
-"space -> <Space>
-"tab -> <Tab>
-"escape -> <Esc>
-"carriage return -> <CR>
-"line feed -> <LF>
+augroup RubyGroup
+  au!
+  au FileType ruby hi rubySymbol cterm=NONE ctermfg=135 |
+                 \ hi rubyInteger ctermfg=10 |
+                 \ hi rubyFloat ctermfg=10 |
+                 \ hi rubyBoolean ctermfg=10 |
+                 \ hi rubyPseudoVariable cterm=bold ctermfg=10
+augroup END
+
+augroup ERubyGroup
+  au!
+  au FileType eruby hi htmlItalic ctermfg=3 |
+                  \ hi htmlBold ctermfg=9 |
+                  \ hi htmlLink cterm=NONE ctermfg=38 |
+                  \ hi rubySymbol cterm=NONE ctermfg=135 |
+                  \ hi rubyInteger ctermfg=10 |
+                  \ hi rubyFloat ctermfg=10 |
+                  \ hi rubyBoolean ctermfg=10 |
+                  \ hi rubyPseudoVariable cterm=bold ctermfg=10
+augroup END
+
+augroup TrailingSpace
+  au!
+  au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  au VimEnter,WinEnter * match TrailingSpaces /\s\+$/
+augroup END
+
+hi Todo ctermbg=NONE
+hi Visual ctermfg=white ctermbg=darkgray
+
 nnoremap j gj
 nnoremap k gk
 nnoremap <Down> gj
@@ -227,69 +250,50 @@ nnoremap <Up> gk
 nnoremap gj j
 nnoremap gk k
 
-
 nnoremap <silent><C-l> <C-w>l
 nnoremap <silent><C-k> <C-w>k
 nnoremap <silent><C-j> <C-w>j
-nnoremap <leader>s     <C-w>x
 
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-
-nnoremap <Space>h ^
-nnoremap <Space>l $
-
-"inoremap jk  <Esc>
+nnoremap <leader>h ^
+nnoremap <leader>l $
+vnoremap <leader>h ^
+vnoremap <leader>l $
 
 inoremap <C-j> <BS>
 cnoremap <C-j> <BS>
 
-imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>  <Plug>(neosnippet_expand_target)
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <leader>g :vim<Space>
+nmap <leader>s cs"'
+nmap <leader>d cs'"
+vmap <leader>y "+y
+nmap <leader>v <C-v>
+nmap <leader>r :QuickRun<CR>
 
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <C-p> <C-[>
 
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: "\<TAB>"
+nnoremap Y y$
+
+nnoremap <C-p> "zdd<Up>"zP
+nnoremap <C-n> "zdd"zp
+vnoremap <C-p> "zx<Up>"zP`[V`]
+vnoremap <C-n> "zx"zp`[V`]
+
+nnoremap <silent><leader><leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+nnoremap <silent><leader>n :noh<CR>
 
 "nnoremap <leader>t :GhcModType<CR>
 "cnoremap cmod GhcModTypeClear
-
 
 "if has('conceal')
 "    set conceallevel=0 concealcursor=
 "endif
 "set conceallevel=0
 
-"configuration of a plugin
-"let hoge = { 'foo' : 'bar' }
-let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
-
 let g:tex_conceal = ''
 
 let g:markdown_syntax_conceal = ''
-
-let g:quickrun_config = {
-            \ 'split' : '',
-			\ 'runner' : 'vimproc',
-			\ 'runner/vimproc/updatetime' : 10,
-                        \ 'markdown' : {
-                        \ 'outputter' : 'browser',
-                        \ },
-			\ 'tex' : {
-			\ 'command' : 'lat',
-			\ 'cmdopt' : '',
-			\ 'exec' : ['%c %o %s'] 
-			\ },
-                        \ 'haskell' : {
-                        \ 'command' : 'stack',
-                        \ 'cmdopt' : 'runhaskell',
-                        \ 'exec' : ['%c %o %s']
-                        \ },
-			\}
 
 let g:vim_markdown_folding_disabled=1
 

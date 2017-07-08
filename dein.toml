@@ -3,6 +3,10 @@ repo = 'Shougo/dein.vim'
 
 [[plugins]]
 repo = 'Shougo/denite.nvim'
+hook_add = '''
+nnoremap ,df :Denite file_rec<CR>
+nnoremap ,dr :Denite -resume<CR>
+'''
 
 [[plugins]]
 repo = 'Shougo/vimproc.vim'
@@ -13,13 +17,33 @@ repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
 repo = 'tomasr/molokai'
-hook_add = '''
-  "set background=dark
-  au MyAutoCmd VimEnter * nested colorscheme molokai
-'''
 
 [[plugins]]
 repo = 'Shougo/neosnippet'
+hook_add = '''
+imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>  <Plug>(neosnippet_expand_target)
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)"
+            \: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)"
+            \: "\<TAB>"
+let g:neosnippet#snippets_directory='~/dotfiles/snippets/'
+'''
+
+[[plugins]]
+repo = 'scrooloose/nerdtree'
+hook_add = '''
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+'''
+
+[[plugins]]
+repo = 'thinca/vim-ref'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'nelstrom/vim-visual-star-search'
@@ -27,11 +51,3 @@ repo = 'nelstrom/vim-visual-star-search'
 [[plugins]]
 repo = 'tpope/vim-endwise'
 
-[[plugins]]
-repo = 'scrooloose/nerdtree'
-
-[[plugins]]
-repo = 'thinca/vim-ref'
-
-[[plugins]]
-repo = 'tpope/vim-surround'
