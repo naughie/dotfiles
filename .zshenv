@@ -8,6 +8,8 @@ setopt auto_list
 setopt auto_menu
 setopt list_packed
 setopt list_types
+setopt prompt_subst
+setopt correct
 bindkey "^[[Z" reverse-menu-complete
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 unsetopt caseglob
@@ -16,3 +18,5 @@ setopt extended_history
 autoload zmv
 alias zmv='noglob zmv -W'
 export PATH=$HOME/.local/bin:$PATH
+autoload -Uz colors
+colors
