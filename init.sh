@@ -62,5 +62,5 @@ if [ ${has_zsh} -eq 0 ] ; then
   if [ $SHELL != '/bin/zsh' ] ; then
     chsh -s /bin/zsh
   fi
-  zsh
+  zsh --login
 fi

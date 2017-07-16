@@ -1,3 +1,4 @@
+export LANG=ja_JP.UTF-8
 setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
