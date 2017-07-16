@@ -1,22 +1,44 @@
-autoload -U compinit; compinit
 setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt extended_glob
-export EDITOR=vim
+export EDITOR=nvim
 setopt auto_list
 setopt auto_menu
 setopt list_packed
 setopt list_types
 setopt prompt_subst
 setopt correct
-bindkey "^[[Z" reverse-menu-complete
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
-unsetopt caseglob
+setopt nolistbeep
 setopt extended_history
-#alias ruby='ruby -Ku'
+unsetopt caseglob
+bindkey -v
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+autoload -U compinit; compinit
 autoload zmv
+#autoload -Uz colors; colors
 alias zmv='noglob zmv -W'
 export PATH=$HOME/.local/bin:$PATH
-autoload -Uz colors
-colors
+export KEYTIMEOUT=1
+EMOJI_YES=$'\u2B55 '
+EMOJI_NO=$'\u274C '
+EMOJI_ABORT=$'\U1F44B '
+EMOJI_EXIT=$'\u26D4 '
+KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
+KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
+KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
+function zle-line-init zle-keymap-select {
+  PROMPT="%F{%(?!119!123)}%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
+  case $KEYMAP in
+    vicmd)
+    PROMPT=$PROMPT"%F{1}%BNormal%b%f< "
+    ;;
+    main|viins)
+    PROMPT=$PROMPT"%F{69}%BInsert%b%f< "
+    ;;
+  esac
+  zle reset-prompt
+}
+SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EXIT}(e)]: %f"
+zle -N zle-line-init
+zle -N zle-keymap-select

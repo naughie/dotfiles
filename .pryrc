@@ -1,11 +1,11 @@
+def Pry.set_color sym, color
+  CodeRay::Encoders::Terminal::TOKEN_COLORS[sym] = color.to_s
+  { sym => color.to_s }
+end
+
 Pry.config.color = true
 
 Pry.config.prompt = proc do |obj, nest_level, _pry_|
-  version = ''
-  version << "\001\e[0;31m\002"
-  version << "Rails#{Rails.version}/" if defined? Rails
-  version << "Ruby#{RUBY_VERSION}"
-  version << "\001\e[0m\002"
-
-  "#{version} #{Pry.config.prompt_name}(#{Pry.view_clip(obj)})> "
+  kaomoji = '(๑o_o)'
+  "\001\e[38;5;186m\002#{kaomoji}@#{Pry.config.prompt_name}(#{Pry.view_clip(obj)})\001\e[0m\002< "
 end
