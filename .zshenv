@@ -2,7 +2,12 @@ setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
 setopt extended_glob
-export EDITOR=nvim
+which nvim 1>/dev/null 2>&1
+if [ $? -eq 0 ] ; then
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
 setopt auto_list
 setopt auto_menu
 setopt list_packed
@@ -16,7 +21,6 @@ bindkey -v
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 autoload -U compinit; compinit
 autoload zmv
-#autoload -Uz colors; colors
 alias zmv='noglob zmv -W'
 export PATH=$HOME/.local/bin:$PATH
 export KEYTIMEOUT=1
@@ -28,7 +32,7 @@ KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
 KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
 KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
 function zle-line-init zle-keymap-select {
-  PROMPT="%F{%(?!119!123)}%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
+  PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
   case $KEYMAP in
     vicmd)
     PROMPT=$PROMPT"%F{1}%BNormal%b%f< "

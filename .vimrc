@@ -130,6 +130,7 @@ augroup UniteGroup
 augroup END
 
 nnoremap <silent><C-h> <C-w>h
+let mapleader = "\<Space>"
 endif
 
 syntax on
