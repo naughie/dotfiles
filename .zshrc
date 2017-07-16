@@ -38,7 +38,7 @@ if [ -d /var/www/html ] ; then
   alias start="sudo redis-server /etc/redis.conf;sudo nginx -c /var/www/html/documents/nginx.conf;bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb"
   alias refresh="sh /var/www/html/documents/dev/setup.sh"
   alias import_test_data="sh /var/www/html/documents/dev/import_test_data.sh"
-  if [ "${IS_LOGIN_SHELL}" ] ; then
+  if [ ! "${IS_LOGIN_SHELL}" ] ; then
     pathmunge () {
       case ":${PATH}:" in
         *:"$1":*)
