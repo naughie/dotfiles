@@ -28,7 +28,7 @@ export KEYTIMEOUT=1
 EMOJI_YES=$'\u2B55 '
 EMOJI_NO=$'\u274C '
 EMOJI_ABORT=$'\U1F44B '
-EMOJI_EXIT=$'\u26D4 '
+EMOJI_EDIT=$'\u26D4 '
 KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
 KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
 KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
@@ -44,6 +44,6 @@ function zle-line-init zle-keymap-select {
   esac
   zle reset-prompt
 }
-SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EXIT}(e)]: %f"
+SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
 zle -N zle-line-init
 zle -N zle-keymap-select

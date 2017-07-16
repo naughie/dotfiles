@@ -64,3 +64,8 @@ if [ ${has_zsh} -eq 0 ] ; then
   fi
   zsh --login
 fi
+
+unset has_zsh
+unset has_nvim
+unset CONFIG_DIR
+unset NVIM_CONFIG
