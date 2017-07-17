@@ -4,7 +4,7 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt extended_glob
 which nvim 1>/dev/null 2>&1
-if [ $? ] ; then
+if [ $? -eq 0 ] ; then
   export EDITOR=nvim
 else
   export EDITOR=vim
