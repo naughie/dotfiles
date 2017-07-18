@@ -83,5 +83,4 @@ if [ -f '/etc/centos-release' ] ; then
     export EDITOR=nvim
     echo '初期設定をするため，neovimを起動するよ！'
   fi
-else
 fi
