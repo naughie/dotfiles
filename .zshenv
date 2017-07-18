@@ -1,3 +1,4 @@
+export PATH=$PATH:/bin
 export LANG=ja_JP.UTF-8
 setopt auto_cd
 setopt auto_pushd

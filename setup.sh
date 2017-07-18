@@ -58,14 +58,30 @@ echo  "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo  "${NVIM_CONFIG}/ftdetect -> ${CONFIG_DIR}/ftdetect"
 echo  "${NVIM_CONFIG}/colors -> ${CONFIG_DIR}/colors"
 
-if [ ${has_zsh} -eq 0 ] ; then
+if [ -f '/etc/centos-release' ] ; then
+  if [ ${has_zsh} -ne 0 ] ; then
+    sudo yum -y install zsh && echo 'zshをinstallしたよ！'
+  fi
   if [ $SHELL != '/bin/zsh' ] ; then
     chsh -s /bin/zsh
   fi
   zsh --login
+  which pyenv 1>/dev/null 2>&1
+  has_pyenv=$?
+  if [ ${has_pyenv} -ne 0 ] ; then
+    sudo yum install gcc zlib-devel bzip2 bzip2-devel readline readline-devel sqlite sqlite-devel openssl openssl-devel git
+    git clone https://github.com/yyuu/pyenv.git ~/.pyenv && 'pyenvが使えるようになったよ！'
+    source $HOME/.zshrc
+    pyenv install 3.6.0
+    pyenv global 3.6.0 'pythonを3.6.0に設定したよ！'
+  fi
+  if [ ${has_nvim} -ne 0 ] ; then
+    sudo yum -y install libtool autoconf automake cmake gcc gcc-c++ make pkgconfig unzip
+    yum -y install epel-release
+    curl -o /etc/yum.repos.d/dperson-neovim-epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
+    yum -y install neovim && 'neovimをinstallしたよ！'
+    export EDITOR=nvim
+    echo '初期設定をするため，neovimを起動するよ！'
+  fi
+else
 fi
-
-unset has_zsh
-unset has_nvim
-unset CONFIG_DIR
-unset NVIM_CONFIG
