@@ -1,8 +1,4 @@
 export PATH=$PATH:$HOME/bin
-export TWITTER_CONSUMER_KEY=Q69JFxKponHTstUOKRJU93nJl
-export TWITTER_CONSUMER_SECRET=IPlsxW2gJ8LpO7LytyEf1G3EedcQO3VfgnmCM3eRkNtk9lHhbN
-export MAUTIC_PUBLIC_KEY='1_5lcng9h4j4840ck8gsowsgo0kcsc0cc4ckco4c4888cswsggkg'
-export MAUTIC_SECRET_KEY='4wq5x3sbga2owco4sw0c0k4ss844cco4cskccw08kg4o4gow4k'
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$PATH:$HOME/Library/Activator/activator-dist-1.3.12/bin
 export PYENV_ROOT=$HOME/.pyenv
