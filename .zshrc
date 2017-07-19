@@ -98,25 +98,5 @@ cat $HOME/.ryuou
 echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"
 echo "\e[48;5;16m\e[38;5;7m| ようこそ 素晴らしき zshへ！  ▾ |\e[0m"
 echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"
-EMOJI_YES=$'\u2B55 '
-EMOJI_NO=$'\u274C '
-EMOJI_ABORT=$'\U1F44B '
-EMOJI_EDIT=$'\u26D4 '
-KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
-KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
-KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
-function zle-line-init zle-keymap-select {
-  PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
-  case $KEYMAP in
-    vicmd)
-    PROMPT=$PROMPT"%F{1}%BNormal%b%f< "
-    ;;
-    main|viins)
-    PROMPT=$PROMPT"%F{69}%BInsert%b%f< "
-    ;;
-  esac
-  zle reset-prompt
-}
+PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
 SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
-zle -N zle-line-init
-zle -N zle-keymap-select
