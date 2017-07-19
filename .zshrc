@@ -94,7 +94,7 @@ fi
 #echo "${green}    ${black}  ${purple}      ${black}  ${purple}          ${black}  ${purple}    ${brown}  ${green}    \e[0m"
 #echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
 #echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
-imgcat $HOME/.ryuou.jpg
-echo "${black}\e[38;5;7m+--------------------------------+\e[0m"
-echo "${black}\e[38;5;7m| ようこそ 素晴らしき zshへ！  ▾ |\e[0m"
-echo "${black}\e[38;5;7m+--------------------------------+\e[0m"
+cat $HOME/.ryuou
+echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"
+echo "\e[48;5;16m\e[38;5;7m| ようこそ 素晴らしき zshへ！  ▾ |\e[0m"
+echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"

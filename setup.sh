@@ -25,7 +25,7 @@ rm $HOME/.pryrc 2>/dev/null
 rm ${NVIM_CONFIG}/init.vim 2>/dev/null
 rm ${NVIM_CONFIG}/dein.toml 2>/dev/null
 rm ${NVIM_CONFIG}/lazy_dein.toml 2>/dev/null
-rm $HOME/.ryuou.jpg 2>/dev/null
+rm $HOME/.ryuou 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftdetect 2>/dev/null
 rm -r ${NVIM_CONFIG}/colors 2>/dev/null
 mkdir ${NVIM_CONFIG}/ftdetect 2>/dev/null
@@ -43,7 +43,7 @@ ln -s ${CONFIG_DIR}/ftdetect ${NVIM_CONFIG}/ftdetect
 ln -s ${CONFIG_DIR}/colors ${NVIM_CONFIG}/colors
 ln -s ${CONFIG_DIR}/.latexmkrc $HOME/.latexmkrc
 ln -s ${CONFIG_DIR}/.pryrc $HOME/.pryrc
-ln -s ${CONFIG_DIR}/images/ryuou.jpg $HOME/.ryuou.jpg
+ln -s ${CONFIG_DIR}/images/ryuou $HOME/.ryuou
 
 echo '今回作成したシンボリックリンクはこちら！'
 echo "$HOME/.zshrc -> ${CONFIG_DIR}/.zshrc"
@@ -54,7 +54,7 @@ echo "$HOME/.dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "$HOME/.lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "$HOME/.latexmkrc -> ${CONFIG_DIR}/.latexmkrc"
 echo "$HOME/.pryrc -> ${CONFIG_DIR}/.pryrc"
-echo "$HOME/.ryuou.jpg -> ${CONFIG_DIR}/images/ryuou.jpg"
+echo "$HOME/.ryuou -> ${CONFIG_DIR}/images/ryuou"
 echo "${NVIM_CONFIG}/init.vim -> ${CONFIG_DIR}/.vimrc"
 echo "${NVIM_CONFIG}/dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"

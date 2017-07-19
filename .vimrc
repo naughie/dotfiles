@@ -174,6 +174,8 @@ set noswapfile
 
 set vb t_vb=
 
+set infercase
+
 augroup colorSchemeSetting
   au!
   au ColorScheme * hi Normal ctermbg=none |
@@ -283,6 +285,16 @@ vnoremap <C-n> "zx"zp`[V`]
 
 nnoremap <silent><leader><leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
 nnoremap <silent><leader>n :noh<CR>
+
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
 "nnoremap <leader>t :GhcModType<CR>
 "cnoremap cmod GhcModTypeClear
