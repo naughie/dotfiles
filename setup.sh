@@ -61,6 +61,14 @@ echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "${NVIM_CONFIG}/ftdetect -> ${CONFIG_DIR}/ftdetect"
 echo "${NVIM_CONFIG}/colors -> ${CONFIG_DIR}/colors"
 
+which imgcat 1>/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+  curl 'https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgcat' -o imgcat
+  chmod +x imgcat
+  mv imgcat /usr/local/bin
+  echo 'imgcatをdownloadしたよ！'
+fi
+
 if [ -f '/etc/centos-release' ] ; then
   if [ ${has_zsh} -ne 0 ] ; then
     sudo yum -y install zsh && echo 'zshをinstallしたよ！'
@@ -86,12 +94,4 @@ if [ -f '/etc/centos-release' ] ; then
     export EDITOR=nvim
     echo '初期設定をするため，neovimを起動するよ！'
   fi
-fi
-
-which imgcat 1>/dev/null 2>&1
-if [ $? -ne 0 ] ; then
-  curl 'https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgcat' -o imgcat
-  chmod +x imgcat
-  mv imgcat /usr/local/bin
-  echo 'imgcatをdownloadしたよ！'
 fi
