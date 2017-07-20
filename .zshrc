@@ -94,9 +94,6 @@ fi
 #echo "${green}    ${black}  ${purple}      ${black}  ${purple}          ${black}  ${purple}    ${brown}  ${green}    \e[0m"
 #echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
 #echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
-cat $HOME/.ryuou
-echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"
-echo "\e[48;5;16m\e[38;5;7m| ようこそ 素晴らしき zshへ！  ▾ |\e[0m"
-echo "\e[48;5;16m\e[38;5;7m+--------------------------------+\e[0m"
+cat $HOME/.ryujinou
 PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
 SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
