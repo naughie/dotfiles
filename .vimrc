@@ -174,8 +174,6 @@ set noswapfile
 
 set vb t_vb=
 
-set infercase
-
 augroup colorSchemeSetting
   au!
   au ColorScheme * hi Normal ctermbg=none |
