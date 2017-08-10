@@ -97,3 +97,4 @@ fi
 cat $HOME/.ryujinou
 PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
 SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
+RPROMPT="%F{154}[%n 20%D %T]%f"

@@ -18,11 +18,12 @@ setopt no_beep
 setopt no_hist_beep
 setopt no_list_beep
 setopt magic_equal_subst
+setopt transient_rprompt
 unsetopt caseglob
 bindkey -v
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 autoload -U compinit; compinit
 autoload zmv
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 alias zmv='noglob zmv -W'
 which nvim 1>/dev/null 2>&1
 if [ $? -eq 0 ] ; then
