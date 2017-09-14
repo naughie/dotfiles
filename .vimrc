@@ -199,6 +199,7 @@ augroup END
 
 augroup texGroup
   au!
+  au FileType plaintex set filetype=tex
   au FileType tex hi texBoldStyle ctermfg=9 |
                 \ hi texItalStyle ctermfg=3 |
                 \ hi texBoldItalStyle ctermfg=3 |
@@ -309,3 +310,27 @@ let g:markdown_syntax_conceal = ''
 let g:vim_markdown_folding_disabled=1
 
 let g:unite_enable_start_insert=1
+
+let g:quickrun_config = {
+            \ 'split' : '',
+			\ 'runner' : 'vimproc',
+			\ 'runner/vimproc/updatetime' : 10,
+                        \ 'outputter' : 'error',
+                        \ 'outputter/error/success' : 'buffer',
+                        \ 'outputter/error/error'   : 'quickfix',
+                        \ 'outputter/buffer/close_on_empty' : 1,
+                        \ 'markdown' : {
+                        \ 'outputter' : 'browser',
+                        \ },
+			\ 'tex' : {
+			\ 'command' : 'latexmk',
+			\ 'cmdopt' : '-r ~/.latexmkrc -l',
+                        \ 'outputter' : 'null',
+			\ 'exec' : ['%c %o math.tex'],
+			\ },
+                        \ 'haskell' : {
+                        \ 'command' : 'stack',
+                        \ 'cmdopt' : 'runhaskell',
+                        \ 'exec' : ['%c %o %s'],
+                        \ },
+			\}

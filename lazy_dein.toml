@@ -32,24 +32,3 @@ repo = 'vim-ruby/vim-ruby'
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
-hook_add = '''
-let g:quickrun_config = {
-            \ 'split' : '',
-			\ 'runner' : 'vimproc',
-			\ 'runner/vimproc/updatetime' : 10,
-                        \ 'markdown' : {
-                        \ 'outputter' : 'browser',
-                        \ },
-			\ 'tex' : {
-			\ 'command' : 'latd',
-			\ 'cmdopt' : '',
-			\ 'exec' : ['%c %o %s'] 
-			\ },
-                        \ 'haskell' : {
-                        \ 'command' : 'stack',
-                        \ 'cmdopt' : 'runhaskell',
-                        \ 'exec' : ['%c %o %s']
-                        \ },
-			\}
-'''
-

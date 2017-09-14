@@ -38,6 +38,7 @@ export LSCOLORS='exfxcxdxbxGxDxabagacad'
 export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'
 export HISTFILE=~/.zhistory
 export SAVEHIST=100
+export GREP_OPTIONS='--color=never'
 EMOJI_YES=$'\u2B55 '
 EMOJI_NO=$'\u274C '
 EMOJI_ABORT=$'\U1F44B '

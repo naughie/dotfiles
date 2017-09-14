@@ -28,8 +28,6 @@ rm ${NVIM_CONFIG}/lazy_dein.toml 2>/dev/null
 rm $HOME/.ryujinou 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftdetect 2>/dev/null
 rm -r ${NVIM_CONFIG}/colors 2>/dev/null
-mkdir ${NVIM_CONFIG}/ftdetect 2>/dev/null
-mkdir ${NVIM_CONFIG}/colors 2>/dev/null
 ln -s ${CONFIG_DIR}/.zshrc $HOME/.zshrc
 ln -s ${CONFIG_DIR}/.zshenv $HOME/.zshenv
 ln -s ${CONFIG_DIR}/.zprofile $HOME/.zprofile

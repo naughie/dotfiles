@@ -24,7 +24,7 @@ alias zshrc="$EDITOR ~/.zshrc"
 alias zshenv="$EDITOR ~/.zshenv"
 alias zprofile="$EDITOR ~/.zprofile"
 alias dein="$EDITOR ~/.dein.toml"
-alias deinl="$EDITOR ~/.lazy_dain.toml"
+alias deinl="$EDITOR ~/.lazy_dein.toml"
 alias pryrc="$EDITOR ~/.pryrc"
 alias latexrc="$EDITOR ~/.latexmkrc"
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
@@ -34,6 +34,21 @@ if [ -d /var/www/html ] ; then
   alias start="sudo redis-server /etc/redis.conf;sudo nginx -c /var/www/html/documents/nginx.conf;bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb"
   alias refresh="sh /var/www/html/documents/dev/setup.sh"
   alias import_test_data="sh /var/www/html/documents/dev/import_test_data.sh"
+  alias start='nginx -c /var/www/html/documents/nginx.conf;(bundle exec unicorn_rails -c config/unicorn.rb &); bundle exec sidekiq &'
+  alias restart='kill_sidekiq_ps; kill_unicorn_ps; sleep 5; bundle exec sidekiq &'
+  function kill_sidekiq_ps () {
+    pids_of_sidekiq=`cat ./tmp/pids/sidekiq.pid`
+    if [ "$pids_of_sidekiq" != "" ]; then
+      eval "kill -USR1 $pids_of_sidekiq"
+      eval "kill -TERM $pids_of_sidekiq"
+    fi
+  }
+  function kill_unicorn_ps () {
+    pids_of_unicorn=`cat /usr/share/nginx/html/tmp/pids/unicorn.pid`
+    if [ "$pids_of_unicorn" != "" ]; then
+      eval "kill -USR2 $pids_of_unicorn"
+    fi
+  }
   if [ ! "${IS_LOGIN_SHELL}" ] ; then
     pathmunge () {
       case ":${PATH}:" in
