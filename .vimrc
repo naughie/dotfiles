@@ -125,6 +125,8 @@ NeoBundle 'TwitVim'
 
 NeoBundle 'powerman/vim-plugin-AnsiEsc'
 
+NeoBundle 'AlessandroYorba/Despacio'
+
 call neobundle#end()
 
 

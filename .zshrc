@@ -6,6 +6,7 @@ if [ $? -eq 0 ] ; then
 else
   export EDITOR=vim
 fi
+export PAGER=vimpager
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$PATH:$HOME/Library/Activator/activator-dist-1.3.12/bin
 export PYENV_ROOT=$HOME/.pyenv
@@ -52,7 +53,7 @@ if [ -d /var/www/html ] ; then
   alias start="sudo redis-server /etc/redis.conf;sudo nginx -c /var/www/html/documents/nginx.conf;bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb"
   alias refresh="sh /var/www/html/documents/dev/setup.sh"
   alias import_test_data="sh /var/www/html/documents/dev/import_test_data.sh"
-  alias start='nginx -c /var/www/html/documents/nginx.conf;(bundle exec unicorn_rails -c config/unicorn.rb &); bundle exec sidekiq &'
+  alias start='sudo nginx -c /var/www/html/documents/nginx.conf;(bundle exec unicorn_rails -c config/unicorn.rb &); bundle exec sidekiq &'
   alias restart='kill_sidekiq_ps; kill_unicorn_ps; sleep 5; bundle exec sidekiq &'
   function kill_sidekiq_ps () {
     pids_of_sidekiq=`cat ./tmp/pids/sidekiq.pid`
