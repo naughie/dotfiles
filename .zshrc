@@ -1,4 +1,11 @@
 export PATH=$PATH:$HOME/bin
+export DROPBOX=/Volumes/Samsung/Dropbox
+which nvim 1>/dev/null 2>&1
+if [ $? -eq 0 ] ; then
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$PATH:$HOME/Library/Activator/activator-dist-1.3.12/bin
 export PYENV_ROOT=$HOME/.pyenv
@@ -7,14 +14,18 @@ which pyenv 1>/dev/null 2>&1 && eval "$(pyenv init -)"
 export XDG_CONFIG_HOME=$HOME/.config
 export PATH=$HOME/.rbenv/shims:$PATH
 export PATH=$HOME/.rbenv/bin:$PATH
+export AWS_CONFIG_FILE=~/.aws
 which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
-alias v="vim"
-alias n="nvim"
+alias v="vim -u $HOME/.vimrc"
+alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
+alias vs="sudo vim -u $HOME/.vimrc"
+alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
-alias activo="cd $HOME/Activo/activo/documents; vagrant up; vagrant ssh"
-export PATH=$HOME/Activo/activo/bin:$PATH
+alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
+export PATH=$HOME/Work/activo/bin:$PATH
 which hub 1>/dev/null 2>&1 && eval "$(hub alias -s)"
 export XDG_CONFIG_HOME=$HOME/.config
+export PATH=/usr/local/ssl/bin:$PATH
 alias ghc='stack ghc --'
 alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
@@ -27,6 +38,13 @@ alias dein="$EDITOR ~/.dein.toml"
 alias deinl="$EDITOR ~/.lazy_dein.toml"
 alias pryrc="$EDITOR ~/.pryrc"
 alias latexrc="$EDITOR ~/.latexmkrc"
+alias curld="curl -Ssv"
+alias um="diskutil unmountDisk"
+function nt () {
+  fileName=${1%\.tex}
+  fileName=${fileName%\.}
+  nvim ${fileName}.tex
+}
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias cons="rails c --sandbox 2>/dev/null"
 if [ -d /var/www/html ] ; then

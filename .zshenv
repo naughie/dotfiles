@@ -25,12 +25,6 @@ autoload -U compinit; compinit
 autoload zmv
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 alias zmv='noglob zmv -W'
-which nvim 1>/dev/null 2>&1
-if [ $? -eq 0 ] ; then
-  export EDITOR=nvim
-else
-  export EDITOR=vim
-fi
 export PATH=$HOME/.local/bin:$PATH
 export KEYTIMEOUT=1
 export CLICOLOR=true
@@ -47,13 +41,13 @@ KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
 KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
 KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
 function zle-line-init zle-keymap-select {
-  PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
+  PROMPT="%(?!%F{216}!%F{151})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
   case $KEYMAP in
     vicmd)
-    PROMPT=$PROMPT"%F{1}%BNormal%b%f< "
+    PROMPT=$PROMPT"%F{192}%BNormal%b%f< "
     ;;
     main|viins)
-    PROMPT=$PROMPT"%F{69}%BInsert%b%f< "
+    PROMPT=$PROMPT"%F{202}%BInsert%b%f< "
     ;;
   esac
   zle reset-prompt

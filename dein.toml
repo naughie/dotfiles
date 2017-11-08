@@ -19,21 +19,6 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'tomasr/molokai'
 
 [[plugins]]
-repo = 'Shougo/neosnippet'
-hook_add = '''
-imap <C-k>  <Plug>(neosnippet_expand_or_jump)
-smap <C-k>  <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>  <Plug>(neosnippet_expand_target)
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)"
-            \: "\<TAB>"
-let g:neosnippet#snippets_directory='~/config/snippets/'
-'''
-
-[[plugins]]
 repo = 'scrooloose/nerdtree'
 hook_add = '''
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
@@ -51,3 +36,23 @@ repo = 'nelstrom/vim-visual-star-search'
 [[plugins]]
 repo = 'tpope/vim-endwise'
 
+[[plugins]]
+repo = 'tyru/open-browser.vim'
+
+[[plugins]]
+repo = 'twitvim/twitvim'
+
+[[plugins]]
+repo = 'powerman/vim-plugin-AnsiEsc'
+
+[[plugins]]
+repo = 'mattn/vim-oauth'
+
+[[plugins]]
+repo = 'mattn/emoji-vim'
+
+[[plugins]]
+repo = 'AlessandroYorba/Alduin'
+
+[[plugins]]
+repo = 'AlessandroYorba/Despacio'

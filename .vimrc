@@ -30,7 +30,13 @@ if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
+let g:python3_host_prog = expand('$HOME') . '/.pyenv/shims/python3'
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#auto_complete_delay = 0
+let g:deoplete#auto_complete_start_length = 1
+
 nnoremap <silent><BS> <C-w>h
+nnoremap <C-h> <C-w>h
 set mouse-=a
 set sh=zsh
 tnoremap <silent><ESC> <C-\><C-n>
@@ -115,6 +121,10 @@ NeoBundle 'ujihisa/ref-hoogle'
 
 NeoBundle 'tpope/vim-surround'
 
+NeoBundle 'TwitVim'
+
+NeoBundle 'powerman/vim-plugin-AnsiEsc'
+
 call neobundle#end()
 
 
@@ -167,20 +177,27 @@ set cole=0
 set backspace=indent,eol,start
 
 set laststatus=2
-set statusline+=%F
+set statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
+set statusline+=%m
+set statusline+=%=
+set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%v)
 set statusline+=%{fugitive#statusline()}
 
 set noswapfile
 
 set vb t_vb=
 
+set guicursor=a:hor5,a:blinkon500,a:blinkoff500,a:blinkwait0
+
+set ambiwidth=double
+
 augroup colorSchemeSetting
   au!
   au ColorScheme * hi Normal ctermbg=none |
-                 \ hi LineNr ctermbg=none
 augroup END
 
-colorscheme molokai
+let g:despacio_Sunset = 1
+colorscheme despacio
 
 set cursorline
 hi clear CursorLine
@@ -217,23 +234,23 @@ augroup END
 
 augroup RubyGroup
   au!
-  au FileType ruby hi rubySymbol cterm=NONE ctermfg=135 |
-                 \ hi rubyInteger ctermfg=10 |
-                 \ hi rubyFloat ctermfg=10 |
-                 \ hi rubyBoolean ctermfg=10 |
-                 \ hi rubyPseudoVariable cterm=bold ctermfg=10
+"  au FileType ruby hi rubySymbol cterm=NONE ctermfg=135 |
+"                 \ hi rubyInteger ctermfg=10 |
+"                 \ hi rubyFloat ctermfg=10 |
+"                 \ hi rubyBoolean ctermfg=10 |
+"                 \ hi rubyPseudoVariable cterm=bold ctermfg=10
 augroup END
 
 augroup ERubyGroup
   au!
-  au FileType eruby hi htmlItalic ctermfg=3 |
-                  \ hi htmlBold ctermfg=9 |
-                  \ hi htmlLink cterm=NONE ctermfg=38 |
-                  \ hi rubySymbol cterm=NONE ctermfg=135 |
-                  \ hi rubyInteger ctermfg=10 |
-                  \ hi rubyFloat ctermfg=10 |
-                  \ hi rubyBoolean ctermfg=10 |
-                  \ hi rubyPseudoVariable cterm=bold ctermfg=10
+"  au FileType eruby hi htmlItalic ctermfg=3 |
+"                  \ hi htmlBold ctermfg=9 |
+"                  \ hi htmlLink cterm=NONE ctermfg=38 |
+"                  \ hi rubySymbol cterm=NONE ctermfg=135 |
+"                  \ hi rubyInteger ctermfg=10 |
+"                  \ hi rubyFloat ctermfg=10 |
+"                  \ hi rubyBoolean ctermfg=10 |
+"                  \ hi rubyPseudoVariable cterm=bold ctermfg=10
 augroup END
 
 augroup TrailingSpace
@@ -242,8 +259,13 @@ augroup TrailingSpace
   au VimEnter,WinEnter * match TrailingSpaces /\s\+$/
 augroup END
 
-hi Todo ctermbg=NONE
-hi Visual ctermfg=white ctermbg=darkgray
+augroup TwitVimSetting
+  au!
+  au FileType twitvim set wrap
+augroup END
+
+hi StatusLineFilename cterm=bold ctermfg=46
+hi StatusLineCursorPosition ctermfg=184
 
 nnoremap j gj
 nnoremap k gk
@@ -295,6 +317,16 @@ nnoremap g# g#zz
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
+imap <expr><C-k> pumvisible() ? "\<C-N>" : neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+"nnoremap <leader>tw :FriendsTwitter<CR>
+
+let g:netrw_nogx = 1
+nmap gx <Plug>(openbrowser-smart-search)
+vmap gx <Plug>(openbrowser-smart-search)
+
 "nnoremap <leader>t :GhcModType<CR>
 "cnoremap cmod GhcModTypeClear
 
@@ -320,17 +352,35 @@ let g:quickrun_config = {
                         \ 'outputter/error/error'   : 'quickfix',
                         \ 'outputter/buffer/close_on_empty' : 1,
                         \ 'markdown' : {
+                        \ 'command' : 'pandoc',
+                        \ 'cmdopt' : '-s --self-contained -t html5 -c github.css',
                         \ 'outputter' : 'browser',
+                        \ 'exec' : ['%c %s %o'],
                         \ },
 			\ 'tex' : {
 			\ 'command' : 'latexmk',
-			\ 'cmdopt' : '-r ~/.latexmkrc -l',
+			\ 'cmdopt' : '-r ~/.latexmkrc -pv',
                         \ 'outputter' : 'null',
-			\ 'exec' : ['%c %o math.tex'],
+			\ 'exec' : ['%c %o root.tex'],
 			\ },
                         \ 'haskell' : {
                         \ 'command' : 'stack',
                         \ 'cmdopt' : 'runhaskell',
-                        \ 'exec' : ['%c %o %s'],
+                        \ 'exec' : ['%c %o %s %a'],
+                        \ },
+                        \ 'python' : {
+                        \ 'command' : 'python',
+                        \ 'exec' : ['%c %o %s %a'],
                         \ },
 			\}
+
+let g:twitter_script_path = '~/.config/twitter'
+let g:twitter_timeline_count = 30
+let g:twitter_user_name = 'naughie48g'
+nnoremap <silent><leader>tt :call twitter#print_timeline()<CR>
+nnoremap <silent><leader>ts "syiw:call twitter#show_tweet(@s)<CR>
+nnoremap <silent><leader>tu "syiw:call twitter#show_user(@s)<CR>
+nnoremap <leader>tl "syiw:call twitter#favorite(@s)<CR>
+nnoremap <leader>tr "syiw:call twitter#retweet(@s)<CR>
+nnoremap <leader>tf :call twitter#follow(@u)<CR>
+nnoremap <leader>ti :call twitter#list_follows()<CR>

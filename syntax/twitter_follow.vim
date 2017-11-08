@@ -1,0 +1,1 @@
+/Users/nakatam/.config/twitter/vim/syntax/twitter_follow.vim
