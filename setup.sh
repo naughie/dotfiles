@@ -28,6 +28,7 @@ rm ${NVIM_CONFIG}/lazy_dein.toml 2>/dev/null
 rm $HOME/.ryujinou 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftdetect 2>/dev/null
 rm -r ${NVIM_CONFIG}/colors 2>/dev/null
+rm -r ${NVIM_CONFIG}/syntax 2>/dev/null
 ln -s ${CONFIG_DIR}/.zshrc $HOME/.zshrc
 ln -s ${CONFIG_DIR}/.zshenv $HOME/.zshenv
 ln -s ${CONFIG_DIR}/.zprofile $HOME/.zprofile
@@ -39,6 +40,7 @@ ln -s ${CONFIG_DIR}/dein.toml ${NVIM_CONFIG}/dein.toml
 ln -s ${CONFIG_DIR}/lazy_dein.toml ${NVIM_CONFIG}/lazy_dein.toml
 ln -s ${CONFIG_DIR}/ftdetect ${NVIM_CONFIG}/ftdetect
 ln -s ${CONFIG_DIR}/colors ${NVIM_CONFIG}/colors
+ln -s ${CONFIG_DIR}/syntax ${NVIM_CONFIG}/syntax
 ln -s ${CONFIG_DIR}/.latexmkrc $HOME/.latexmkrc
 ln -s ${CONFIG_DIR}/.pryrc $HOME/.pryrc
 ln -s ${CONFIG_DIR}/images/ryujinou $HOME/.ryujinou
@@ -58,6 +60,7 @@ echo "${NVIM_CONFIG}/dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "${NVIM_CONFIG}/ftdetect -> ${CONFIG_DIR}/ftdetect"
 echo "${NVIM_CONFIG}/colors -> ${CONFIG_DIR}/colors"
+echo "${NVIM_CONFIG}/syntax -> ${CONFIG_DIR}/syntax"
 
 which imgcat 1>/dev/null 2>&1
 if [ $? -ne 0 ] ; then
