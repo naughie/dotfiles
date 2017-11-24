@@ -195,7 +195,7 @@ set ambiwidth=double
 
 augroup colorSchemeSetting
   au!
-  au ColorScheme * hi Normal ctermbg=none |
+  au ColorScheme * hi Normal ctermbg=none
 augroup END
 
 let g:despacio_Sunset = 1
@@ -291,8 +291,7 @@ cnoremap <C-j> <BS>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>g :vim<Space>
-nmap <leader>s cs"'
-nmap <leader>d cs'"
+
 vmap <leader>y "+y
 nmap <leader>v <C-v>
 nmap <leader>r :QuickRun<CR>
@@ -316,6 +315,9 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
+nmap <leader>s cs"'
+nmap <leader>d cs'"
+
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
@@ -324,10 +326,6 @@ smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" :
 inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 "nnoremap <leader>tw :FriendsTwitter<CR>
-
-let g:netrw_nogx = 1
-nmap gx <Plug>(openbrowser-smart-search)
-vmap gx <Plug>(openbrowser-smart-search)
 
 "nnoremap <leader>t :GhcModType<CR>
 "cnoremap cmod GhcModTypeClear
@@ -345,39 +343,8 @@ let g:vim_markdown_folding_disabled=1
 
 let g:unite_enable_start_insert=1
 
-let g:quickrun_config = {
-            \ 'split' : '',
-			\ 'runner' : 'vimproc',
-			\ 'runner/vimproc/updatetime' : 10,
-                        \ 'outputter' : 'error',
-                        \ 'outputter/error/success' : 'buffer',
-                        \ 'outputter/error/error'   : 'quickfix',
-                        \ 'outputter/buffer/close_on_empty' : 1,
-                        \ 'markdown' : {
-                        \ 'command' : 'pandoc',
-                        \ 'cmdopt' : '-s --self-contained -t html5 -c github.css',
-                        \ 'outputter' : 'browser',
-                        \ 'exec' : ['%c %s %o'],
-                        \ },
-			\ 'tex' : {
-			\ 'command' : 'latexmk',
-			\ 'cmdopt' : '-r ~/.latexmkrc -pv',
-                        \ 'outputter' : 'null',
-			\ 'exec' : ['%c %o root.tex'],
-			\ },
-                        \ 'haskell' : {
-                        \ 'command' : 'stack',
-                        \ 'cmdopt' : 'runhaskell',
-                        \ 'exec' : ['%c %o %s %a'],
-                        \ },
-                        \ 'python' : {
-                        \ 'command' : 'python',
-                        \ 'exec' : ['%c %o %s %a'],
-                        \ },
-			\}
-
 let g:twitter_script_path = '~/.config/twitter'
-let g:twitter_timeline_count = 30
+let g:twitter_timeline_count = 10
 let g:twitter_user_name = 'naughie48g'
 nnoremap <silent><leader>tt :call twitter#print_timeline()<CR>
 nnoremap <silent><leader>ts "syiw:call twitter#show_tweet(@s)<CR>
@@ -386,3 +353,10 @@ nnoremap <leader>tl "syiw:call twitter#favorite(@s)<CR>
 nnoremap <leader>tr "syiw:call twitter#retweet(@s)<CR>
 nnoremap <leader>tf :call twitter#follow(@u)<CR>
 nnoremap <leader>ti :call twitter#list_follows()<CR>
+
+let g:vimpager = {}
+let g:less = {}
+let g:less.enabled = 0
+let g:vimpager.scrolloff = 3
+let g:vimpager.ansiesc = 0
+let g:vimpager.X11 = 0

@@ -19,16 +19,7 @@ repo = 'Shougo/neosnippet-snippets'
 repo = 'tomasr/molokai'
 
 [[plugins]]
-repo = 'scrooloose/nerdtree'
-hook_add = '''
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-'''
-
-[[plugins]]
 repo = 'thinca/vim-ref'
-
-[[plugins]]
-repo = 'tpope/vim-surround'
 
 [[plugins]]
 repo = 'nelstrom/vim-visual-star-search'
@@ -37,16 +28,7 @@ repo = 'nelstrom/vim-visual-star-search'
 repo = 'tpope/vim-endwise'
 
 [[plugins]]
-repo = 'tyru/open-browser.vim'
-
-[[plugins]]
 repo = 'twitvim/twitvim'
-
-[[plugins]]
-repo = 'powerman/vim-plugin-AnsiEsc'
-
-[[plugins]]
-repo = 'mattn/vim-oauth'
 
 [[plugins]]
 repo = 'mattn/emoji-vim'
@@ -56,3 +38,11 @@ repo = 'AlessandroYorba/Alduin'
 
 [[plugins]]
 repo = 'AlessandroYorba/Despacio'
+
+[[plugins]]
+repo = 'tpope/vim-surround'
+hook_add = '''
+nmap <leader>s cs"'
+nmap <leader>d cs'"
+nmap <leader>p ysiw)
+'''

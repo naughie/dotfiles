@@ -26,6 +26,7 @@ autoload zmv
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 alias zmv='noglob zmv -W'
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$PATH:$HOME/bin
 export KEYTIMEOUT=1
 export CLICOLOR=true
 export LSCOLORS='exfxcxdxbxGxDxabagacad'

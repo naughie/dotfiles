@@ -27,6 +27,7 @@ export PATH=$HOME/Work/activo/bin:$PATH
 which hub 1>/dev/null 2>&1 && eval "$(hub alias -s)"
 export XDG_CONFIG_HOME=$HOME/.config
 export PATH=/usr/local/ssl/bin:$PATH
+export PATH=/usr/local/twitter/bin:$PATH
 alias ghc='stack ghc --'
 alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
@@ -39,6 +40,7 @@ alias dein="$EDITOR ~/.dein.toml"
 alias deinl="$EDITOR ~/.lazy_dein.toml"
 alias pryrc="$EDITOR ~/.pryrc"
 alias latexrc="$EDITOR ~/.latexmkrc"
+alias netrc="$EDITOR ~/.netrc"
 alias curld="curl -Ssv"
 alias um="diskutil unmountDisk"
 function nt () {
@@ -129,6 +131,6 @@ fi
 #echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
 #echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
 cat $HOME/.ryujinou
-PROMPT="%(?!%F{119}!%F{123})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
+PROMPT="%(?!%F{216}!%F{151})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
 SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
 RPROMPT="%F{154}[%n 20%D %T]%f"
