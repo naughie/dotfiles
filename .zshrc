@@ -8,14 +8,12 @@ else
 fi
 export PAGER=vimpager
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=$PATH:$HOME/Library/Activator/activator-dist-1.3.12/bin
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 which pyenv 1>/dev/null 2>&1 && eval "$(pyenv init -)"
 export XDG_CONFIG_HOME=$HOME/.config
-export PATH=$HOME/.rbenv/shims:$PATH
-export PATH=$HOME/.rbenv/bin:$PATH
 export AWS_CONFIG_FILE=~/.aws
+export PATH=$HOME/.rbenv/bin:$PATH
 which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
 alias v="vim -u $HOME/.vimrc"
 alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
@@ -23,11 +21,7 @@ alias vs="sudo vim -u $HOME/.vimrc"
 alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
 alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
-export PATH=$HOME/Work/activo/bin:$PATH
 which hub 1>/dev/null 2>&1 && eval "$(hub alias -s)"
-export XDG_CONFIG_HOME=$HOME/.config
-export PATH=/usr/local/ssl/bin:$PATH
-export PATH=/usr/local/twitter/bin:$PATH
 alias ghc='stack ghc --'
 alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
@@ -43,6 +37,7 @@ alias latexrc="$EDITOR ~/.latexmkrc"
 alias netrc="$EDITOR ~/.netrc"
 alias curld="curl -Ssv"
 alias um="diskutil unmountDisk"
+alias reboot="shutdown -r now"
 function nt () {
   fileName=${1%\.tex}
   fileName=${fileName%\.}

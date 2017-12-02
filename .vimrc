@@ -187,6 +187,8 @@ set statusline+=%{fugitive#statusline()}
 
 set noswapfile
 
+set nopaste
+
 set vb t_vb=
 
 set guicursor=a:hor5,a:blinkon500,a:blinkoff500,a:blinkwait0

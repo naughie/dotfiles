@@ -1,5 +1,7 @@
-export PATH=$PATH:/bin
+export PATH=/usr/local/twitter/bin:$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:$PATH:/bin
 export LANG=ja_JP.UTF-8
+export CPATH=$HOME/.config/twitter/cpp/include:/usr/local/include:$CPATH
+export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -25,8 +27,6 @@ autoload -U compinit; compinit
 autoload zmv
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 alias zmv='noglob zmv -W'
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$PATH:$HOME/bin
 export KEYTIMEOUT=1
 export CLICOLOR=true
 export LSCOLORS='exfxcxdxbxGxDxabagacad'
@@ -55,3 +55,4 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+function history-all { history -E 1 }
