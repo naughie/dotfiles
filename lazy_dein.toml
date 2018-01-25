@@ -27,27 +27,35 @@ repo = 'tpope/vim-fugitive'
 
 [[plugins]]
 repo = 'plasticboy/vim-markdown'
+on_ft = ['markdown']
 
 [[plugins]]
 repo = 'kannokanno/previm'
+on_ft = ['markdown']
 
 [[plugins]]
 repo = 'derekwyatt/vim-scala'
+on_ft = ['scala']
 
 [[plugins]]
 repo = 'itchyny/vim-haskell-indent'
+on_ft = ['haskell']
 
 [[plugins]]
 repo = 'eagletmt/ghcmod-vim'
+on_ft = ['haskell']
 
 [[plugins]]
 repo = 'ujihisa/neco-ghc'
+on_ft = ['haskell']
 
 [[plugins]]
 repo = 'ujihisa/ref-hoogle'
+on_ft = ['haskell']
 
 [[plugins]]
 repo = 'vim-ruby/vim-ruby'
+on_ft = ['ruby']
 
 [[plugins]]
 repo = 'thinca/vim-quickrun'
@@ -66,9 +74,9 @@ depends = ['open-browser.vim']
 hook_source = '''
 let g:quickrun_config.markdown = {
   \ 'command' : 'pandoc',
-  \ 'cmdopt' : '-s --self-contained -t html5 -c github.css',
+  \ 'cmdopt' : '-t html5 -f markdown --mathjax --template=mytemplate',
   \ 'outputter' : 'browser',
-  \ 'exec' : ['%c %s %o'],
+  \ 'exec' : ['%c %o %s'],
   \}
 let g:quickrun_config.tex = {
   \ 'command' : 'latexmk',
@@ -87,6 +95,11 @@ let g:quickrun_config.python = {
   \}
 let g:quickrun_config.ruby = {
   \ 'command' : 'ruby',
+  \ 'exec' : ['%c %o %s %a'],
+  \}
+let g:quickrun_config.html = {
+  \ 'command' : 'open',
+  \ 'outputter' : 'null',
   \ 'exec' : ['%c %o %s %a'],
   \}
 '''
@@ -113,3 +126,19 @@ let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 '''
+
+[[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
+repo = 'h1mesuke/unite-outline'
+on_source = ['denite.vim']
+depends = ['unite.vim']
+
+[[plugins]]
+repo = 'tpope/vim-endwise'
+on_i = 1
+
+[[plugins]]
+repo = 'lervag/vimtex'
+on_ft = ['tex', 'plaintex']

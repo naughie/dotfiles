@@ -1,27 +1,25 @@
 export PATH=$PATH:$HOME/bin
 export DROPBOX=/Volumes/Samsung/Dropbox
-which nvim 1>/dev/null 2>&1
-if [ $? -eq 0 ] ; then
-  export EDITOR=nvim
-else
+command -v nvim >/dev/null &&
+  export EDITOR=nvim ||
   export EDITOR=vim
-fi
 export PAGER=vimpager
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
-which pyenv 1>/dev/null 2>&1 && eval "$(pyenv init -)"
+export PATH=$PYENV_ROOT/shims:$PATH
+command -v pyenv >/dev/null && eval "$(pyenv init -)"
 export XDG_CONFIG_HOME=$HOME/.config
 export AWS_CONFIG_FILE=~/.aws
-export PATH=$HOME/.rbenv/bin:$PATH
-which rbenv 1>/dev/null 2>&1 && eval "$(rbenv init -)"
+export RBENV_ROOT=$HOME/.rbenv
+export PATH=$RBENV_ROOT/shims:$PATH
+command -v rbenv >/dev/null && eval "$(rbenv init -)"
 alias v="vim -u $HOME/.vimrc"
 alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias vs="sudo vim -u $HOME/.vimrc"
 alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
 alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
-which hub 1>/dev/null 2>&1 && eval "$(hub alias -s)"
+command -v hub >/dev/null && eval "$(hub alias -s)"
 alias ghc='stack ghc --'
 alias ghci='stack ghci --'
 alias runhaskell='stack runhaskell --'
@@ -35,9 +33,11 @@ alias deinl="$EDITOR ~/.lazy_dein.toml"
 alias pryrc="$EDITOR ~/.pryrc"
 alias latexrc="$EDITOR ~/.latexmkrc"
 alias netrc="$EDITOR ~/.netrc"
-alias curld="curl -Ssv"
+alias curld="curl --trace-ascii /dev/stderr "
 alias um="diskutil unmountDisk"
-alias reboot="shutdown -r now"
+alias reboot="sudo shutdown -r now"
+alias gpp='g++ -std=c++11'
+alias gpps='g++ -std=c++11 -lssl -lcrypto -lcurl'
 function nt () {
   fileName=${1%\.tex}
   fileName=${fileName%\.}
@@ -125,7 +125,7 @@ fi
 #echo "${green}    ${black}  ${purple}      ${black}  ${purple}          ${black}  ${purple}    ${brown}  ${green}    \e[0m"
 #echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
 #echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
-cat $HOME/.ryujinou
-PROMPT="%(?!%F{216}!%F{151})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{69}%BInsert%b%f< "
-SPROMPT="%F{212}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{212}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
-RPROMPT="%F{154}[%n 20%D %T]%f"
+#cat $HOME/.ryujinou
+PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
+SPROMPT="%F{%{${COLOR_SUGGEST}}%}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{%{${COLOR_SUGGEST}}%}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
+RPROMPT="%F{%{${COLOR_RPROMPT}}%}[%n 20%D %T]%f"

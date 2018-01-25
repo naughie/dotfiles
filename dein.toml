@@ -16,28 +16,20 @@ build = 'make'
 repo = 'Shougo/neosnippet-snippets'
 
 [[plugins]]
-repo = 'tomasr/molokai'
-
-[[plugins]]
 repo = 'thinca/vim-ref'
 
 [[plugins]]
 repo = 'nelstrom/vim-visual-star-search'
 
 [[plugins]]
-repo = 'tpope/vim-endwise'
-
-[[plugins]]
-repo = 'twitvim/twitvim'
-
-[[plugins]]
 repo = 'mattn/emoji-vim'
 
 [[plugins]]
-repo = 'AlessandroYorba/Alduin'
-
-[[plugins]]
 repo = 'AlessandroYorba/Despacio'
+hook_add = '''
+let g:despacio_Sunset = 1
+colorscheme despacio
+'''
 
 [[plugins]]
 repo = 'tpope/vim-surround'

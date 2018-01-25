@@ -35,7 +35,7 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#auto_complete_start_length = 1
 
-nnoremap <silent><BS> <C-w>h
+nnoremap <BS> <C-w>h
 nnoremap <C-h> <C-w>h
 set mouse-=a
 set sh=zsh
@@ -200,22 +200,19 @@ augroup colorSchemeSetting
   au ColorScheme * hi Normal ctermbg=none
 augroup END
 
-let g:despacio_Sunset = 1
-colorscheme despacio
-
 set cursorline
 hi clear CursorLine
 
 augroup htmlMarkdownGroup
   au!
-  au FileType markdown hi htmlItalic ctermfg=3 |
-                     \ hi htmlBold ctermfg=9 |
-                     \ hi link htmlLink Comment |
-                     \ set spell
-  au FileType html hi htmlItalic ctermfg=3 |
-                 \ hi htmlBold ctermfg=9 |
-                 \ hi link htmlLink Comment |
-                 \ set spell
+"  au FileType markdown hi htmlItalic ctermfg=3 |
+"                     \ hi htmlBold ctermfg=9 |
+"                     \ hi link htmlLink Comment |
+"                     \ set spell
+"  au FileType html hi htmlItalic ctermfg=3 |
+"                 \ hi htmlBold ctermfg=9 |
+"                 \ hi link htmlLink Comment |
+"                 \ set spell
 augroup END
 
 augroup texGroup
@@ -286,9 +283,6 @@ nnoremap <leader>h ^
 nnoremap <leader>l $
 vnoremap <leader>h ^
 vnoremap <leader>l $
-
-inoremap <C-j> <BS>
-cnoremap <C-j> <BS>
 
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>

@@ -1,6 +1,6 @@
 export PATH=/usr/local/twitter/bin:$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:$PATH:/bin
 export LANG=ja_JP.UTF-8
-export CPATH=$HOME/.config/twitter/cpp/include:/usr/local/include:$CPATH
+export CPATH=/usr/local/include:$CPATH
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
 setopt auto_cd
 setopt auto_pushd
@@ -37,18 +37,24 @@ export GREP_OPTIONS='--color=never'
 EMOJI_YES=$'\u2B55 '
 EMOJI_NO=$'\u274C '
 EMOJI_ABORT=$'\U1F44B '
-EMOJI_EDIT=$'\u26D4 '
+EMOJI_EDIT=$'\u270F '
 KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
 KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
-KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753 '
+KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753\uFE0F '
+COLOR_SUCCESS='216'
+COLOR_FAILURE='151'
+COLOR_INSERTM='202'
+COLOR_NORMALM='192'
+COLOR_SUGGEST='212'
+COLOR_RPROMPT='154'
 function zle-line-init zle-keymap-select {
-  PROMPT="%(?!%F{216}!%F{151})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
+  PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
   case $KEYMAP in
     vicmd)
-    PROMPT=$PROMPT"%F{192}%BNormal%b%f< "
+    PROMPT=$PROMPT"%F{%{${COLOR_NORMALM}}%}%BNormal%b%f< "
     ;;
     main|viins)
-    PROMPT=$PROMPT"%F{202}%BInsert%b%f< "
+    PROMPT=$PROMPT"%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
     ;;
   esac
   zle reset-prompt
