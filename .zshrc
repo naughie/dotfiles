@@ -6,7 +6,7 @@ command -v nvim >/dev/null &&
 export PAGER=vimpager
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/shims:$PATH
+export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 command -v pyenv >/dev/null && eval "$(pyenv init -)"
 export XDG_CONFIG_HOME=$HOME/.config
 export AWS_CONFIG_FILE=~/.aws
