@@ -29,6 +29,10 @@ rm $HOME/.ryujinou 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftdetect 2>/dev/null
 rm -r ${NVIM_CONFIG}/colors 2>/dev/null
 rm -r ${NVIM_CONFIG}/syntax 2>/dev/null
+rm -r ${NVIM_CONFIG}/indent 2>/dev/null
+rm -r ${NVIM_CONFIG}/ftplugin 2>/dev/null
+rm -r ${NVIM_CONFIG}/snippets 2>/dev/null
+rm -r ${NVIM_CONFIG}/autoload 2>/dev/null
 ln -s ${CONFIG_DIR}/.zshrc $HOME/.zshrc
 ln -s ${CONFIG_DIR}/.zshenv $HOME/.zshenv
 ln -s ${CONFIG_DIR}/.zprofile $HOME/.zprofile
@@ -41,6 +45,10 @@ ln -s ${CONFIG_DIR}/lazy_dein.toml ${NVIM_CONFIG}/lazy_dein.toml
 ln -s ${CONFIG_DIR}/ftdetect ${NVIM_CONFIG}/ftdetect
 ln -s ${CONFIG_DIR}/colors ${NVIM_CONFIG}/colors
 ln -s ${CONFIG_DIR}/syntax ${NVIM_CONFIG}/syntax
+ln -s ${CONFIG_DIR}/indent ${NVIM_CONFIG}/indent
+ln -s ${CONFIG_DIR}/ftplugin ${NVIM_CONFIG}/ftplugin
+ln -s ${CONFIG_DIR}/snippets ${NVIM_CONFIG}/snippets
+ln -s ${CONFIG_DIR}/autoload ${NVIM_CONFIG}/autoload
 ln -s ${CONFIG_DIR}/.latexmkrc $HOME/.latexmkrc
 ln -s ${CONFIG_DIR}/.pryrc $HOME/.pryrc
 ln -s ${CONFIG_DIR}/images/ryujinou $HOME/.ryujinou
@@ -61,14 +69,17 @@ echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "${NVIM_CONFIG}/ftdetect -> ${CONFIG_DIR}/ftdetect"
 echo "${NVIM_CONFIG}/colors -> ${CONFIG_DIR}/colors"
 echo "${NVIM_CONFIG}/syntax -> ${CONFIG_DIR}/syntax"
+echo "${NVIM_CONFIG}/indent -> ${CONFIG_DIR}/indent"
+echo "${NVIM_CONFIG}/ftplugin -> ${CONFIG_DIR}/ftplugin"
+echo "${NVIM_CONFIG}/snippets -> ${CONFIG_DIR}/snippets"
+echo "${NVIM_CONFIG}/autoload -> ${CONFIG_DIR}/autoload"
 
-which imgcat 1>/dev/null 2>&1
-if [ $? -ne 0 ] ; then
+command -v imgcat 1>/dev/null 2>&1 || {
   curl 'https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgcat' -o imgcat
   chmod +x imgcat
   mv imgcat /usr/local/bin
   echo 'imgcatをdownloadしたよ！'
-fi
+}
 
 if [ -f '/etc/centos-release' ] ; then
   if [ ${has_zsh} -ne 0 ] ; then
@@ -82,16 +93,16 @@ if [ -f '/etc/centos-release' ] ; then
   has_pyenv=$?
   if [ ${has_pyenv} -ne 0 ] ; then
     sudo yum install gcc zlib-devel bzip2 bzip2-devel readline readline-devel sqlite sqlite-devel openssl openssl-devel git
-    git clone https://github.com/yyuu/pyenv.git ~/.pyenv && 'pyenvが使えるようになったよ！'
+    git clone https://github.com/yyuu/pyenv.git ~/.pyenv && echo 'pyenvが使えるようになったよ！'
     source $HOME/.zshrc
     pyenv install 3.6.0
-    pyenv global 3.6.0 'pythonを3.6.0に設定したよ！'
+    pyenv global 3.6.0 && echo 'pythonを3.6.0に設定したよ！'
   fi
   if [ ${has_nvim} -ne 0 ] ; then
     sudo yum -y install libtool autoconf automake cmake gcc gcc-c++ make pkgconfig unzip
     yum -y install epel-release
     curl -o /etc/yum.repos.d/dperson-neovim-epel-7.repo https://copr.fedorainfracloud.org/coprs/dperson/neovim/repo/epel-7/dperson-neovim-epel-7.repo
-    yum -y install neovim && 'neovimをinstallしたよ！'
+    yum -y install neovim && echo 'neovimをinstallしたよ！'
     export EDITOR=nvim
     echo '初期設定をするため，neovimを起動するよ！'
   fi
