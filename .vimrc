@@ -137,6 +137,7 @@ noremap ,ub :Unite buffer<CR>
 noremap ,uu :Unite -buffer-name=file file<CR>
 nnoremap ,un :Unite file/new<CR>
 augroup UniteGroup
+  au!
   au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR> |
                   \ inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
 augroup END
@@ -159,6 +160,11 @@ set shiftwidth=2
 set softtabstop=2
 set autoindent
 set smartindent
+
+augroup MakefileTab
+  au!
+  au FileType make setlocal noexpandtab tabstop=2
+augroup END
 
 set pumheight=10
 
@@ -222,10 +228,8 @@ augroup texGroup
                 \ hi texItalStyle ctermfg=3 |
                 \ hi texBoldItalStyle ctermfg=3 |
                 \ hi texItalBoldStyle ctermfg=9 |
-                \ set spell |
+                \ setlocal spell noautoindent nosmartindent |
                 \ filetype indent off |
-                \ set noautoindent |
-                \ set nosmartindent |
 augroup END
 
 augroup QfGroup
@@ -320,6 +324,8 @@ cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 imap <expr><C-k> pumvisible() ? "\<C-N>" : neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+nnoremap <leader>m :make<CR>
 
 "nnoremap <leader>tw :FriendsTwitter<CR>
 
