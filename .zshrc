@@ -47,24 +47,21 @@ function nt () {
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias cons="rails c --sandbox 2>/dev/null"
 if [ -d /var/www/html ] ; then
-  alias home="/var/www/html"
-  alias start="sudo redis-server /etc/redis.conf;sudo nginx -c /var/www/html/documents/nginx.conf;bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb"
-  alias refresh="sh /var/www/html/documents/dev/setup.sh"
-  alias import_test_data="sh /var/www/html/documents/dev/import_test_data.sh"
-  alias start='sudo nginx -c /var/www/html/documents/nginx.conf;(bundle exec unicorn_rails -c config/unicorn.rb &); bundle exec sidekiq &'
-  alias restart='kill_sidekiq_ps; kill_unicorn_ps; sleep 5; bundle exec sidekiq &'
-  function kill_sidekiq_ps () {
-    pids_of_sidekiq=`cat ./tmp/pids/sidekiq.pid`
-    if [ "$pids_of_sidekiq" != "" ]; then
-      eval "kill -USR1 $pids_of_sidekiq"
-      eval "kill -TERM $pids_of_sidekiq"
-    fi
+  alias home='cd /var/www/html'
+  alias refresh='sh /var/www/html/documents/dev/setup.sh'
+  alias import_test_data='sh /var/www/html/documents/dev/import_test_data.sh'
+  [ "$USER" = "ec2-user" ] && {
+    alias start='(sudo redis-server /etc/redis.conf &) ; sudo -E /usr/local/nginx/sbin/nginx -c $HOME/activo/documents/ngx_mruby.conf ; (sudo -E $RBENV_ROOT/shims/bundle exec unicorn_rails -c $HOME/activo/config/unicorn.rb &) ; (bundle exec sidekiq &)'
+    alias stop='ps aux | grep nginx | grep -v grep >/dev/null && sudo /usr/local/nginx/sbin/nginx -s stop; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -QUIT /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";")'
+    alias restart='ps aux | grep nginx | grep -v grep >/dev/null && sudo -E /usr/local/nginx/sbin/nginx -s reload; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -USR2 /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";") && sleep 5 ; (bundle exec sidekiq &)'
+  } || {
+    alias start='(sudo redis-server /etc/redis.conf &) ; sudo -E nginx -c /var/www/html/documents/nginx.conf ; (sudo -E $RBENV_ROOT/shims/bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb &) ; (bundle exec sidekiq &)'
+    alias stop='ps aux | grep nginx | grep -v grep >/dev/null && sudo nginx -s stop; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -QUIT /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";")'
+    alias restart='ps aux | grep nginx | grep -v grep >/dev/null && sudo -E nginx -s reload}; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -USR2 /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";") && sleep 5 ; (bundle exec sidekiq &)'
   }
-  function kill_unicorn_ps () {
-    pids_of_unicorn=`cat /usr/share/nginx/html/tmp/pids/unicorn.pid`
-    if [ "$pids_of_unicorn" != "" ]; then
-      eval "kill -USR2 $pids_of_unicorn"
-    fi
+  export_from_rails()
+  {
+    eval $(ruby -e "require 'yaml';require 'rails/secrets';def parse(hash, pre);  hash.each do |k,v|;    if v.is_a?(Hash);      parse(v, %(#{pre}#{k}_));    else;      puts %(export #{pre.upcase}#{k.to_s.upcase}=#{v}\n);    end;  end;end;File.open('config/secrets.yml.enc', 'r') do |f|;  parse(YAML.load(Rails::Secrets.decrypt(f.read)), '');end")
   }
   if [ ! "${IS_LOGIN_SHELL}" ] ; then
     pathmunge () {
