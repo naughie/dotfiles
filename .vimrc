@@ -161,11 +161,6 @@ set softtabstop=2
 set autoindent
 set smartindent
 
-augroup MakefileTab
-  au!
-  au FileType make setlocal noexpandtab tabstop=2
-augroup END
-
 set pumheight=10
 
 set showmatch

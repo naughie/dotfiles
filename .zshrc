@@ -18,7 +18,8 @@ alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias vs="sudo vim -u $HOME/.vimrc"
 alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
-alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
+[ "$(uname)" = 'Darwin' ] &&
+  alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
 command -v hub >/dev/null && eval "$(hub alias -s)"
 alias ghc='stack ghc --'
 alias ghci='stack ghci --'
