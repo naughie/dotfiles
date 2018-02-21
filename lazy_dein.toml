@@ -38,7 +38,7 @@ repo = 'derekwyatt/vim-scala'
 on_ft = ['scala']
 
 [[plugins]]
-repo = 'itchyny/vim-haskell-indent'
+repo = 'dag/vim2hs'
 on_ft = ['haskell']
 
 [[plugins]]
@@ -51,6 +51,10 @@ on_ft = ['haskell']
 
 [[plugins]]
 repo = 'ujihisa/ref-hoogle'
+on_ft = ['haskell']
+
+[[plugins]]
+repo = 'ujihisa/unite-haskellimport'
 on_ft = ['haskell']
 
 [[plugins]]

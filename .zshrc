@@ -20,10 +20,9 @@ alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
 [ "$(uname)" = 'Darwin' ] &&
   alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
-command -v hub >/dev/null && eval "$(hub alias -s)"
-alias ghc='stack ghc --'
-alias ghci='stack ghci --'
-alias runhaskell='stack runhaskell --'
+export PATH=$HOME/.local/bin:$PATH
+alias ghc='stack ghc'
+alias ghci='stack ghci'
 alias py="python"
 alias vimrc="$EDITOR ~/.vimrc"
 alias zshrc="$EDITOR ~/.zshrc"
