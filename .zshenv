@@ -1,4 +1,4 @@
-export PATH=/usr/local/twitter/bin:$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:$PATH:/bin
+export PATH=$HOME/.bin:/usr/local/twitter/bin:$HOME/Work/activo/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:$PATH:/bin
 export LANG=ja_JP.UTF-8
 export CPATH=/usr/local/include:$CPATH
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH

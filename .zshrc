@@ -21,6 +21,7 @@ alias alert="printf '\a'"
 [ "$(uname)" = 'Darwin' ] &&
   alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
 export PATH=$HOME/.local/bin:$PATH
+export TEXMFLOCAL=/usr/local/texlive/texmf-local
 alias ghc='stack ghc'
 alias ghci='stack ghci'
 alias py="python"
