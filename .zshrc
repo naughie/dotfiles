@@ -3,7 +3,7 @@ export DROPBOX=/Volumes/Samsung/Dropbox
 command -v nvim >/dev/null &&
   export EDITOR=nvim ||
   export EDITOR=vim
-export PAGER=vimpager
+#export PAGER=less
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
@@ -20,7 +20,7 @@ alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias alert="printf '\a'"
 [ "$(uname)" = 'Darwin' ] &&
   alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
 export TEXMFLOCAL=/usr/local/texlive/texmf-local
 alias ghc='stack ghc'
 alias ghci='stack ghci'
@@ -35,10 +35,11 @@ alias pryrc="$EDITOR ~/.pryrc"
 alias latexrc="$EDITOR ~/.latexmkrc"
 alias netrc="$EDITOR ~/.netrc"
 alias curld="curl --trace-ascii /dev/stderr "
-alias um="diskutil unmountDisk"
 alias reboot="sudo shutdown -r now"
 alias gpp='g++ -std=c++11'
 alias gpps='g++ -std=c++11 -lssl -lcrypto -lcurl'
+alias eject='diskutil eject'
+export ku='ku_exam_uploader'
 function nt () {
   fileName=${1%\.tex}
   fileName=${fileName%\.}
@@ -46,6 +47,13 @@ function nt () {
 }
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias cons="rails c --sandbox 2>/dev/null"
+alias cond="docker-compose run web bash -c \"{ rails console --sandbox 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; } 3>&2 2>&1 1>&3\""
+alias migr='docker-compose run web rails db:migrate'
+alias bund='docker-compose run web rails bundle install'
+rundock ()
+{
+  docker-compose run web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; } 3>&2 2>&1 1>&3"
+}
 if [ -d /var/www/html ] ; then
   alias home='cd /var/www/html'
   alias refresh='sh /var/www/html/documents/dev/setup.sh'

@@ -30,7 +30,7 @@ if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
-let g:python3_host_prog = expand('$HOME') . '/.pyenv/shims/python3'
+let g:python3_host_prog = expand('$HOME') . '/.pyenv/shims/python'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#auto_complete_start_length = 1
@@ -39,8 +39,8 @@ nnoremap <BS> <C-w>h
 nnoremap <C-h> <C-w>h
 set mouse-=a
 set sh=zsh
-tnoremap <silent><ESC> <C-\><C-n>
-nnoremap ,tt :terminal<CR><C-\><C-n>:set nospell<CR>i
+"tnoremap <silent><ESC> <C-\><C-n>
+"nnoremap ,tt :terminal<CR><C-\><C-n>:set nospell<CR>i
 nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
 let mapleader = "\<Space>"
 nmap <leader>f :Denite file_rec<CR>
@@ -180,13 +180,14 @@ set cole=0
 set backspace=indent,eol,start
 
 set laststatus=2
-set statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
+set statusline& statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
 set statusline+=%m
 set statusline+=%=
 set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%v)
 set statusline+=%{fugitive#statusline()}
 
 set noswapfile
+set backupskip=/tmp/*,/private/tmp/*
 
 set nopaste
 
@@ -204,53 +205,9 @@ augroup END
 set cursorline
 hi clear CursorLine
 
-augroup htmlMarkdownGroup
-  au!
-"  au FileType markdown hi htmlItalic ctermfg=3 |
-"                     \ hi htmlBold ctermfg=9 |
-"                     \ hi link htmlLink Comment |
-"                     \ set spell
-"  au FileType html hi htmlItalic ctermfg=3 |
-"                 \ hi htmlBold ctermfg=9 |
-"                 \ hi link htmlLink Comment |
-"                 \ set spell
-augroup END
-
-augroup texGroup
-  au!
-  au FileType plaintex set filetype=tex
-  au FileType tex hi texBoldStyle ctermfg=9 |
-                \ hi texItalStyle ctermfg=3 |
-                \ hi texBoldItalStyle ctermfg=3 |
-                \ hi texItalBoldStyle ctermfg=9 |
-                \ setlocal spell noautoindent nosmartindent |
-                \ filetype indent off |
-augroup END
-
 augroup QfGroup
   au!
   au QuickFixCmdPost *grep* cwindow
-augroup END
-
-augroup RubyGroup
-  au!
-"  au FileType ruby hi rubySymbol cterm=NONE ctermfg=135 |
-"                 \ hi rubyInteger ctermfg=10 |
-"                 \ hi rubyFloat ctermfg=10 |
-"                 \ hi rubyBoolean ctermfg=10 |
-"                 \ hi rubyPseudoVariable cterm=bold ctermfg=10
-augroup END
-
-augroup ERubyGroup
-  au!
-"  au FileType eruby hi htmlItalic ctermfg=3 |
-"                  \ hi htmlBold ctermfg=9 |
-"                  \ hi htmlLink cterm=NONE ctermfg=38 |
-"                  \ hi rubySymbol cterm=NONE ctermfg=135 |
-"                  \ hi rubyInteger ctermfg=10 |
-"                  \ hi rubyFloat ctermfg=10 |
-"                  \ hi rubyBoolean ctermfg=10 |
-"                  \ hi rubyPseudoVariable cterm=bold ctermfg=10
 augroup END
 
 augroup TrailingSpace
@@ -300,7 +257,7 @@ nnoremap <C-n> "zdd"zp
 vnoremap <C-p> "zx<Up>"zP`[V`]
 vnoremap <C-n> "zx"zp`[V`]
 
-nnoremap <silent><leader><leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+nnoremap <silent><leader><leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:setlocal hlsearch<CR>
 nnoremap <silent><leader>n :noh<CR>
 
 nnoremap n nzz
@@ -322,15 +279,16 @@ inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 nnoremap <leader>m :make<CR>
 
-"nnoremap <leader>tw :FriendsTwitter<CR>
+nnoremap t <Nop>
+nnoremap tt <C-]>
+nnoremap tj :tag<CR>
+nnoremap tk :pop<CR>
+nnoremap tl :tags<CR>
 
-"nnoremap <leader>t :GhcModType<CR>
-"cnoremap cmod GhcModTypeClear
+nnoremap ; :
+nnoremap : ;
 
-"if has('conceal')
-"    set conceallevel=0 concealcursor=
-"endif
-"set conceallevel=0
+nnoremap <leader>r :QuickRun<CR>
 
 let g:tex_conceal = ''
 
@@ -339,21 +297,3 @@ let g:markdown_syntax_conceal = ''
 let g:vim_markdown_folding_disabled=1
 
 let g:unite_enable_start_insert=1
-
-let g:twitter_script_path = '~/.config/twitter'
-let g:twitter_timeline_count = 10
-let g:twitter_user_name = 'naughie48g'
-nnoremap <silent><leader>tt :call twitter#print_timeline()<CR>
-nnoremap <silent><leader>ts "syiw:call twitter#show_tweet(@s)<CR>
-nnoremap <silent><leader>tu "syiw:call twitter#show_user(@s)<CR>
-nnoremap <leader>tl "syiw:call twitter#favorite(@s)<CR>
-nnoremap <leader>tr "syiw:call twitter#retweet(@s)<CR>
-nnoremap <leader>tf :call twitter#follow(@u)<CR>
-nnoremap <leader>ti :call twitter#list_follows()<CR>
-
-let g:vimpager = {}
-let g:less = {}
-let g:less.enabled = 0
-let g:vimpager.scrolloff = 3
-let g:vimpager.ansiesc = 0
-let g:vimpager.X11 = 0
