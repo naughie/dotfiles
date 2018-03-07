@@ -52,7 +52,7 @@ alias migr='docker-compose run web rails db:migrate'
 alias bund='docker-compose run web rails bundle install'
 rundock ()
 {
-  docker-compose run web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; } 3>&2 2>&1 1>&3"
+  docker-compose run web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
 }
 if [ -d /var/www/html ] ; then
   alias home='cd /var/www/html'

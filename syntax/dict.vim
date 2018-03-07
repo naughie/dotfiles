@@ -3,8 +3,8 @@ syn match   dictWord "^-\s\w\+" contained contains=dictList
 syn match   dictList "^-\s" contained
 syn match   dictTail "\/.*\/\s.*$" contained contains=dictPron,dictOpts
 syn region  dictPron start="\/" end="\/" contained
-syn match   dictOpts "\s\w\+\s\(\[.*\]\)$" contained contains=dictPOS,dictOpt
-syn match   dictPOS "\s\w\+\s"ms=s+1,me=e-1 contained
+syn match   dictOpts "\s\(v\s\[\(T\)]\|abj\|adv\)$" contained contains=dictPOS,dictOpt
+syn match   dictPOS "\s\w\+\s\?"ms=s+1 contained
 syn region  dictOpt start="\["hs=s+1 end="]"he=e-1 contained
 
 hi link dictList Identifier
