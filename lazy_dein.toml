@@ -62,6 +62,10 @@ repo = 'vim-ruby/vim-ruby'
 on_ft = ['ruby']
 
 [[plugins]]
+repo = 'Shougo/vimproc.vim'
+build = 'make'
+
+[[plugins]]
 repo = 'thinca/vim-quickrun'
 hook_add = '''
 let g:quickrun_config = {
@@ -74,7 +78,7 @@ let g:quickrun_config = {
   \ 'exec' : ['%c %o %s %a'],
   \ }
 '''
-depends = ['open-browser.vim']
+depends = ['open-browser.vim', 'vimproc.vim']
 hook_source = '''
 let g:quickrun_config.markdown = {
   \ 'command' : 'pandoc',
@@ -82,11 +86,17 @@ let g:quickrun_config.markdown = {
   \ 'outputter' : 'browser',
   \ 'exec' : ['%c %o %s'],
   \}
+let g:quickrun_config.dict = {
+  \ 'command' : 'words',
+  \ 'cmdopt' : 'html',
+  \ 'outputter' : 'browser',
+  \ 'exec' : ['%c %o %s'],
+  \}
 let g:quickrun_config.tex = {
   \ 'command' : 'latexmk',
-  \ 'cmdopt' : '-r ~/.latexmkrc -pv',
+  \ 'cmdopt' : '-r ~/.latexmkrc',
   \ 'outputter' : 'null',
-  \ 'exec' : ['%c %o root.tex'],
+  \ 'exec' : ['%c %o', 'find . -name "*.log" -exec mv {} {}.tmp \;', '%c -c', 'find . -name "*.log.tmp" -exec bash -c "mv {} \\\$(basename {} .tmp)" \;']
   \}
 let g:quickrun_config.haskell = {
   \ 'command' : 'stack',
