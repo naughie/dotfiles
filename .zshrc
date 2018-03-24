@@ -8,11 +8,13 @@ which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 command -v pyenv >/dev/null && eval "$(pyenv init -)"
+command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
 export XDG_CONFIG_HOME=$HOME/.config
 export AWS_CONFIG_FILE=~/.aws
 export RBENV_ROOT=$HOME/.rbenv
-export PATH=$RBENV_ROOT/shims:$PATH
+export PATH=$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH
 command -v rbenv >/dev/null && eval "$(rbenv init -)"
+export PATH=$HOME/.nodebrew/current/bin:$PATH
 alias v="vim -u $HOME/.vimrc"
 alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
 alias vs="sudo vim -u $HOME/.vimrc"
@@ -39,6 +41,7 @@ alias reboot="sudo shutdown -r now"
 alias gpp='g++ -std=c++11'
 alias gpps='g++ -std=c++11 -lssl -lcrypto -lcurl'
 alias eject='diskutil eject'
+alias off="osascript -e 'tell app \"Finder\" to sleep'"
 export ku='ku_exam_uploader'
 function nt () {
   fileName=${1%\.tex}
@@ -52,58 +55,8 @@ alias migr='docker-compose run web rails db:migrate'
 alias bund='docker-compose run web rails bundle install'
 rundock ()
 {
-  docker-compose run web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
+  docker-compose run web bash -c "[ -p tmp_pipe ] || mkfifo tmp_pipe; { grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s' tmp_pipe >&2 & } ; $* 2>tmp_pipe"
 }
-if [ -d /var/www/html ] ; then
-  alias home='cd /var/www/html'
-  alias refresh='sh /var/www/html/documents/dev/setup.sh'
-  alias import_test_data='sh /var/www/html/documents/dev/import_test_data.sh'
-  [ "$USER" = "ec2-user" ] && {
-    alias start='(sudo redis-server /etc/redis.conf &) ; sudo -E /usr/local/nginx/sbin/nginx -c $HOME/activo/documents/ngx_mruby.conf ; (sudo -E $RBENV_ROOT/shims/bundle exec unicorn_rails -c $HOME/activo/config/unicorn.rb &) ; (bundle exec sidekiq &)'
-    alias stop='ps aux | grep nginx | grep -v grep >/dev/null && sudo /usr/local/nginx/sbin/nginx -s stop; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -QUIT /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";")'
-    alias restart='ps aux | grep nginx | grep -v grep >/dev/null && sudo -E /usr/local/nginx/sbin/nginx -s reload; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -USR2 /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";") && sleep 5 ; (bundle exec sidekiq &)'
-  } || {
-    alias start='(sudo redis-server /etc/redis.conf &) ; sudo -E nginx -c /var/www/html/documents/nginx.conf ; (sudo -E $RBENV_ROOT/shims/bundle exec unicorn_rails -c /var/www/html/config/unicorn.rb &) ; (bundle exec sidekiq &)'
-    alias stop='ps aux | grep nginx | grep -v grep >/dev/null && sudo nginx -s stop; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -QUIT /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";")'
-    alias restart='ps aux | grep nginx | grep -v grep >/dev/null && sudo -E nginx -s reload}; eval $(ps aux | grep "unicorn_rails master" | grep -v grep | awk "{print \$2}" | head -1 | sed -e "s/^/sudo kill -USR2 /") ; eval $(ps aux | grep sidekiq | grep -v grep | awk "{print \$2}" | head -1 | tee /dev/stdout | sed -e "1s/^/kill -USR1 /" -e "2s/^/kill -TERM /" | tr "\n" ";") && sleep 5 ; (bundle exec sidekiq &)'
-  }
-  export_from_rails()
-  {
-    eval $(ruby -e "require 'yaml';require 'rails/secrets';def parse(hash, pre);  hash.each do |k,v|;    if v.is_a?(Hash);      parse(v, %(#{pre}#{k}_));    else;      puts %(export #{pre.upcase}#{k.to_s.upcase}=#{v}\n);    end;  end;end;File.open('config/secrets.yml.enc', 'r') do |f|;  parse(YAML.load(Rails::Secrets.decrypt(f.read)), '');end")
-  }
-  if [ ! "${IS_LOGIN_SHELL}" ] ; then
-    pathmunge () {
-      case ":${PATH}:" in
-        *:"$1":*)
-          ;;
-        *)
-          if [ "$2" = "after" ] ; then
-            PATH=$PATH:$1
-          else
-            PATH=$1:$PATH
-          fi
-      esac
-    }
-
-    if [ $UID -gt 199 ] && [ "`id -gn`" = "`id -un`" ] ; then
-      umask 002
-    else
-      umask 022
-    fi
-
-    for i in /etc/profile.d/*.sh; do
-      if [ -r "$i" ] ; then
-        if [ "$PS1" ] ; then
-          . "$i"
-        else
-          . "$i" 1>/dev/null 2>&1
-        fi
-      fi
-    done
-
-    unset i; unset pathmunge
-  fi
-fi
 #green="\e[48;5;64m"
 #gray="\e[48;5;247m"
 #blue="\e[48;5;20m"

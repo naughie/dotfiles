@@ -30,7 +30,8 @@ if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
-let g:python3_host_prog = expand('$HOME') . '/.pyenv/shims/python'
+let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
+let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#auto_complete_start_length = 1
@@ -45,105 +46,6 @@ nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
 let mapleader = "\<Space>"
 nmap <leader>f :Denite file_rec<CR>
 
-elseif 1
-
-if 0 | endif
-
-if has('vim_starting')
-  if &compatible
-    set nocompatible
-  endif
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'thinca/vim-quickrun'
-
-NeoBundle 'Shougo/vimproc',{
-            \'build' : {
-            \  'windows' : 'make -f make_mingw32.mak',
-            \  'cygwin' : 'make -f make_cygwin.mak',
-            \  'mac' : 'make -f make_mac.mak',
-            \  'unix' : 'make -f make_unix.mak',
-            \  },
-            \ }
-
-NeoBundle 'Shougo/unite.vim'
-
-NeoBundle 'osyo-manga/unite-quickfix'
-
-NeoBundle 'osyo-manga/shabadou.vim'
-
-"NeoBundle 'lervag/vimtex'
-
-NeoBundle 'tomasr/molokai'
-
-NeoBundle 'Shougo/neosnippet'
-
-NeoBundle 'Shougo/neocomplete'
-
-NeoBundle 'Shougo/neosnippet-snippets'
-
-NeoBundle 'nelstrom/vim-visual-star-search'
-
-NeoBundle 'tpope/vim-fugitive'
-
-NeoBundle 'vim-ruby/vim-ruby'
-
-NeoBundle 'tpope/vim-endwise'
-
-NeoBundle 'plasticboy/vim-markdown'
-
-NeoBundle 'kannokanno/previm'
-
-NeoBundle 'tyru/open-browser.vim'
-
-NeoBundle 'derekwyatt/vim-scala'
-
-NeoBundle 'scrooloose/nerdtree'
-
-"NeoBundle 'kana/vim-filetype-haskell'
-
-NeoBundle 'itchyny/vim-haskell-indent'
-
-NeoBundle 'eagletmt/ghcmod-vim'
-
-NeoBundle 'ujihisa/neco-ghc'
-
-NeoBundle 'osyo-manga/vim-watchdogs'
-
-NeoBundle 'thinca/vim-ref'
-
-NeoBundle 'ujihisa/ref-hoogle'
-
-NeoBundle 'tpope/vim-surround'
-
-NeoBundle 'TwitVim'
-
-NeoBundle 'powerman/vim-plugin-AnsiEsc'
-
-NeoBundle 'AlessandroYorba/Despacio'
-
-call neobundle#end()
-
-
-
-NeoBundleCheck
-
-noremap ,ub :Unite buffer<CR>
-noremap ,uu :Unite -buffer-name=file file<CR>
-nnoremap ,un :Unite file/new<CR>
-augroup UniteGroup
-  au!
-  au FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR> |
-                  \ inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
-augroup END
-
-nnoremap <silent><C-h> <C-w>h
-let mapleader = "\<Space>"
 endif
 
 syntax on
@@ -277,7 +179,7 @@ imap <expr><C-k> pumvisible() ? "\<C-N>" : neosnippet#jumpable() ?  "\<Plug>(neo
 smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-nnoremap <leader>m :make<CR>
+nnoremap <leader>m :!make<CR>
 
 nnoremap t <Nop>
 nnoremap tt <C-]>
@@ -288,7 +190,7 @@ nnoremap tl :tags<CR>
 nnoremap ; :
 nnoremap : ;
 
-nnoremap <leader>r :QuickRun<CR>
+nnoremap <silent><leader>r :QuickRun<CR>
 
 let g:tex_conceal = ''
 
@@ -300,5 +202,6 @@ let g:unite_enable_start_insert=1
 
 augroup TeXMakePDFRealTime
   autocmd!
-  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost *.tex QuickRun
+  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {root\|pref\|packages\|commands}\@!*.tex QuickRun -type tex_one
+  autocmd VimLeave *.tex QuickRun -type tex_remove
 augroup END

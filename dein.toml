@@ -10,6 +10,8 @@ nnoremap ,dr :Denite -resume<CR>
 
 [[plugins]]
 repo = 'Shougo/neosnippet-snippets'
+hook_add = '''
+'''
 
 [[plugins]]
 repo = 'thinca/vim-ref'

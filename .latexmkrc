@@ -7,6 +7,5 @@ $makeindex = 'mendex %O -o %D %S';
 $max_repeat = 5;
 $pdf_mode = 3;
 $clean_ext = 'out synctex.gz dvi';
-@default_files = ('root.tex');
 $preview_mode = 1;
 $pdf_previewer = 'open -ga /Applications/Skim.app';

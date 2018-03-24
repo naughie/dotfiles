@@ -4,7 +4,7 @@ syn match   dictList "^-\s" contained
 syn match   dictSome "sb/sth" contained
 syn match   dictTail "\/.*\/\s.*$" contained contains=dictPron,dictOpts
 syn region  dictPron start="\/" end="\/" contained
-syn match   dictOpts "\s\(v\(\s\[\(T\|T\salways\s+\sadv/prep\)]\)\?\|adj\(\s\[\(only\sbefore\snoun\)]\)\?\|adv\|n\s\[\(C\(\susually\splural\)\?\|U\)]\|phr\sv\(\s\[\(usually\spassive\)]\)\?\)$" contained contains=dictPOS,dictOpt
+syn match   dictOpts "\s\(v\(\s\[\(T\|T\salways\s+\sadv/prep\)]\)\?\|adj\(\s\[\(only\sbefore\snoun\)]\)\?\|adv\|n\s\[\(C\(\susually\splural\)\?\|U\|singular\)]\|phr\sv\(\s\[\(usually\spassive\)]\)\?\)$" contained contains=dictPOS,dictOpt
 syn match   dictPOS "\s\(v\|adj\|adv\|n\|phr\sv\)\s\?"ms=s+1 contained
 syn region  dictOpt start="\["hs=s+1 end="]"he=e-1 contained
 
