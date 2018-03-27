@@ -51,7 +51,7 @@ nnoremap <silent> ,th :call neoterm#close()<CR>
 [[plugins]]
 repo = 'tpope/vim-surround'
 hook_add = '''
-nmap <leader>s cs"'
-nmap <leader>d cs'"
-nmap <leader>p ysiw)
+nmap <Space>s cs"'
+nmap <Space>d cs'"
+nmap <Space>p ysiw)
 '''

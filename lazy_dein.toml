@@ -146,6 +146,14 @@ let g:quickrun_config.rust = {
   \ 'cmdopt' : 'run',
   \ 'exec' : ['%c %o %s %a'],
   \}
+let g:quickrun_config.ctags_one = {
+  \ 'command' : 'ctags',
+  \ 'outputter' : 'null',
+  \}
+let g:quickrun_config.ctags_list = {
+  \ 'outputter' : 'buffer',
+  \ 'exec' : ["grep -v '!_TAG_' ./tags | awk '{print $1}'"],
+  \}
 '''
 
 [[plugins]]
@@ -161,6 +169,12 @@ repo = 'powerman/vim-plugin-AnsiEsc'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+'''
+
+[[plugins]]
+repo = 'majutsushi/tagbar'
+hook_add = '''
+nnoremap tb :TagbarToggle<CR>
 '''
 
 [[plugins]]
@@ -205,6 +219,9 @@ on_ft = ['rust']
 [[plugins]]
 repo = 'scrooloose/syntastic.git'
 hook_add = '''
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['rust'] }
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['rust', 'ruby', 'cpp'] }
 let g:syntastic_rust_checkers = ['rustc', 'cargo']
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 '''
+on_ft = ['rust', 'ruby', 'cpp']

@@ -1,90 +1,72 @@
-export PATH=$PATH:$HOME/bin
-export DROPBOX=/Volumes/Samsung/Dropbox
-command -v nvim >/dev/null &&
-  export EDITOR=nvim ||
-  export EDITOR=vim
-#export PAGER=less
-which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
-command -v pyenv >/dev/null && eval "$(pyenv init -)"
-command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
-export XDG_CONFIG_HOME=$HOME/.config
-export AWS_CONFIG_FILE=~/.aws
-export RBENV_ROOT=$HOME/.rbenv
-export PATH=$RBENV_ROOT/shims:$RBENV_ROOT/bin:$PATH
-command -v rbenv >/dev/null && eval "$(rbenv init -)"
-export PATH=$HOME/.nodebrew/current/bin:$PATH
-alias v="vim -u $HOME/.vimrc"
-alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
-alias vs="sudo vim -u $HOME/.vimrc"
-alias ns="sudo nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
-alias alert="printf '\a'"
-[ "$(uname)" = 'Darwin' ] &&
-  alias activo="cd $HOME/Work/activo/documents; vagrant up&& vagrant ssh"
-export PATH=$HOME/.local/bin:$HOME/.cargo/bin:$PATH
-export TEXMFLOCAL=/usr/local/texlive/texmf-local
-alias ghc='stack ghc'
-alias ghci='stack ghci'
-alias py="python"
-alias vimrc="$EDITOR ~/.vimrc"
-alias zshrc="$EDITOR ~/.zshrc"
-alias zshenv="$EDITOR ~/.zshenv"
-alias zprofile="$EDITOR ~/.zprofile"
-alias dein="$EDITOR ~/.dein.toml"
-alias deinl="$EDITOR ~/.lazy_dein.toml"
-alias pryrc="$EDITOR ~/.pryrc"
-alias latexrc="$EDITOR ~/.latexmkrc"
-alias netrc="$EDITOR ~/.netrc"
-alias curld="curl --trace-ascii /dev/stderr "
-alias reboot="sudo shutdown -r now"
-alias gpp='g++ -std=c++11'
-alias gpps='g++ -std=c++11 -lssl -lcrypto -lcurl'
-alias eject='diskutil eject'
-alias off="osascript -e 'tell app \"Finder\" to sleep'"
-export ku='ku_exam_uploader'
-function nt () {
-  fileName=${1%\.tex}
-  fileName=${fileName%\.}
-  nvim ${fileName}.tex
+[ -d "$HOME/.zplug" ] || curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+source $HOME/.zplug/init.zsh
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt extended_glob
+setopt auto_list
+setopt auto_menu
+setopt list_packed
+setopt list_types
+setopt prompt_subst
+setopt correct
+setopt nolistbeep
+setopt extended_history
+setopt hist_ignore_all_dups
+setopt hist_save_no_dups
+setopt no_beep
+setopt no_hist_beep
+setopt no_list_beep
+setopt magic_equal_subst
+setopt transient_rprompt
+unsetopt caseglob
+bindkey -v
+autoload -U compinit; compinit
+autoload -U zmv
+alias zmv='noglob zmv -W'
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+function history-all { history -E 1 }
+
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "chrissicool/zsh-256color"
+zplug "mollifier/cd-gitroot"
+zplug "zsh-users/zsh-completions"
+zplug "hchbaw/opp.zsh"
+
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+      echo; zplug install
+  fi
+fi
+zplug load --verbose
+
+EMOJI_YES=$'\u2B55 '
+EMOJI_NO=$'\u274C '
+EMOJI_ABORT=$'\U1F44B '
+EMOJI_EDIT=$'\u270F '
+KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
+KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
+KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753\uFE0F '
+COLOR_SUCCESS='216'
+COLOR_FAILURE='151'
+COLOR_INSERTM='202'
+COLOR_NORMALM='192'
+COLOR_SUGGEST='212'
+COLOR_RPROMPT='154'
+function zle-line-init zle-keymap-select {
+  PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
+  SPROMPT="%F{%{${COLOR_SUGGEST}}%}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{%{${COLOR_SUGGEST}}%}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
+  RPROMPT="%F{%{${COLOR_RPROMPT}}%}[%n 20%D %T]%f"
+  case $KEYMAP in
+    vicmd)
+    PROMPT=$PROMPT"%F{%{${COLOR_NORMALM}}%}%BNormal%b%f< "
+    ;;
+    main|viins)
+    PROMPT=$PROMPT"%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
+    ;;
+  esac
+  zle reset-prompt
 }
-alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
-alias cons="rails c --sandbox 2>/dev/null"
-alias cond="docker-compose run web bash -c \"{ rails console --sandbox 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; } 3>&2 2>&1 1>&3\""
-alias migr='docker-compose run web rails db:migrate'
-alias bund='docker-compose run web rails bundle install'
-rundock ()
-{
-  docker-compose run web bash -c "[ -p tmp_pipe ] || mkfifo tmp_pipe; { grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s' tmp_pipe >&2 & } ; $* 2>tmp_pipe"
-}
-#green="\e[48;5;64m"
-#gray="\e[48;5;247m"
-#blue="\e[48;5;20m"
-#orange="\e[48;5;172m"
-#lblue="\e[48;5;38m"
-#black="\e[48;5;16m"
-#purple="\e[48;5;91m"
-#brown="\e[48;5;130m"
-#white="\e[48;5;7m"
-#echo "${green}        ${gray}  ${green}              ${gray}  ${green}        ${gray}  \e[0m"
-#echo "${green}      ${blue}    ${green}  ${orange}            ${green}  ${blue}    ${green}      \e[0m"
-#echo "${green}      ${blue}          ${orange}    ${blue}          ${green}      \e[0m"
-#echo "${gray}  ${green}    ${orange}  ${blue}                    ${orange}  ${green}      \e[0m"
-#echo "${green}    ${orange}    ${blue}    ${lblue}  ${blue}        ${lblue}  ${blue}    ${brown}      ${green}  \e[0m"
-#echo "${green}    ${orange}    ${white}  ${blue}  ${lblue}    ${blue}    ${lblue}    ${blue}  ${brown}    ${white}  ${brown}  ${green}  \e[0m"
-#echo "${green}    ${orange}  ${white}    ${blue}  ${lblue}  ${black}  ${lblue}    ${black}  ${lblue}  ${blue}  ${white}  ${brown}      ${green}  \e[0m"
-#echo "${green}      ${purple}  ${white}    ${lblue}            ${white}  ${brown}        ${green}  \e[0m"
-#echo "${green}    ${purple}      ${white}  ${lblue}  ${black}        ${lblue}  ${white}  ${purple}    ${brown}  ${green}  ${gray}  \e[0m"
-#echo "${green}    ${purple}  ${lblue}  ${purple}  ${white}    ${lblue}        ${white}    ${purple}  ${black}  ${brown}    ${green}  \e[0m"
-#echo "${green}    ${purple}  ${lblue}      ${purple}  ${white}  ${purple}    ${white}  ${purple}    ${black}  ${purple}  ${brown}    ${green}  \e[0m"
-#echo "${gray}  ${green}  ${lblue}      ${black}  ${purple}    ${white}    ${purple}    ${black}  ${purple}    ${brown}  ${lblue}  ${green}  \e[0m"
-#echo "${green}  ${purple}    ${lblue}    ${black}  ${orange}  ${purple}  ${white}    ${purple}  ${orange}  ${purple}    ${lblue}      ${green}  \e[0m"
-#echo "${green}  ${purple}  ${lblue}    ${black}  ${purple}    ${orange}        ${black}  ${purple}    ${black}  ${lblue}    ${green}  \e[0m"
-#echo "${green}  ${purple}    ${lblue}  ${purple}  ${black}  ${purple}        ${black}  ${purple}    ${black}  ${purple}  ${brown}  ${purple}  ${green}  \e[0m"
-#echo "${green}    ${black}  ${purple}      ${black}  ${purple}          ${black}  ${purple}    ${brown}  ${green}    \e[0m"
-#echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
-#echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
-#cat $HOME/.ryujinou
-PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
-SPROMPT="%F{%{${COLOR_SUGGEST}}%}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{%{${COLOR_SUGGEST}}%}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
-RPROMPT="%F{%{${COLOR_RPROMPT}}%}[%n 20%D %T]%f"
+zle -N zle-line-init
+zle -N zle-keymap-select

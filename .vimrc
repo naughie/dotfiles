@@ -1,4 +1,3 @@
-if has('nvim')
 if &compatible
   set nocompatible
 endif
@@ -43,10 +42,8 @@ set sh=zsh
 "tnoremap <silent><ESC> <C-\><C-n>
 "nnoremap ,tt :terminal<CR><C-\><C-n>:set nospell<CR>i
 nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
-let mapleader = "\<Space>"
-nmap <leader>f :Denite file_rec<CR>
-
-endif
+"let mapleader
+nmap <Space>f :Denite file_rec<CR>
 
 syntax on
 
@@ -84,6 +81,7 @@ set backspace=indent,eol,start
 set laststatus=2
 set statusline& statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
 set statusline+=%m
+set statusline+=%#warningmsg#
 set statusline+=%=
 set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%v)
 set statusline+=%{fugitive#statusline()}
@@ -137,18 +135,18 @@ nnoremap <silent><C-l> <C-w>l
 nnoremap <silent><C-k> <C-w>k
 nnoremap <silent><C-j> <C-w>j
 
-nnoremap <leader>h ^
-nnoremap <leader>l $
-vnoremap <leader>h ^
-vnoremap <leader>l $
+nnoremap <Space>h ^
+nnoremap <Space>l $
+vnoremap <Space>h ^
+vnoremap <Space>l $
 
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
-nnoremap <leader>g :vim<Space>
+nnoremap <Space>w :w<CR>
+nnoremap <Space>q :q<CR>
+nnoremap <Space>g :vim<Space>
 
-vmap <leader>y "+y
-nmap <leader>v <C-v>
-nmap <leader>r :QuickRun<CR>
+vmap <Space>y "+y
+nmap <Space>v <C-v>
+nmap <Space>r :QuickRun<CR>
 
 inoremap <C-p> <C-[>
 
@@ -159,8 +157,8 @@ nnoremap <C-n> "zdd"zp
 vnoremap <C-p> "zx<Up>"zP`[V`]
 vnoremap <C-n> "zx"zp`[V`]
 
-nnoremap <silent><leader><leader> "zyiw:let @/ = '\<' . @z . '\>'<CR>:setlocal hlsearch<CR>
-nnoremap <silent><leader>n :noh<CR>
+nnoremap <silent><Space><Space> "zyiw:let @/ = '\<' . @z . '\>'<CR>:setlocal hlsearch<CR>
+nnoremap <silent><Space>n :noh<CR>
 
 nnoremap n nzz
 nnoremap N Nzz
@@ -169,8 +167,8 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-nmap <leader>s cs"'
-nmap <leader>d cs'"
+nmap <Space>s cs"'
+nmap <Space>d cs'"
 
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
@@ -179,7 +177,7 @@ imap <expr><C-k> pumvisible() ? "\<C-N>" : neosnippet#jumpable() ?  "\<Plug>(neo
 smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-nnoremap <leader>m :!make<CR>
+nnoremap <Space>m :!make<CR>
 
 nnoremap t <Nop>
 nnoremap tt <C-]>
@@ -190,7 +188,7 @@ nnoremap tl :tags<CR>
 nnoremap ; :
 nnoremap : ;
 
-nnoremap <silent><leader>r :QuickRun<CR>
+nnoremap <silent><Space>r :QuickRun<CR>
 
 let g:tex_conceal = ''
 
@@ -204,4 +202,9 @@ augroup TeXMakePDFRealTime
   autocmd!
   autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {root\|pref\|packages\|commands}\@!*.tex QuickRun -type tex_one
   autocmd VimLeave *.tex QuickRun -type tex_remove
+augroup END
+
+augroup MarkdownCtagsUpdate
+  autocmd!
+  autocmd BufNewFile,BufRead *.md nnoremap <silent> tr :QuickRun -type ctags_one<CR>
 augroup END
