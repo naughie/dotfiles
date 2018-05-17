@@ -6,6 +6,6 @@ $dvipdf = 'dvipdfmx -f classico.map %O -o %D %S';
 $makeindex = 'mendex %O -o %D %S';
 $max_repeat = 5;
 $pdf_mode = 3;
-$clean_ext = 'out synctex.gz dvi';
+$clean_ext = 'out synctex.gz dvi snm nav';
 $preview_mode = 1;
 $pdf_previewer = 'open -ga /Applications/Skim.app';

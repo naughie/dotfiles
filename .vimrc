@@ -83,7 +83,7 @@ set statusline& statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
 set statusline+=%m
 set statusline+=%#warningmsg#
 set statusline+=%=
-set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%v)
+set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%{strwidth(getline('.'))})
 set statusline+=%{fugitive#statusline()}
 
 set noswapfile
@@ -96,6 +96,8 @@ set vb t_vb=
 set guicursor=a:hor5,a:blinkon500,a:blinkoff500,a:blinkwait0
 
 set ambiwidth=double
+
+set tags=tags,vendor.tags
 
 augroup colorSchemeSetting
   au!
@@ -206,5 +208,25 @@ augroup END
 
 augroup MarkdownCtagsUpdate
   autocmd!
-  autocmd BufNewFile,BufRead *.md nnoremap <silent> tr :QuickRun -type ctags_one<CR>
+  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost /Users/nakatam/markdowns/*.md QuickRun -type ctags
+augroup END
+
+augroup CppCtagsUpdate
+  autocmd!
+  "autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {/Users/nakatam/}\@!*.{cpp\|h} QuickRun -type ctags
+augroup END
+
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute 'set rtp+=' . g:opamshare . '/merlin/vim'
+execute 'set rtp^=' . g:opamshare . '/ocp-indent/vim'
+
+function! s:ocaml_format()
+    let now_line = line('.')
+    exec ':%! ocp-indent'
+    exec ':' . now_line
+endfunction
+
+augroup ocaml_format
+    autocmd!
+    autocmd BufWrite,FileWritePre,FileAppendPre *.mli\= call s:ocaml_format()
 augroup END

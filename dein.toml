@@ -34,15 +34,15 @@ repo = 'kassio/neoterm'
 hook_add = '''
 let g:neoterm_position = 'horizontal'
 let g:neoterm_repl_ruby = 'pry'
-let g:neoterm_repl_rails = 'docker-compose run web rails console --sandbox'
+let g:neoterm_repl_rails = 'rundock rails console --sandbox'
 let g:neoterm_automap_keys = ',tt'
 tnoremap <silent> <ESC> <C-\><C-n>
 nnoremap <silent> @r :TREPLSendLine<CR>
 vnoremap <silent> @r :TREPLSendSelection<CR>
 nnoremap <silent> @c :T ./bin/rails console<CR>
 nnoremap <silent> @s :T ./bin/rails console --sandbox<CR>
-nnoremap <silent> @dc :T docker-compose run web rails console<CR>
-nnoremap <silent> @ds :T docker-compose run web rails console --sandbox<CR>
+nnoremap <silent> @dc :T rundock rails console<CR>
+nnoremap <silent> @ds :T rundock rails console --sandbox<CR>
 nnoremap <silent> @p :T pry<CR>
 nnoremap <silent> ,th :call neoterm#close()<CR>
 nnoremap <silent> ,th :call neoterm#close()<CR>

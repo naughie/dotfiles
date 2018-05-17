@@ -81,9 +81,14 @@ let g:quickrun_config = {
 '''
 depends = ['open-browser.vim', 'vimproc.vim']
 hook_source = '''
+let g:quickrun_config.cpp = {
+  \ 'command' : 'make',
+  \ 'args' : './bin/main',
+  \ 'exec' : ['%c', '%a'],
+  \}
 let g:quickrun_config.markdown = {
   \ 'command' : 'pandoc',
-  \ 'cmdopt' : '-t html5 -f markdown -c ~/github.css --standalone',
+  \ 'cmdopt' : '-t html5 -f markdown -c ~/github.css --template=mytemplate --toc --mathjax',
   \ 'outputter' : 'browser',
   \ 'exec' : ['%c %o %s'],
   \}
@@ -146,13 +151,12 @@ let g:quickrun_config.rust = {
   \ 'cmdopt' : 'run',
   \ 'exec' : ['%c %o %s %a'],
   \}
-let g:quickrun_config.ctags_one = {
+let g:quickrun_config.ctags = {
   \ 'command' : 'ctags',
+  \ 'cmdopt' : '-R -f',
+  \ 'args' : 'tags',
   \ 'outputter' : 'null',
-  \}
-let g:quickrun_config.ctags_list = {
-  \ 'outputter' : 'buffer',
-  \ 'exec' : ["grep -v '!_TAG_' ./tags | awk '{print $1}'"],
+  \ 'exec' : ["eval 'test ! -f %a || rm %a'", '%c %o %a .'],
   \}
 '''
 
@@ -174,7 +178,36 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 [[plugins]]
 repo = 'majutsushi/tagbar'
 hook_add = '''
-nnoremap tb :TagbarToggle<CR>
+let g:tagbar_type_markdown = {
+  \ 'ctagstype' : 'markdown',
+  \ 'kinds' : [
+    \ 'x:top:0:0',
+    \ 'y:second:0:0',
+    \ 'z:third:0:0',
+    \ 'd:definition:0:0',
+    \ 'p:proposition:0:0',
+    \ 't:theorem:0:0',
+    \ 'l:lemma:0:0',
+    \ 'r:remark:0:0',
+    \ 'c:corollary:0:0',
+    \ 'e:example:0:0',
+    \],
+  \ 'sort' : 0,
+  \ 'sro' : ':',
+  \ 'kind2scope' : {
+    \ 'x' : 'top',
+    \ 'y' : 'second',
+    \ 'z' : 'third',
+    \},
+  \ 'scope2kind' : {
+    \ 'top' : 'x',
+    \ 'second' : 'y',
+    \ 'third' : 'z',
+    \},
+  \ 'ctagsbin' : '/Users/nakatam/markdowns/a.out',
+  \ 'ctagsargs' : '',
+  \}
+nnoremap <silent>tb :TagbarToggle<CR>
 '''
 
 [[plugins]]
@@ -219,9 +252,22 @@ on_ft = ['rust']
 [[plugins]]
 repo = 'scrooloose/syntastic.git'
 hook_add = '''
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['rust', 'ruby', 'cpp'] }
-let g:syntastic_rust_checkers = ['rustc', 'cargo']
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['rust', 'ocaml'] }
+let g:syntastic_rust_checkers = ['cargo build']
+let g:syntastic_cpp_checkers = ['g++ -std=c++11']
+let g:syntastic_ocaml_checkers = ['merlin']
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 '''
-on_ft = ['rust', 'ruby', 'cpp']
+on_ft = ['rust', 'ruby', 'cpp', 'ocaml']
+
+[[plugins]]
+repo = 'let-def/ocp-indent-vim'
+on_ft = ['ocaml']
+
+[[plugins]]
+repo = 'yms9654/HTML-AutoCloseTag'
+on_ft = ['html']
