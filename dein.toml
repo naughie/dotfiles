@@ -55,3 +55,9 @@ nmap <Space>s cs"'
 nmap <Space>d cs'"
 nmap <Space>p ysiw)
 '''
+
+[[plugins]]
+repo = 'mattn/sonictemplate-vim'
+hook_add = '''
+let g:sonictemplate_vim_template_dir = $XDG_CONFIG_HOME . '/nvim/template'
+'''

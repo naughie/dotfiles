@@ -192,6 +192,8 @@ nnoremap : ;
 
 nnoremap <silent><Space>r :QuickRun<CR>
 
+nnoremap <C-t> :Template<Space>
+
 let g:tex_conceal = ''
 
 let g:markdown_syntax_conceal = ''
@@ -202,8 +204,7 @@ let g:unite_enable_start_insert=1
 
 augroup TeXMakePDFRealTime
   autocmd!
-  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {root\|pref\|packages\|commands}\@!*.tex QuickRun -type tex_one
-  autocmd VimLeave *.tex QuickRun -type tex_remove
+  nnoremap <silent><Space>r :LLPStartPreview<CR>
 augroup END
 
 augroup MarkdownCtagsUpdate
@@ -229,4 +230,9 @@ endfunction
 augroup ocaml_format
     autocmd!
     autocmd BufWrite,FileWritePre,FileAppendPre *.mli\= call s:ocaml_format()
+augroup END
+
+augroup ChangeKeywordsOnTeX
+  autocmd!
+  autocmd BufNewFile,BufRead *.tex setlocal iskeyword=@,48-57,_,-,:,192-255
 augroup END

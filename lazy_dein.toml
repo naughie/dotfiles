@@ -271,3 +271,17 @@ on_ft = ['ocaml']
 [[plugins]]
 repo = 'yms9654/HTML-AutoCloseTag'
 on_ft = ['html']
+
+[[plugins]]
+repo = 'kchmck/vim-coffee-script'
+on_ft = ['coffee']
+
+[[plugins]]
+repo = 'Naughie/vim-latex-live-preview'
+hook_add = '''
+let g:livepreview_previewer = 'open -a Skim'
+let g:livepreview_engine = 'xelatex -no-pdf'
+let g:livepreview_bibtex = 'upbibtex'
+let g:livepreview_dvipdf = 'xdvipdfmx'
+'''
+on_ft = ['tex', 'plaintex']

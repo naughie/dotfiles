@@ -1,0 +1,108 @@
+\documentclass[lualatex,ja=standard,a4paper,match]{bxjsarticle}
+\usepackage{ifthen}\usepackage{ifxetex,ifluatex,ifuptex}
+\usepackage{luatexja-fontspec}
+\usepackage{luatexja-otf}
+\usepackage{geometry}
+\usepackage{graphicx,xcolor}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{cmbright}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage{ascmac}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{authblk}
+\usepackage{exscale}
+\usepackage[pdfencoding=auto]{hyperref}
+\usepackage{cite}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+\makeatletter
+\newcommand\my@enumfamily\sfdefault
+\newcommand\my@page{\fontfamily{clmj}\selectfont}
+\newcommand\my@bold{\bfseries}
+\def\@cite#1{{\fontseries{n}\selectfont\textsuperscript{\,[#1]}}}
+\def\@biblabel#1{[#1]}
+\setlist[enumerate,1]{label={\fontfamily\my@enumfamily\selectfont\roman{enumi}}\,)}
+\setlist[itemize,1]{label={\fontfamily{lmr}\selectfont\textleaf}}
+\renewcommand\refname{References}
+\renewcommand\contentsname{Contents}
+\renewcommand\cfttoctitlefont{\sffamily\Large}
+\renewcommand\cftsecfont{\my@bold}
+\renewcommand\cftsecpagefont{\my@bold}
+\renewcommand\cftsubsecfont{\sffamily}
+\renewcommand\cftsubsecpagefont{\my@page}
+\renewcommand\cftpartfont{\sffamily\Large}
+\renewcommand\cftpartpagefont{\sffamily\Large}
+\fancyhf{}\cfoot{{\my@page\thepage}}
+\fancypagestyle{onContentsPage}{\renewcommand\headrulewidth{0pt}}
+\fancypagestyle{onDocumentsPage}{%
+  \renewcommand\headrulewidth{0.3pt}%
+  \lhead{\nouppercase\leftmark}\rhead{\rightmark}}
+\newcommand\prepend{%
+  \thispagestyle{onContentsPage}\pagestyle{onContentsPage}\pagenumbering{roman}\maketitle\tableofcontents
+  \newpage\pagestyle{onDocumentsPage}\pagenumbering{arabic}}
+\newboolean{my@isLowercase}
+\newcommand\my@setIsLowercase[1]{%
+  \ifthenelse{#1 = 97 \OR #1 = 98 \OR #1 = 99 \OR #1 = 100 \OR #1 = 101 \OR #1 = 102 \OR #1 = 103 \OR #1 = 104 \OR #1 = 105 \OR #1 = 106 \OR #1 = 107 \OR #1 = 108 \OR #1 = 109 \OR #1 = 110 \OR #1 = 111 \OR #1 = 112 \OR #1 = 113 \OR #1 = 114 \OR #1 = 115 \OR #1 = 116 \OR #1 = 117 \OR #1 = 118 \OR #1 = 119 \OR #1 = 120 \OR #1 = 121 \OR #1 = 122 \OR #1 = 123}{\setboolean{my@isLowercase}{true}}{\setboolean{my@isLowercase}{false}}}
+\newcommand\iflowercase[3]{\my@setIsLowercase{\number`#1}\ifthenelse{\boolean{my@isLowercase}}{\csname #2\endcsname{#1}}{\csname #3\endcsname{#1}}}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\newcommand\my@defineMathOp[1]{\expandafter\DeclareMathOperator\csname #1\endcsname{#1}}
+\newcommand\bb[1]{\iflowercase{#1}{mathbf}{bm}}
+\newcommand\my@frac[2]{\mathchoice{\frac{#1}{#2}}{#1/#2}{#1/#2}{#1/#2}}
+\newcommand\my@@frac[2]{\left(\my@frac{#1}{#2}\right)}
+\newcommand\my@pfrac[2]{\fr{\partial #1}{\partial #2}}
+\newcommand\my@@pfrac[2]{\left(\my@pfrac{#1}{#2}\right)}
+\newcommand\my@dfrac[3][]{\fr{d^{#1} #2}{d^{#1} #3}}
+\newcommand\my@@dfrac[3][]{\left(\my@dfrac[#1]{#2}{#3}\right)}
+\newcommand\fr{\@ifstar{\my@@frac}{\my@frac}}
+\newcommand\pfr{\@ifstar{\my@@pfrac}{\my@pfrac}}
+\newcommand\dfr{\@ifstar{\my@@dfrac}{\my@dfrac}}
+\newcommand\abs[1]{\left| #1 \right|}
+\renewcommand\bar\overline
+\newcommand\norm[1]{\left\| #1 \right\|}
+\newcommand*{\defeq}{\mathrel{\vcenter{\baselineskip0.65ex \lineskiplimit0pt\hbox{\small.}\hbox{\small.}}}=}
+\newcommand\adef{\stackrel{\mathrm{def}}{\Longleftrightarrow}}
+\newcommand\uniq{\exists!}
+\let\div\relax
+\let\Im\relax
+\my@defineMathOp{im}
+\my@defineMathOp{tr}
+\my@defineMathOp{sgn}
+\my@defineMathOp{ad}
+\my@defineMathOp{grad}
+\my@defineMathOp{rot}
+\my@defineMathOp{div}
+\my@defineMathOp{dom}
+\my@defineMathOp{cod}
+\my@defineMathOp{diag}
+\my@defineMathOp{End}
+\my@defineMathOp{id}
+\my@defineMathOp{Aut}
+\my@defineMathOp{Im}
+\my@defineMathOp{Ker}
+\my@defineMathOp{Coker}
+\DeclareMathOperator\der{Der}
+\DeclareMathOperator\enfrac{Frac}
+\DeclareMathOperator\ch{\mathbf{Ch}}
+\DeclareMathOperator\modb{\mathbf{mod}-}
+\DeclareMathOperator\Span{span}
+\setmainfont[ItalicFont=NotoSerif-Italic.ttf,BoldFont=NotoSerif-Bold.ttf,BoldItalicFont=NotoSerif-BoldItalic.ttf]{NotoSerif-Regular.ttf}
+\setsansfont[ItalicFont=OpenSans-Italic.ttf,BoldFont=OpenSans-Bold.ttf,BoldItalicFont=OpenSans-BoldItalic.ttf]{OpenSans-Regular.ttf}
+\setmonofont[ItalicFont=SourceCodePro-Bold.ttf,BoldFont=SourceCodePro-Bold.ttf,BoldItalicFont=SourceCodePro-Bold.ttf]{SourceCodePro-Regular.ttf}
+\setmainjfont[ItalicFont=NotoSerifCJKjp-Bold.otf,BoldFont=NotoSerifCJKjp-Bold.otf,BoldItalicFont=NotoSerifCJKjp-Bold.otf]{NotoSerifCJKjp-Regular.otf}
+\setsansjfont[ItalicFont=NotoSansCJKjp-Bold.otf,BoldFont=NotoSansCJKjp-Bold.otf,BoldItalicFont=NotoSansCJKjp-Bold.otf]{NotoSansCJKjp-Regular.otf}
+\setmonojfont[ItalicFont=NotoSansMonoCJKjp-Bold.otf,BoldFont=NotoSansMonoCJKjp-Bold.otf,BoldItalicFont=NotoSansMonoCJKjp-Bold.otf]{NotoSansMonoCJKjp-Regular.otf}
+\title{{{_cursor_}}}
+\author[*]{M. Nakata}
+\affil[*]{Department of Science, Kyoto University}
+\date{}
+\makeatother
+\begin{document}
+\prepend
+
+\end{document}
+
