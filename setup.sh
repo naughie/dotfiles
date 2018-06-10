@@ -33,6 +33,7 @@ rm -r ${NVIM_CONFIG}/indent 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftplugin 2>/dev/null
 rm -r ${NVIM_CONFIG}/snippets 2>/dev/null
 rm -r ${NVIM_CONFIG}/autoload 2>/dev/null
+rm -r ${NVIM_CONFIG}/template 2>/dev/null
 ln -s ${CONFIG_DIR}/.zshrc $HOME/.zshrc
 ln -s ${CONFIG_DIR}/.zshenv $HOME/.zshenv
 ln -s ${CONFIG_DIR}/.zprofile $HOME/.zprofile
@@ -49,9 +50,9 @@ ln -s ${CONFIG_DIR}/indent ${NVIM_CONFIG}/indent
 ln -s ${CONFIG_DIR}/ftplugin ${NVIM_CONFIG}/ftplugin
 ln -s ${CONFIG_DIR}/snippets ${NVIM_CONFIG}/snippets
 ln -s ${CONFIG_DIR}/autoload ${NVIM_CONFIG}/autoload
+ln -s ${CONFIG_DIR}/template ${NVIM_CONFIG}/template
 ln -s ${CONFIG_DIR}/.latexmkrc $HOME/.latexmkrc
 ln -s ${CONFIG_DIR}/.pryrc $HOME/.pryrc
-ln -s ${CONFIG_DIR}/images/ryujinou $HOME/.ryujinou
 
 echo '今回作成したシンボリックリンクはこちら！'
 echo "$HOME/.zshrc -> ${CONFIG_DIR}/.zshrc"
@@ -62,7 +63,6 @@ echo "$HOME/.dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "$HOME/.lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "$HOME/.latexmkrc -> ${CONFIG_DIR}/.latexmkrc"
 echo "$HOME/.pryrc -> ${CONFIG_DIR}/.pryrc"
-echo "$HOME/.ryujinou -> ${CONFIG_DIR}/images/ryujinou"
 echo "${NVIM_CONFIG}/init.vim -> ${CONFIG_DIR}/.vimrc"
 echo "${NVIM_CONFIG}/dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
