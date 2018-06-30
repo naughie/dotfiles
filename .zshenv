@@ -65,6 +65,7 @@ alias off="osascript -e 'tell app \"Finder\" to sleep'"
 alias gitcd='cd-gitroot'
 alias grep='grep -i'
 alias ocaml='rlwrap ocaml'
+alias chrome='open -a "Google Chrome"'
 function nt () {
   fileName=${1%\.tex}
   fileName=${fileName%\.}
@@ -72,13 +73,23 @@ function nt () {
 }
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias cons="rails c --sandbox 2>/dev/null"
-alias cond='rundock rails console --sandbox'
-alias migr='rundock rails db:migrate'
-alias bund='rundock bundle install --without production'
+alias cond='rundock bundle exec rails console --sandbox'
+alias migr='rundock bundle exec rails db:migrate'
+alias bund='rundock bundle install'
 alias tailog="grep --line-buffered -v '\(\(Article\|Picture\|Area\|ActivityDate\) Load (\d*\.\d*ms)\|(\d*\.\d*ms).*SELECT.*\`article.*\`\)'"
 rundock ()
 {
-  docker-compose run web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
+  docker-compose run --rm web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
+}
+app_build()
+{
+  docker-compose build
+  docker-compose run --rm web bundle exec rake db:create
+  docker-compose run --rm web bundle exec rake db:migrate
+}
+dockb()
+{
+  rundock bundle exec $*
 }
 setopt no_global_rcs
 #green="\e[48;5;64m"

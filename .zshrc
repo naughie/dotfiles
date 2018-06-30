@@ -65,6 +65,9 @@ function zle-line-init zle-keymap-select {
     main|viins)
     PROMPT=$PROMPT"%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
     ;;
+    *)
+    PROMPT=$PROMPT"%F{%{${COLOR_NORMALM}}%}%BNormal%b%f< "
+    ;;
   esac
   zle reset-prompt
 }

@@ -285,3 +285,7 @@ let g:livepreview_bibtex = 'upbibtex'
 let g:livepreview_dvipdf = 'xdvipdfmx'
 '''
 on_ft = ['tex', 'plaintex']
+
+[[plugins]]
+repo = 'leafgarland/typescript-vim'
+on_ft = ['typescript']

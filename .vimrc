@@ -126,12 +126,12 @@ augroup END
 hi StatusLineFilename cterm=bold ctermfg=46
 hi StatusLineCursorPosition ctermfg=184
 
-nnoremap j gj
-nnoremap k gk
-nnoremap <Down> gj
-nnoremap <Up> gk
-nnoremap gj j
-nnoremap gk k
+nnoremap <silent>j gj
+nnoremap <silent>k gk
+nnoremap <silent><Down> gj
+nnoremap <silent><Up> gk
+nnoremap <silent>gj j
+nnoremap <silent>gk k
 
 nnoremap <silent><C-l> <C-w>l
 nnoremap <silent><C-k> <C-w>k
@@ -235,4 +235,8 @@ augroup END
 augroup ChangeKeywordsOnTeX
   autocmd!
   autocmd BufNewFile,BufRead *.tex setlocal iskeyword=@,48-57,_,-,:,192-255
+
+
 augroup END
+
+set rtp+=~/.local/share/nvimpager/runtime

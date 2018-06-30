@@ -32,7 +32,7 @@ colorscheme despacio
 [[plugins]]
 repo = 'kassio/neoterm'
 hook_add = '''
-let g:neoterm_position = 'horizontal'
+let g:neoterm_default_mod = 'horizontal'
 let g:neoterm_repl_ruby = 'pry'
 let g:neoterm_repl_rails = 'rundock rails console --sandbox'
 let g:neoterm_automap_keys = ',tt'
