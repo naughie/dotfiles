@@ -14,6 +14,7 @@ fi
 CONFIG_DIR=$PWD
 NVIM_CONFIG=${XDG_CONFIG_HOME="$HOME/.config"}/nvim
 mkdir -p ${NVIM_CONFIG} 2>/dev/null
+mkdir -p ${XDG_CONFIG_HOME}/terminfo 2>/dev/null
 rm $HOME/.zshrc 2>/dev/null
 rm $HOME/.zshenv 2>/dev/null
 rm $HOME/.zprofile 2>/dev/null
@@ -22,10 +23,12 @@ rm $HOME/.dein.toml 2>/dev/null
 rm $HOME/.lazy_dein.toml 2>/dev/null
 rm $HOME/.latexmkrc 2>/dev/null
 rm $HOME/.pryrc 2>/dev/null
+rm $HOME/.tmux.conf 2>/dev/null
+rm ${NVIM_CONFIG}/terminfo/xterm-256color-italic.terminfo 2>/dev/null
+rm ${NVIM_CONFIG}/terminfo/screen-256color-italic.terminfo 2>/dev/null
 rm ${NVIM_CONFIG}/init.vim 2>/dev/null
 rm ${NVIM_CONFIG}/dein.toml 2>/dev/null
 rm ${NVIM_CONFIG}/lazy_dein.toml 2>/dev/null
-rm $HOME/.ryujinou 2>/dev/null
 rm -r ${NVIM_CONFIG}/ftdetect 2>/dev/null
 rm -r ${NVIM_CONFIG}/colors 2>/dev/null
 rm -r ${NVIM_CONFIG}/syntax 2>/dev/null
@@ -53,6 +56,9 @@ ln -s ${CONFIG_DIR}/autoload ${NVIM_CONFIG}/autoload
 ln -s ${CONFIG_DIR}/template ${NVIM_CONFIG}/template
 ln -s ${CONFIG_DIR}/.latexmkrc $HOME/.latexmkrc
 ln -s ${CONFIG_DIR}/.pryrc $HOME/.pryrc
+ln -s ${CONFIG_DIR}/.tmux.conf $HOME/.tmux.conf
+ln -s ${CONFIG_DIR}/xterm-256color-italic.terminfo ${XDG_CONFIG_HOME}/terminfo/xterm-256color-italic.terminfo
+ln -s ${CONFIG_DIR}/screen-256color-italic.terminfo ${XDG_CONFIG_HOME}/terminfo/screen-256color-italic.terminfo
 
 echo '今回作成したシンボリックリンクはこちら！'
 echo "$HOME/.zshrc -> ${CONFIG_DIR}/.zshrc"
@@ -63,6 +69,7 @@ echo "$HOME/.dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "$HOME/.lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
 echo "$HOME/.latexmkrc -> ${CONFIG_DIR}/.latexmkrc"
 echo "$HOME/.pryrc -> ${CONFIG_DIR}/.pryrc"
+echo "$HOME/.tmux.conf -> ${CONFIG_DIR}/.tmux.conf"
 echo "${NVIM_CONFIG}/init.vim -> ${CONFIG_DIR}/.vimrc"
 echo "${NVIM_CONFIG}/dein.toml -> ${CONFIG_DIR}/dein.toml"
 echo "${NVIM_CONFIG}/lazy_dein.toml -> ${CONFIG_DIR}/lazy_dein.toml"
@@ -73,6 +80,11 @@ echo "${NVIM_CONFIG}/indent -> ${CONFIG_DIR}/indent"
 echo "${NVIM_CONFIG}/ftplugin -> ${CONFIG_DIR}/ftplugin"
 echo "${NVIM_CONFIG}/snippets -> ${CONFIG_DIR}/snippets"
 echo "${NVIM_CONFIG}/autoload -> ${CONFIG_DIR}/autoload"
+echo "${XDG_CONFIG_HOME}/terminfo/xterm-256color-italic.terminfo ${CONFIG_DIR}/xterm-256color-italic.terminfo"
+echo "${XDG_CONFIG_HOME}/terminfo/screen-256color-italic.terminfo ${CONFIG_DIR}/screen-256color-italic.terminfo"
+
+tic ${XDG_CONFIG_HOME}/terminfo/xterm-256color-italic.terminfo
+tic ${XDG_CONFIG_HOME}/terminfo/screen-256color-italic.terminfo
 
 command -v imgcat 1>/dev/null 2>&1 || {
   curl 'https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgcat' -o imgcat

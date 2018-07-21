@@ -41,6 +41,8 @@ if ! zplug check --verbose; then
 fi
 zplug load --verbose
 
+export TERM=xterm-256color-italic
+
 EMOJI_YES=$'\u2B55 '
 EMOJI_NO=$'\u274C '
 EMOJI_ABORT=$'\U1F44B '
