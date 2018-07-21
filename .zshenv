@@ -1,4 +1,11 @@
 export PATH=$HOME/.bin:$HOME/bin:/Library/TeX/texbin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/twitter/bin:/usr/local/sbt/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/bin:/opt/X11/bin
+case "$(uname -s)" in
+  Linux*)  operating_system=Linux;;
+  Darwin*) operating_system=Mac;;
+  CYGWIN*) operating_system=Cygwin;;
+  MINGW*)  operating_system=MinGW;;
+  *)       operating_system="$(uname -s)";;
+esac
 export LANG=ja_JP.UTF-8
 export CPATH=/usr/local/include:$CPATH
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
@@ -65,7 +72,12 @@ alias off="osascript -e 'tell app \"Finder\" to sleep'"
 alias gitcd='cd-gitroot'
 alias grep='grep -i'
 alias ocaml='rlwrap ocaml'
-alias chrome='open -a "Google Chrome"'
+alias less='less -r'
+if [ "${operating_system}" = "Mac" ]; then
+  alias chrome='open -a "Google Chrome"'
+  alias finder='open -a Finder'
+  alias saf='open -a Safari'
+fi
 function nt () {
   fileName=${1%\.tex}
   fileName=${fileName%\.}
