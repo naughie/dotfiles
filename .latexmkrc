@@ -5,7 +5,7 @@ $xelatex = 'xelatex -no-pdf -synctex=1 -halt-on-error -interaction=nonstopmode -
 $xdvipdfmx = 'xdvipdfmx %O -o %D %S';
 $bibtex = 'upbibtex';
 $dvipdf = 'dvipdfmx -f classico.map %O -o %D %S';
-$makeindex = 'mendex %O -o %D %S';
+$makeindex = 'upmendex %O -o %D %S';
 $max_repeat = 5;
 $pdf_mode = 3;
 $clean_ext = 'out synctex.gz dvi xdv snm nav';
