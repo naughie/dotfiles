@@ -24,6 +24,18 @@ let g:neosnippet#snippets_directory = $XDG_CONFIG_HOME . '/nvim/snippets'
 on_i  = 1
 
 [[plugins]]
+repo = 'Shougo/unite-outline'
+hook_add = '''
+let g:unite_split_rule = 'botright'
+nnoremap <silent><Space>o :Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal<CR>
+augroup OutlineOnEntering
+  autocmd!
+  autocmd vimenter *.tex Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal
+augroup END
+'''
+on_ft = ['tex']
+
+[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
@@ -173,11 +185,37 @@ repo = 'powerman/vim-plugin-AnsiEsc'
 repo = 'scrooloose/nerdtree'
 hook_add = '''
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
+augroup NerdTreeOnEntering
+  autocmd!
+  autocmd vimenter *.tex,~/Work/activo/*,~/.activo/* NERDTree | wincmd p
+  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+augroup END
 '''
+
+
+
+[[plugins]]
+repo = 'Shougo/vimfiler.vim'
+hook_add = '''
+let g:vimfiler_as_default_explorer = 1
+"nnoremap <silent><C-e> :VimFiler<CR>
+'''
+depends = ['unite.vim']
 
 [[plugins]]
 repo = 'majutsushi/tagbar'
 hook_add = '''
+let g:tagbar_type_tex = {
+  \ 'ctagstype' : 'latex',
+  \ 'kinds': [
+  \   'c:chapter:0:0',
+  \   'p:part:0:0',
+  \   's:section:0:0',
+  \   't:subsection:0:0',
+  \   'u:subsubsection:0:0',
+  \ ],
+  \ 'sort': 0,
+  \}
 let g:tagbar_type_markdown = {
   \ 'ctagstype' : 'markdown',
   \ 'kinds' : [
@@ -217,14 +255,6 @@ let g:netrw_nogx = 1
 nmap gx <Plug>(openbrowser-smart-search)
 vmap gx <Plug>(openbrowser-smart-search)
 '''
-
-[[plugins]]
-repo = 'Shougo/unite.vim'
-
-[[plugins]]
-repo = 'h1mesuke/unite-outline'
-on_source = ['denite.vim']
-depends = ['unite.vim']
 
 [[plugins]]
 repo = 'tpope/vim-endwise'

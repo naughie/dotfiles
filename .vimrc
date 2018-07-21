@@ -235,8 +235,6 @@ augroup END
 augroup ChangeKeywordsOnTeX
   autocmd!
   autocmd BufNewFile,BufRead *.tex setlocal iskeyword=@,48-57,_,-,:,192-255
-
-
 augroup END
 
 set rtp+=~/.local/share/nvimpager/runtime

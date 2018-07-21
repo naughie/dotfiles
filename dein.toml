@@ -9,6 +9,9 @@ nnoremap ,dr :Denite -resume<CR>
 '''
 
 [[plugins]]
+repo = 'Shougo/unite.vim'
+
+[[plugins]]
 repo = 'Shougo/neosnippet-snippets'
 hook_add = '''
 '''
