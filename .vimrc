@@ -45,6 +45,8 @@ nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
 "let mapleader
 nmap <Space>f :Denite file_rec<CR>
 
+set termguicolors
+
 syntax on
 
 filetype plugin indent on
@@ -99,11 +101,6 @@ set ambiwidth=double
 
 set tags=tags,vendor.tags
 
-augroup colorSchemeSetting
-  au!
-  au ColorScheme * hi Normal ctermbg=none
-augroup END
-
 set cursorline
 hi clear CursorLine
 
@@ -114,7 +111,7 @@ augroup END
 
 augroup TrailingSpace
   au!
-  au VimEnter,WinEnter,ColorScheme * highlight TrailingSpaces term=underline guibg=Red ctermbg=Red
+  au VimEnter,WinEnter,ColorScheme * highlight link TrailingSpaces Error
   au VimEnter,WinEnter * match TrailingSpaces /\s\+$/
 augroup END
 
@@ -123,8 +120,8 @@ augroup TwitVimSetting
   au FileType twitvim set wrap
 augroup END
 
-hi StatusLineFilename cterm=bold ctermfg=46
-hi StatusLineCursorPosition ctermfg=184
+hi StatusLineFilename ctermfg=46 guifg=#00ff00
+hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
 
 nnoremap <silent>j gj
 nnoremap <silent>k gk

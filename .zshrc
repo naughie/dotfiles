@@ -28,7 +28,6 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 function history-all { history -E 1 }
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "chrissicool/zsh-256color"
 zplug "mollifier/cd-gitroot"
 zplug "zsh-users/zsh-completions"
 zplug "hchbaw/opp.zsh"
@@ -40,8 +39,6 @@ if ! zplug check --verbose; then
   fi
 fi
 zplug load --verbose
-
-export TERM=xterm-256color-italic
 
 EMOJI_YES=$'\u2B55 '
 EMOJI_NO=$'\u274C '

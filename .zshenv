@@ -22,6 +22,8 @@ export SAVEHIST=200
 command -v nvim >/dev/null &&
   export EDITOR=nvim ||
   export EDITOR=vim
+# set terminal color
+export TERM=xterm-256color-italic
 # set config env
 export XDG_CONFIG_HOME=$HOME/.config
 export AWS_CONFIG_FILE=~/.aws

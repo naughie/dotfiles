@@ -26,10 +26,12 @@ repo = 'nelstrom/vim-visual-star-search'
 repo = 'mattn/emoji-vim'
 
 [[plugins]]
-repo = 'AlessandroYorba/Despacio'
+repo = 'jacoborus/tender.vim'
 hook_add = '''
-let g:despacio_Sunset = 1
-colorscheme despacio
+if (has("termguicolors"))
+ set termguicolors
+endif
+colorscheme tender
 '''
 
 [[plugins]]
@@ -63,4 +65,11 @@ nmap <Space>p ysiw)
 repo = 'mattn/sonictemplate-vim'
 hook_add = '''
 let g:sonictemplate_vim_template_dir = $XDG_CONFIG_HOME . '/nvim/template'
+'''
+
+[[plugins]]
+repo = 'yuttie/comfortable-motion.vim'
+hook_add = '''
+let g:comfortable_motion_scroll_down_key = "j"
+let g:comfortable_motion_scroll_up_key = "k"
 '''
