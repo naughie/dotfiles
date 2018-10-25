@@ -75,10 +75,6 @@ repo = 'vim-ruby/vim-ruby'
 on_ft = ['ruby']
 
 [[plugins]]
-repo = 'Shougo/vimproc.vim'
-build = 'make'
-
-[[plugins]]
 repo = 'thinca/vim-quickrun'
 hook_add = '''
 let g:quickrun_config = {
@@ -100,7 +96,7 @@ let g:quickrun_config.cpp = {
   \}
 let g:quickrun_config.markdown = {
   \ 'command' : 'pandoc',
-  \ 'cmdopt' : '-t html5 -f markdown -c ~/github.css --template=mytemplate --toc --mathjax',
+  \ 'cmdopt' : '-t html5 -f markdown --template=mytemplate --toc --mathjax',
   \ 'outputter' : 'browser',
   \ 'exec' : ['%c %o %s'],
   \}

@@ -54,6 +54,7 @@ COLOR_NORMALM='192'
 COLOR_SUGGEST='212'
 COLOR_RPROMPT='154'
 function zle-line-init zle-keymap-select {
+  printf "\a"
   PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
   SPROMPT="%F{%{${COLOR_SUGGEST}}%}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{%{${COLOR_SUGGEST}}%}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
   RPROMPT="%F{%{${COLOR_RPROMPT}}%}[%n 20%D %T]%f"

@@ -44,8 +44,7 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 # enable rust
 export PATH=$HOME/.cargo/bin:$PATH
 # enable ocaml/opam
-. ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-command -v opam >/dev/null && eval "$(opam config env)"
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 # aliases
 alias v="vim -u $HOME/.vimrc"
 alias n="nvim -u $XDG_CONFIG_HOME/nvim/init.vim"
@@ -70,15 +69,16 @@ alias reboot="sudo shutdown -r now"
 alias gpp='g++ -std=c++11'
 alias gpps='g++ -std=c++11 -lssl -lcrypto -lcurl'
 alias eject='diskutil eject'
-alias off="osascript -e 'tell app \"Finder\" to sleep'"
 alias gitcd='cd-gitroot'
 alias grep='grep -i'
 alias ocaml='rlwrap ocaml'
 alias less='less -r'
 if [ "${operating_system}" = "Mac" ]; then
+  alias off="osascript -e 'tell app \"Finder\" to sleep'"
   alias chrome='open -a "Google Chrome"'
   alias finder='open -a Finder'
   alias saf='open -a Safari'
+  alias notify='terminal-notifier -message'
 fi
 function nt () {
   fileName=${1%\.tex}
