@@ -53,22 +53,26 @@ COLOR_INSERTM='202'
 COLOR_NORMALM='192'
 COLOR_SUGGEST='212'
 COLOR_RPROMPT='154'
+COLOR_COMMAND='251'
+EMOJI_SUCCEED=$'\U1F60A'
+EMOJI_FAILURE=$'\U1F62D'
 function zle-line-init zle-keymap-select {
   printf "\a"
-  PROMPT="%(?!%F{%{${COLOR_SUCCESS}}%}!%F{%{${COLOR_FAILURE}}%})%(?!${KAOMOJI_SUCCEED}!${KAOMOJI_FAIL})@%~::%f"
-  SPROMPT="%F{%{${COLOR_SUGGEST}}%}%{$suggest%}${KAOMOJI_SUGGEST} < もしかして... %B%r%b %F{%{${COLOR_SUGGEST}}%}かな? [${EMOJI_YES}(y), ${EMOJI_NO}(n), ${EMOJI_ABORT}(a), ${EMOJI_EDIT}(e)]: %f"
-  RPROMPT="%F{%{${COLOR_RPROMPT}}%}[%n 20%D %T]%f"
+  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now "%n" and @ "%~"    %f'
+  SPROMPT=$'%F{%{212}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), n(o), a(bort), e(dit)]: %f'
+  RPROMPT=$'%F{%{154}%}[%D{%m/%d/%Y} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%f'
   case $KEYMAP in
     vicmd)
-    PROMPT=$PROMPT"%F{%{${COLOR_NORMALM}}%}%BNormal%b%f< "
+    PROMPT=$PROMPT$'%F{%{192}%}%BNormal%b%f'
     ;;
     main|viins)
-    PROMPT=$PROMPT"%F{%{${COLOR_INSERTM}}%}%BInsert%b%f< "
+    PROMPT=$PROMPT$'%F{%{202}%}%BInsert%b%f'
     ;;
     *)
-    PROMPT=$PROMPT"%F{%{${COLOR_NORMALM}}%}%BNormal%b%f< "
+    PROMPT=$PROMPT$'%F{%{192}%}%BNormal%b%f'
     ;;
   esac
+  PROMPT=$PROMPT$'\n  %F{%{251}%}%BCommand? \U300B%b%f '
   zle reset-prompt
 }
 zle -N zle-line-init

@@ -32,7 +32,7 @@ nmap <Space>v <C-v>
 nmap <Space>r :QuickRun<CR>
 
 nnoremap Y y$
-nnoremap <CR> o<ESC>
+" nnoremap <CR> o<ESC>
 
 nnoremap <C-p> "zdd<Up>"zP
 nnoremap <C-n> "zdd"zp

@@ -34,7 +34,9 @@ which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
 command -v pyenv >/dev/null && eval "$(pyenv init -)"
-command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
+# command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
+test -r $PYENV_ROOT/versions/neovim2/bin/activate && source $PYENV_ROOT/versions/neovim2/bin/activate
+test -r $PYENV_ROOT/versions/neovim3/bin/activate && source $PYENV_ROOT/versions/neovim3/bin/activate
 # init rbenv
 export RBENV_ROOT=$HOME/.rbenv
 export PATH=$RBENV_ROOT/bin:$PATH
@@ -94,6 +96,7 @@ alias tailog="grep --line-buffered -v '\(\(Article\|Picture\|Area\|ActivityDate\
 rundock ()
 {
   docker-compose run --rm web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
+  command -v terminal-notifier >/dev/null 2>&1 && terminal-notifier -message 'Finish docker-compose run'
 }
 app_build()
 {

@@ -1,31 +1,50 @@
 snippet def
-        #### Definition {.definition .unnumbered #${1}}
+        #### Def
+        <div class="Thm Definition">
         ${0}
-
-snippet theorem
-        #### Theorem {.theorem .unnumbered #${1}}
-        ${0}
-
-snippet lem
-        #### Lemma {.lemma .unnumbered #${1}}
-        ${0}
+        </div>
 
 snippet prop
-        #### Proposition {.proposition .unnumbered #${1}}
+        #### Prop
+        <div class="Thm Proposition">
         ${0}
+        </div>
+
+snippet thm
+        #### Thm
+        <div class="Thm Theorem">
+        ${0}
+        </div>
+
+snippet lem
+        #### Lem
+        <div class="Thm Lemma">
+        ${0}
+        </div>
 
 snippet cor
-        #### Corollary {.corollary .unnumbered #${1}}
+        #### Cor
+        <div class="Thm Corollary">
         ${0}
+        </div>
 
-snippet rem
-        #### Remark {.remark .unnumbered #${1}}
+snippet pr
+        #### Proof
+        <div class="Proof">
         ${0}
+        <span class="ProofQED"></span>
+        </div>
 
-snippet ex
-        #### Example {.example .unnumbered #${1}}
+snippet cd
+        $$
+        \begin{CD}
         ${0}
+        \end{CD}
+        $$
 
-snippet prf
-        #### Proof {.proof .unnumbered}
+snippet align
+        $$
+        \begin{align*}
         ${0}
+        \end{align*}
+        $$
