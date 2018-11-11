@@ -276,21 +276,6 @@ let g:racer_cmd = $HOME . '/.cargo/bin/racer'
 on_ft = ['rust']
 
 [[plugins]]
-repo = 'scrooloose/syntastic.git'
-hook_add = '''
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['rust', 'ocaml'] }
-let g:syntastic_rust_checkers = ['cargo build']
-let g:syntastic_cpp_checkers = ['g++ -std=c++11']
-let g:syntastic_ocaml_checkers = ['merlin']
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-'''
-on_ft = ['rust', 'ruby', 'cpp', 'ocaml']
-
-[[plugins]]
 repo = 'let-def/ocp-indent-vim'
 on_ft = ['ocaml']
 
@@ -315,3 +300,7 @@ on_ft = ['tex', 'plaintex']
 [[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = ['typescript']
+
+[[plugins]]
+repo = 'Shougo/deoplete-clangx'
+on_ft = ['c', 'cpp']

@@ -58,7 +58,8 @@ EMOJI_SUCCEED=$'\U1F60A'
 EMOJI_FAILURE=$'\U1F62D'
 function zle-line-init zle-keymap-select {
   printf "\a"
-  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now "%n" and @ "%~"    %f'
+  # PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now "%n" and @ "%~"    %f'
+  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now \\\`%n\' and @ \\\`%~\'    %f'
   SPROMPT=$'%F{%{212}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), n(o), a(bort), e(dit)]: %f'
   RPROMPT=$'%F{%{154}%}[%D{%m/%d/%Y} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%f'
   case $KEYMAP in

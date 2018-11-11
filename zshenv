@@ -1,4 +1,5 @@
 export PATH=$HOME/.bin:$HOME/bin:/Library/TeX/texbin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/twitter/bin:/usr/local/sbt/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/bin:/opt/X11/bin
+export PATH="/usr/local/opt/openssl/bin:$PATH"
 case "$(uname -s)" in
   Linux*)  operating_system=Linux;;
   Darwin*) operating_system=Mac;;
@@ -9,6 +10,8 @@ esac
 export LANG=ja_JP.UTF-8
 export CPATH=/usr/local/include:$CPATH
 export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
 export CLICOLOR=true
 export KEYTIMEOUT=1
 export DROPBOX=/Volumes/Samsung/Dropbox
