@@ -98,7 +98,7 @@ alias bund='rundock bundle install'
 alias tailog="grep --line-buffered -v '\(\(Article\|Picture\|Area\|ActivityDate\) Load (\d*\.\d*ms)\|(\d*\.\d*ms).*SELECT.*\`article.*\`\)'"
 rundock ()
 {
-  docker-compose run --rm web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '/.*/.*.rb:.*:\\swarning:\\s'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
+  docker-compose run --rm web bash -c "{ $* 3>&2 2>&1 1>&3 | grep --line-buffered -v '\\(/.*/.*.rb:.*:\\swarning:\\s\\|DEPRECATION\\sWARNING:\\s\\)'; exit \${PIPESTATUS[0]}; } 3>&2 2>&1 1>&3"
   command -v terminal-notifier >/dev/null 2>&1 && terminal-notifier -message 'Finish docker-compose run'
 }
 app_build()
@@ -112,31 +112,3 @@ dockb()
   rundock bundle exec $*
 }
 setopt no_global_rcs
-#green="\e[48;5;64m"
-#gray="\e[48;5;247m"
-#blue="\e[48;5;20m"
-#orange="\e[48;5;172m"
-#lblue="\e[48;5;38m"
-#black="\e[48;5;16m"
-#purple="\e[48;5;91m"
-#brown="\e[48;5;130m"
-#white="\e[48;5;7m"
-#echo "${green}        ${gray}  ${green}              ${gray}  ${green}        ${gray}  \e[0m"
-#echo "${green}      ${blue}    ${green}  ${orange}            ${green}  ${blue}    ${green}      \e[0m"
-#echo "${green}      ${blue}          ${orange}    ${blue}          ${green}      \e[0m"
-#echo "${gray}  ${green}    ${orange}  ${blue}                    ${orange}  ${green}      \e[0m"
-#echo "${green}    ${orange}    ${blue}    ${lblue}  ${blue}        ${lblue}  ${blue}    ${brown}      ${green}  \e[0m"
-#echo "${green}    ${orange}    ${white}  ${blue}  ${lblue}    ${blue}    ${lblue}    ${blue}  ${brown}    ${white}  ${brown}  ${green}  \e[0m"
-#echo "${green}    ${orange}  ${white}    ${blue}  ${lblue}  ${black}  ${lblue}    ${black}  ${lblue}  ${blue}  ${white}  ${brown}      ${green}  \e[0m"
-#echo "${green}      ${purple}  ${white}    ${lblue}            ${white}  ${brown}        ${green}  \e[0m"
-#echo "${green}    ${purple}      ${white}  ${lblue}  ${black}        ${lblue}  ${white}  ${purple}    ${brown}  ${green}  ${gray}  \e[0m"
-#echo "${green}    ${purple}  ${lblue}  ${purple}  ${white}    ${lblue}        ${white}    ${purple}  ${black}  ${brown}    ${green}  \e[0m"
-#echo "${green}    ${purple}  ${lblue}      ${purple}  ${white}  ${purple}    ${white}  ${purple}    ${black}  ${purple}  ${brown}    ${green}  \e[0m"
-#echo "${gray}  ${green}  ${lblue}      ${black}  ${purple}    ${white}    ${purple}    ${black}  ${purple}    ${brown}  ${lblue}  ${green}  \e[0m"
-#echo "${green}  ${purple}    ${lblue}    ${black}  ${orange}  ${purple}  ${white}    ${purple}  ${orange}  ${purple}    ${lblue}      ${green}  \e[0m"
-#echo "${green}  ${purple}  ${lblue}    ${black}  ${purple}    ${orange}        ${black}  ${purple}    ${black}  ${lblue}    ${green}  \e[0m"
-#echo "${green}  ${purple}    ${lblue}  ${purple}  ${black}  ${purple}        ${black}  ${purple}    ${black}  ${purple}  ${brown}  ${purple}  ${green}  \e[0m"
-#echo "${green}    ${black}  ${purple}      ${black}  ${purple}          ${black}  ${purple}    ${brown}  ${green}    \e[0m"
-#echo "${green}  ${purple}        ${black}  ${purple}          ${black}  ${purple}      ${brown}  ${purple}  ${gray}  \e[0m"
-#echo "${green}        ${gray}  ${green}              ${gray}  ${green}          \e[0m"
-#cat $HOME/.ryujinou

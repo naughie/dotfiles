@@ -70,3 +70,10 @@ nnoremap tl :tags<CR>
 nnoremap <silent><Space>r :QuickRun<CR>
 
 nnoremap <C-t> :Template<Space>
+
+nmap <Up> <C-p>
+nmap <Down> <C-n>
+nmap <Right> <C-f>
+nmap <Left> <C-b>
+nmap <Home> <C-a>
+nmap <End> <C-e>
