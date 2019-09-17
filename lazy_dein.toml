@@ -95,10 +95,15 @@ let g:quickrun_config.cpp = {
   \ 'exec' : ['%c', '%a'],
   \}
 let g:quickrun_config.markdown = {
+  \ 'command' : 'make',
+  \ 'cmdopt' : 's=',
+  \ 'outputter' : 'null',
+  \ 'exec' : ['%c %o%s:.'],
+  \}
+let g:quickrun_config['markdown.readme'] = {
   \ 'command' : 'pandoc',
-  \ 'cmdopt' : '-t html5 -f markdown --template=mytemplate --toc --mathjax',
+  \ 'cmdopt' : '-f markdown -t html5 --template=naughie',
   \ 'outputter' : 'browser',
-  \ 'exec' : ['%c %o %s'],
   \}
 let g:quickrun_config.dict = {
   \ 'command' : 'words',
@@ -304,3 +309,18 @@ on_ft = ['typescript']
 [[plugins]]
 repo = 'Shougo/deoplete-clangx'
 on_ft = ['c', 'cpp']
+
+[[plugins]]
+repo = 'maksimr/vim-jsbeautify'
+hook_add = '''
+augroup JsBeautifyAutoload
+  autocmd!
+  autocmd FileType javascript nnoremap <buffer> ,f :call JsBeautify()<CR>
+  autocmd FileType json nnoremap <buffer> ,f :call JsonBeautify()<CR>
+augroup END
+'''
+on_ft = ['javascript', 'json']
+
+[[plugins]]
+repo = 'kovisoft/slimv'
+on_ft = ['lisp']

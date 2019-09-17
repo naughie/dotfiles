@@ -35,6 +35,8 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#auto_complete_delay = 0
 let g:deoplete#auto_complete_start_length = 1
 
+set fencs=utf-8,euc-jp,default
+
 set mouse-=a
 set sh=zsh
 
@@ -61,8 +63,10 @@ set showmatch
 set matchtime=1
 
 set nohlsearch
+
 set ignorecase
 set smartcase
+set wildignorecase
 
 set scrolloff=3
 
@@ -134,6 +138,18 @@ augroup CppCtagsUpdate
   "autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {/Users/nakatam/}\@!*.{cpp\|h} QuickRun -type ctags
 augroup END
 
+augroup RemoveSpacesAfterZenkakuPunc
+  autocmd!
+  autocmd BufWritePre,FileWritePre *.tex %s/，\s+/，/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/．\s+/．/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/\s\+（/（/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/（\s\+/（/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/\s\+）/）/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/）\s\+/）/ge
+  autocmd BufWritePre,FileWritePre *.tex %s/\s*\\defterm/\\defterm/ge
+  autocmd InsertLeave *.tex %s/　/ /ge
+augroup END
+
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
 execute 'set rtp+=' . g:opamshare . '/merlin/vim'
 execute 'set rtp^=' . g:opamshare . '/ocp-indent/vim'
@@ -158,3 +174,13 @@ set rtp+=~/.local/share/nvimpager/runtime
 
 let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
 exec "source " . s:config_home . "/nvim/keymaps/main.vim"
+
+augroup ReadmeFiletype
+  autocmd!
+  autocmd BufRead,BufNewFile README.md set filetype=markdown.readme
+augroup END
+
+augroup SLMIncFT
+  autocmd!
+  autocmd BufRead,BufNewFile *.h.acdi,*.h.acme,*.h.dadi,*.h.dame set filetype=cpp
+augroup END

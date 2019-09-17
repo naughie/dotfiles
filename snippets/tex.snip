@@ -47,12 +47,20 @@ snippet $$
         ${0}
         \]
 
-snippet alignstar
+snippet al
 alias align*
 options head
         \begin{align*}
         ${0}
         \end{align*}
+
+snippet fn
+        \begin{alignat*}{3}
+        ${1}: &${2} &&\longrightarrow &&${3} \\\\
+        &\centermathcell{\mathrel{\rotatebox[origin=c]{90}{\in}}}  && &&\centermathcell{\mathrel{\rotatebox[origin=c]{90}{\in}}}  \\\\
+        &\centermathcell{ ${4} } &&\longmapsto &&\centermathcell{ ${5} }
+        \end{alignat*}
+        ${0}
 
 snippet align
 options head
@@ -101,34 +109,39 @@ snippet ''
         ``${1}''${2}
 
 snippet thm
-        \begin{thm}
+        \begin{thm}<thm:${1}>
         ${0}
         \end{thm}
 
 snippet lem
-        \begin{lem}
+        \begin{lem}<lem:${1}>
         ${0}
         \end{lem}
 
 snippet cor
-        \begin{cor}
+        \begin{cor}<cor:${1}>
         ${0}
         \end{cor}
 
 snippet prop
-        \begin{prop}
+        \begin{prop}<prop:${1}>
         ${0}
         \end{prop}
 
-snippet rem
-        \begin{rem}
-        ${0}
-        \end{rem}
-
 snippet def
-        \begin{define}
+        \begin{define}<def:${1}>
         ${0}
         \end{define}
+
+snippet exc
+        \begin{exercise}<exc:${1}>
+        ${0}
+        \end{exercise}
+
+snippet prob
+        \begin{problem}<prob:${1}>
+        ${0}
+        \end{problem}
 
 snippet pr
         \begin{proof}
@@ -139,3 +152,46 @@ snippet ex
         \begin{exs}
         ${0}
         \end{exs}
+
+snippet rem
+        \begin{rem}
+        ${0}
+        \end{rem}
+
+snippet ans
+        \begin{ans}
+        ${0}
+        \end{ans}
+
+snippet dt
+        \defterm{${1}}{${2}}${0}
+
+snippet inv
+        ^{-1}${0}
+
+snippet p
+        (${1})${0}
+
+snippet c
+        {${1}}${0}
+
+snippet b
+        [${1}]${0}
+
+snippet label
+        \label{${1}:${2}} ${0}
+
+snippet cref
+        \cref{${1}:${2}} ${0}
+
+snippet tref
+        \tref{${1}:${2}} ${0}
+
+snippet ij
+        _{${1:ij}}${0}
+
+snippet tmat
+        {}^t \! 
+
+snippet bf
+        \textbf{${1}}${0}

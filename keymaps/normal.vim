@@ -77,3 +77,5 @@ nmap <Right> <C-f>
 nmap <Left> <C-b>
 nmap <Home> <C-a>
 nmap <End> <C-e>
+
+nnoremap <silent><Space><CR> A<CR><ESC>

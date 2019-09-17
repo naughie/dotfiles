@@ -1,0 +1,44 @@
+export PATH="/usr/local/opt/openssl/bin:$PATH"
+export LANG=ja_JP.UTF-8
+export CPATH=/usr/local/include:$CPATH
+export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export CLICOLOR=true
+export KEYTIMEOUT=1
+export DROPBOX=/Volumes/Samsung/Dropbox
+# zplug env
+export ZPLUG_HOME=$HOME/.zplug
+export ZPLUG_ROOT=$HOME/.zplug
+# zsh history
+export HISTFILE=~/.zhistory
+export SAVEHIST=200
+# set EDITOR to either nvim or vim
+command -v nvim >/dev/null &&
+  export EDITOR=nvim ||
+  export EDITOR=vim
+# set terminal color
+export TERM=xterm-256color-italic
+# set config env
+export XDG_CONFIG_HOME=$HOME/.config
+export AWS_CONFIG_FILE=~/.aws
+export TEXMFLOCAL=/usr/local/texlive/texmf-local
+# init java
+which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
+# init pyenv
+export PYENV_ROOT=$HOME/.pyenv
+export PATH=$PYENV_ROOT/bin:$PATH
+command -v pyenv >/dev/null && eval "$(pyenv init -)"
+command -v pyenv >/dev/null && eval "$(pyenv virtualenv-init -)"
+#test -r $PYENV_ROOT/versions/neovim2/bin/activate && source $PYENV_ROOT/versions/neovim2/bin/activate
+#test -r $PYENV_ROOT/versions/neovim3/bin/activate && source $PYENV_ROOT/versions/neovim3/bin/activate
+# init rbenv
+export RBENV_ROOT=$HOME/.rbenv
+export PATH=$RBENV_ROOT/bin:$PATH
+command -v rbenv >/dev/null && eval "$(rbenv init -)"
+# enable nodebrew
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+# enable rust
+export PATH=$HOME/.cargo/bin:$PATH
+# enable ocaml/opam
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
