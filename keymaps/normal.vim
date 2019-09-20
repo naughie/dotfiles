@@ -79,3 +79,5 @@ nmap <Home> <C-a>
 nmap <End> <C-e>
 
 nnoremap <silent><Space><CR> A<CR><ESC>
+
+command TODO vim TODO **
