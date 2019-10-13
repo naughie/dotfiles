@@ -2,9 +2,6 @@
 repo = 'Shougo/deoplete.nvim'
 hook_source = '''
 let g:deoplete#enable_at_startup = 1
-inoremap <expr><tab> pumvisible() ? "\<C-n>" :
-      \ neosnippet#expandable_or_jumpable() ?
-      \    "\<Plug>(neosnippet_expand_or_jump)" : "\<tab>"
 '''
 on_i = 1
 
@@ -14,6 +11,9 @@ hook_source = '''
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
 smap <C-k> <Plug>(neosnippet_expand_or_jump)
 xmap <C-k> <Plug>(neosnippet_expand_target)
+" imap <expr><TAB> pumvisible() ? "\<C-n>" :
+"       \ neosnippet#expandable_or_jumpable() ?
+"       \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
@@ -22,18 +22,6 @@ hook_add = '''
 let g:neosnippet#snippets_directory = $XDG_CONFIG_HOME . '/nvim/snippets'
 '''
 on_i  = 1
-
-[[plugins]]
-repo = 'Shougo/unite-outline'
-hook_add = '''
-let g:unite_split_rule = 'botright'
-nnoremap <silent><Space>o :Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal<CR>
-augroup OutlineOnEntering
-  autocmd!
-  autocmd vimenter *.tex Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal
-augroup END
-'''
-on_ft = ['tex']
 
 [[plugins]]
 repo = 'tpope/vim-fugitive'
@@ -124,23 +112,6 @@ let g:quickrun_config.tex = {
   \            'find . -name "*.log.tmp" -exec bash -c "mv {} \\\$(basename {} .tmp)" \;'
   \          ],
   \}
-let g:quickrun_config.tex_one = {
-  \ 'command' : g:quickrun_config.tex.command,
-  \ 'cmdopt' : g:quickrun_config.tex.cmdopt . ' -outdir=.tmp',
-  \ 'outputter' : g:quickrun_config.tex.outputter,
-  \ 'args' : '.tmp.tex',
-  \ 'exec' : [
-  \            'cp %s %a',
-  \            '%c %o %a',
-  \          ],
-  \}
-let g:quickrun_config.tex_remove = {
-  \ 'command' : 'rm',
-  \ 'cmdopt' : '-rf',
-  \ 'args' : '.tmp .tmp.tex',
-  \ 'outputter' : 'null',
-  \ 'exec' : ['%c %o %a'],
-  \}
 let g:quickrun_config.haskell = {
   \ 'command' : 'stack',
   \ 'cmdopt' : 'runhaskell',
@@ -174,12 +145,6 @@ let g:quickrun_config.ctags = {
 '''
 
 [[plugins]]
-repo = 'mattn/webapi-vim'
-
-[[plugins]]
-repo = 'mattn/vim-oauth'
-
-[[plugins]]
 repo = 'powerman/vim-plugin-AnsiEsc'
 
 [[plugins]]
@@ -188,7 +153,7 @@ hook_add = '''
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 augroup NerdTreeOnEntering
   autocmd!
-  autocmd vimenter *.tex,~/Work/activo/*,~/.activo/* NERDTree | wincmd p
+  autocmd vimenter *.tex NERDTree | wincmd p
   autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 augroup END
 '''
@@ -206,46 +171,6 @@ depends = ['unite.vim']
 [[plugins]]
 repo = 'majutsushi/tagbar'
 hook_add = '''
-let g:tagbar_type_tex = {
-  \ 'ctagstype' : 'latex',
-  \ 'kinds': [
-  \   'c:chapter:0:0',
-  \   'p:part:0:0',
-  \   's:section:0:0',
-  \   't:subsection:0:0',
-  \   'u:subsubsection:0:0',
-  \ ],
-  \ 'sort': 0,
-  \}
-let g:tagbar_type_markdown = {
-  \ 'ctagstype' : 'markdown',
-  \ 'kinds' : [
-    \ 'x:top:0:0',
-    \ 'y:second:0:0',
-    \ 'z:third:0:0',
-    \ 'd:definition:0:0',
-    \ 'p:proposition:0:0',
-    \ 't:theorem:0:0',
-    \ 'l:lemma:0:0',
-    \ 'r:remark:0:0',
-    \ 'c:corollary:0:0',
-    \ 'e:example:0:0',
-    \],
-  \ 'sort' : 0,
-  \ 'sro' : ':',
-  \ 'kind2scope' : {
-    \ 'x' : 'top',
-    \ 'y' : 'second',
-    \ 'z' : 'third',
-    \},
-  \ 'scope2kind' : {
-    \ 'top' : 'x',
-    \ 'second' : 'y',
-    \ 'third' : 'z',
-    \},
-  \ 'ctagsbin' : '/Users/nakatam/markdowns/a.out',
-  \ 'ctagsargs' : '',
-  \}
 nnoremap <silent>tb :TagbarToggle<CR>
 '''
 
@@ -263,6 +188,47 @@ on_i = 1
 
 [[plugins]]
 repo = 'lervag/vimtex'
+hook_add = '''
+let g:vimtex_compiler_latexmk = {}
+let g:vimtex_compiler_latexmk['build_dir'] = '.target'
+let g:vimtex_compiler_latexmk['options'] = ['-lualatex']
+let g:vimtex_fold_enabled = 1
+let g:vimtex_fold_manual = 1
+let g:vimtex_fold_levelmarker = '#'
+set fillchars=fold:\ 
+let g:vimtex_fold_types_defaults = {
+  \ 'preamble' : {},
+  \ 'comments' : {'enabled' : 0},
+  \ 'envs' : {'enabled' : 0},
+  \ 'env_options' : {'enabled' : 0},
+  \ 'markers' : {'enabled' : 0},
+  \ 'sections' : {
+  \   'parse_levels' : 0,
+  \   'sections' : [
+  \     'part',
+  \     'chapter',
+  \     'section',
+  \     'subsection',
+  \     'subsubsection',
+  \   ],
+  \   'parts' : [
+  \     'appendix',
+  \     'frontmatter',
+  \     'mainmatter',
+  \     'backmatter',
+  \   ],
+  \ },
+  \ 'cmd_single' : {'enabled' : 0},
+  \ 'cmd_single_opt' : {'enabled' : 0},
+  \ 'cmd_multi' : {'enabled' : 0},
+  \ 'cmd_addplot' : {'enabled' : 0},
+  \ }
+let g:tex_flavor = 'latex'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_quickfix_mode=1
+let g:vimtex_compiler_progname = 'nvr'
+let g:tex_conceal = 'abdmg'
+'''
 on_ft = ['tex', 'plaintex']
 
 [[plugins]]
@@ -293,16 +259,6 @@ repo = 'kchmck/vim-coffee-script'
 on_ft = ['coffee']
 
 [[plugins]]
-repo = 'Naughie/vim-latex-live-preview'
-hook_add = '''
-let g:livepreview_previewer = 'open -a Skim'
-let g:livepreview_engine = 'xelatex -no-pdf'
-let g:livepreview_bibtex = 'upbibtex'
-let g:livepreview_dvipdf = 'xdvipdfmx'
-'''
-on_ft = ['tex', 'plaintex']
-
-[[plugins]]
 repo = 'leafgarland/typescript-vim'
 on_ft = ['typescript']
 
@@ -324,3 +280,12 @@ on_ft = ['javascript', 'json']
 [[plugins]]
 repo = 'kovisoft/slimv'
 on_ft = ['lisp']
+
+[[plugins]]
+repo = 'SirVer/ultisnips'
+hook_add = '''
+let g:UltiSnipsExpandTrigger = "<TAB>"
+let g:UltiSnipsJumpForwardTrigger = "<TAB>"
+let g:UltiSnipsJumpBackwardTrigger = "<S-TAB>"
+'''
+on_ft = ['tex']

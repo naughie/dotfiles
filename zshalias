@@ -25,9 +25,10 @@ alias gpps='g++ -std=c++17 -lssl -lcrypto -lcurl'
 alias eject='diskutil eject'
 alias gitcd='cd-gitroot'
 alias grep='grep -i'
-alias ocaml='rlwrap ocaml'
+# alias ocaml='rlwrap ocaml'
 alias less='less -r'
-alias slack='cd $HOME/develop/slack'
+# alias slack='cd $HOME/develop/slack'
+alias pbcopy='xclip -selection c'
 if [ "${operating_system}" = "Mac" ]; then
   alias off="osascript -e 'tell app \"Finder\" to sleep'"
   alias chrome='open -a "Google Chrome"'

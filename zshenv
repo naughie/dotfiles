@@ -1,4 +1,4 @@
-export PATH=$HOME/.bin:$HOME/bin:/Library/TeX/texbin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/twitter/bin:/usr/local/sbt/bin:/usr/local/ssl/bin:$HOME/.local/bin:$HOME/.local/bin:/usr/local/bin:$PATH:/bin:/opt/X11/bin
+export PATH=$HOME/.bin:$HOME/bin::$HOME/.local/bin:/usr/local/bin:$PATH:/bin:/opt/X11/bin
 case "$(uname -s)" in
   Linux*)  operating_system=Linux;;
   Darwin*) operating_system=Mac;;
