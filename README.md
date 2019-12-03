@@ -1,3 +1,9 @@
-# About this repository
-ここは，各種設定ファイルを管理するリポジトリです．
-`sh init.sh`で，それぞれのファイルのシンボリックリンクが貼られます．zshがインストールされていれば，デフォルトのシェルをzshにし，`zsh --login`によって，設定を読み込みます．
+# Examples
+
+```
+/home/me $ git clone https://github.com/naughie/dotfiles.git
+/home/me $ cd dotfiles
+/home/me/dotfiles $ make
+```
+
+
