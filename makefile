@@ -22,7 +22,7 @@ ln:
 	ln -s $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} ln -s $(CONFIGDIR)/$(HOMEDIR)/{} $(HOME)/{}
 
-rm:
+clean:
 	rm $(XDG_CONFIG_HOME)/$(NVIMDIR)
 	rm $(XDG_CONFIG_HOME)/$(TERMINFODIR)
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} rm $(HOME)/{}
