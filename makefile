@@ -1,10 +1,12 @@
 CONFIGDIR = $(PWD)
-XGD_CONFIG_HOME = $(HOME)/.config
+XDG_CONFIG_HOME = $(HOME)/.config
 NVIMDIR = nvim
 TERMINFODIR = terminfo
 HOMEDIR = home
 VIMRC = vimrc
 INITVIM = init.vim
+DEIN = dein.toml
+LAZY_DEIN = lazy_dein.toml
 
 install:
 	make mkdir
@@ -12,9 +14,9 @@ install:
 	make tic
 
 ln:
-	ln -s $(CONFIGDIR)/$(NVIMDIR) $(XGD_CONFIG_HOME)/$(NVIMDIR)
-	ln -s $(CONFIGDIR)/$(VIMRC) $(XGD_CONFIG_HOME)/$(NVIMDIR)/$(INITVIM)
-	ln -s $(CONFIGDIR)/$(TERMINFODIR) $(XGD_CONFIG_HOME)/$(TERMINFODIR)
+	ln -s $(CONFIGDIR)/$(NVIMDIR) $(XDG_CONFIG_HOME)/$(NVIMDIR)
+	ln -s $(CONFIGDIR)/$(VIMRC) $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(INITVIM)
+	ln -s $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} ln -s $(CONFIGDIR)/$(HOMEDIR)/{} $(HOME)/{}
 
 rm:
@@ -23,7 +25,7 @@ rm:
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} rm $(HOME)/{}
 
 mkdir:
-	mkdir -p $(XGD_CONFIG_HOME)
+	mkdir -p $(XDG_CONFIG_HOME)
 
 tic:
-	ls -A $(XGD_CONFIG_HOME)/$(TERMINFODIR) | xargs -I{} tic $(XGD_CONFIG_HOME)/$(TERMINFODIR)/{}
+	ls -A $(XDG_CONFIG_HOME)/$(TERMINFODIR) | xargs -I{} tic $(XDG_CONFIG_HOME)/$(TERMINFODIR)/{}
