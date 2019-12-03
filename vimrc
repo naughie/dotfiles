@@ -68,7 +68,7 @@ set ignorecase
 set smartcase
 set wildignorecase
 
-set scrolloff=3
+set scrolloff=25
 
 set display=lastline
 set wrap
@@ -140,13 +140,13 @@ augroup END
 
 augroup RemoveSpacesAfterZenkakuPunc
   autocmd!
-  autocmd BufWritePre,FileWritePre *.tex %s/，\s+/，/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/．\s+/．/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/\s\+（/（/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/（\s\+/（/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/\s\+）/）/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/）\s\+/）/ge
-  autocmd BufWritePre,FileWritePre *.tex %s/\s*\\defterm/\\defterm/ge
+  autocmd InsertLeave *.tex %s/，\s+/，/ge
+  autocmd InsertLeave *.tex %s/．\s+/．/ge
+  autocmd InsertLeave *.tex %s/\s\+（/（/ge
+  autocmd InsertLeave *.tex %s/（\s\+/（/ge
+  autocmd InsertLeave *.tex %s/\s\+）/）/ge
+  autocmd InsertLeave *.tex %s/）\s\+/）/ge
+  autocmd InsertLeave *.tex %s/\s\+\\defterm/\\defterm/ge
   autocmd InsertLeave *.tex %s/　/ /ge
 augroup END
 
@@ -183,4 +183,16 @@ augroup END
 augroup SLMIncFT
   autocmd!
   autocmd BufRead,BufNewFile *.h.acdi,*.h.acme,*.h.dadi,*.h.dame set filetype=cpp
+augroup END
+
+augroup SlmEdrAutoCtags
+  autocmd!
+  autocmd BufWritePost,FileWritePost /**/SLM/EDR/*.java !ctags --languages=java -R .
+  autocmd BufWritePost,FileWritePost /**/C/src/*.h,/**/C/src/*.h.dadi,/**/C/src/*.h.acme,/**/C/src/*.h.dame,/**/C/src/*.h.acdi,/**/C/src/*.cc !ctags --langmap=c++:.cc.h.dadi.acme.dame.acdi --languages=c++ -R .
+  autocmd BufNewFile,BufRead /**/SLM/EDR/*log source log.vim
+augroup END
+
+augroup SetFtPerl
+  autocmd!
+  autocmd BufNewFile,BufRead *.perl,*.pm set filetype=perl
 augroup END

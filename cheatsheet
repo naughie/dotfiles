@@ -1,0 +1,98 @@
+# Cheat sheet
+
+## Motion
+
+### word-wise
+
+- w / W   : the head of the forward  word
+- b / B   : the head of the backward word
+- e / E   : the end  of the forward  word
+- ge / gE : the end  of the backward word
+
+
+### char-wise
+
+- f / F : to the [count]'th occurence of a char
+- t / T : to the [count]'th occurence of a char, with cursor on the previous char
+- : / , : repeat f, F, t, T
+
+
+### text object selection
+
+- aw / aW      : "a"n object -- words, including leading or trailing whitespaces
+- iw / iW      : "inner" object -- words, regarding whitespaces as words
+- a[ / a]      : a '[', ']' block, including '[' and ']'
+- i[ / i]      : a '[', ']' block, excludnig '[' and ']'
+- a{ / a} / aB : a '{', '}' block, including '{' and '}'
+- i{ / i} / iB : a '{', '}' block, excludnig '{' and '}'
+- a( / a) / ab : a '(', ')' block, including '(' and ')'
+- i( / i) / ib : a '(', ')' block, excludnig '(' and ')'
+- a< / a>      : a '<', '>' block, including '<' and '>'
+- i< / i>      : a '<', '>' block, excludnig '<' and '>'
+- a" / a' / a` : a quotation block, including quotes
+- i" / i' / i` : a quotation block, excludnig quotes
+
+
+## Marks
+
+- m{a-zA-Z}           : set a mark {a-zA-Z} at cursor position
+- '{a-z} / `{a-z}     : jump to the mark {a-z} in the current buffer
+- '{A-Z} / `{A-Z}     : jump to the mark {A-Z} in the file of the mark
+- g'{mark} / g`{mark} : jump to the {mark}, but do not change the jumplist
+- :marks              : list marks
+- :delm {marks}       : delete the {marks}
+
+### Special marks
+
+- '[ / `[ : the first char of previously changed or yanked text
+- '] / `] : the last  char of previously changed or yanked text
+- '< / `< : the first char of the last selected Visual area
+- '> / `> : the last  char of the last selected Visual area
+
+## Patterns
+
+- \< / \> : matches the null char at the beggining/end of a word
+- \zs / \ze : matches the null char and sets the start/end of the match.
+              e.g. /^\s*\zsif matches "if" at the start of the line ignoring spaces
+- \%^ / \%$ : matches the start/end of the file
+- \%V       : matches the null char inside the Visual area
+- \%'{mark} : matches with the position of the {mark}
+
+## Search
+
+- *  : searches forward  the whole word under the cursor: /\<keyword\>
+- #  : searches backward the whole word under the cursor: ?\<keyword\>
+- g* : searches forward  the word under the cursor: /keyword
+- g# : searches backward the word under the cursor: ?keyword
+- gn : n, and then select it
+- gN : N, and then select it
+
+## Substitution
+
+- g& : repeats the last :s on all lines
+
+## Folds
+
+- za : opens/closes a fold
+- zA : za recursively
+
+## Spell
+
+- z=      : gives spelling suggestion
+- zg / zG : mark as a Good  spelled word
+- zw / zW : mark as a Wrong spelled word
+
+## Others
+
+- g8         : prints hex value of bytes in UTF-8 of the char under the cursor
+- ga         : prints ascii value of the char under the cursor
+- g<         : prints the output of the previous command
+- I          : ^i
+- gI         : 0i
+- gJ         : like J, but a whitespace
+- gU{motion} : makes the {motion} text uppercase
+- gu{motion} : makes the {motion} text lowercase
+- gv         : selects the last Visual area
+- @:         : repeats the last : command
+
+
