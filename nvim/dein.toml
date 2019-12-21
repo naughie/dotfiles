@@ -4,8 +4,19 @@ repo = 'Shougo/dein.vim'
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
-nnoremap ,df :Denite file_rec<CR>
+nnoremap <Space>f :Denite file/rec -split=floating<CR>
 nnoremap ,dr :Denite -resume<CR>
+autocmd FileType denite call s:denite_my_settings()
+function! s:denite_my_settings() abort
+  nnoremap <silent><buffer><expr> <CR>
+  \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> p
+  \ denite#do_map('do_action', 'preview')
+  nnoremap <silent><buffer><expr> q
+  \ denite#do_map('quit')
+  nnoremap <silent><buffer><expr> i
+  \ denite#do_map('open_filter_buffer')
+endfunction
 '''
 
 [[plugins]]
@@ -68,12 +79,14 @@ let g:sonictemplate_vim_template_dir = $XDG_CONFIG_HOME . '/nvim/template'
 '''
 
 [[plugins]]
-repo = 'yuttie/comfortable-motion.vim'
-hook_add = '''
-let g:comfortable_motion_scroll_down_key = "j"
-let g:comfortable_motion_scroll_up_key = "k"
-'''
-
-[[plugins]]
 repo = 'Shougo/vimproc.vim'
 build = 'make -f make_mac.mak'
+
+[[plugins]]
+repo = 'reireias/vim-cheatsheet'
+hook_add = '''
+let g:cheatsheet#float_window = 1
+let g:cheatsheet#float_window_width_ratio = 0.6
+let g:cheatsheet#float_window_height_ratio = 0.6
+let g:cheatsheet#cheat_file = $XDG_CONFIG_HOME . '/nvim/cheatsheet'
+'''

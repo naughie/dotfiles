@@ -5,7 +5,6 @@ nnoremap <C-h> <C-w>h
 "nnoremap ,tt :terminal<CR><C-\><C-n>:set nospell<CR>i
 nnoremap ,ts :split<CR>:terminal<CR><C-\><C-n>:set nospell<CR>i
 "let mapleader
-nmap <Space>f :Denite file_rec<CR>
 
 nnoremap <silent>j gj
 nnoremap <silent>k gk
@@ -76,3 +75,5 @@ nmap <Home> <C-a>
 nmap <End> <C-e>
 
 nnoremap <silent><Space><CR> A<CR><ESC>
+
+command TODO vim TODO **

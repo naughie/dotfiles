@@ -1,1 +1,0 @@
-/Users/nakatam/.config/twitter/vim/syntax/twitter_user_timeline.vim
