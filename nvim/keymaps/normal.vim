@@ -76,4 +76,4 @@ nmap <End> <C-e>
 
 nnoremap <silent><Space><CR> A<CR><ESC>
 
-command TODO vim TODO **
+vnoremap <silent>,u :s/\%V\(.*\%V.\)/\\underbrace{\1}_{}/<CR>
