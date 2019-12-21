@@ -43,16 +43,16 @@ rm:
 	test -d $(TARGETFILE) && make TARGETFILE=$(TARGETFILE) -s rmdir
 
 rmfile:
-	printf "$(TARGETFILE) is a regular file. Running rm $(TARGETFILE) ..."
+	printf "** $(TARGETFILE) is a regular file. Running rm $(TARGETFILE) ..."
 	rm $(TARGETFILE)
 	printf " Done.\n"
 
 rmdir:
-	printf "$(TARGETFILE) is a directory. Running rm -r $(TARGETFILE) ..."
+	printf "** $(TARGETFILE) is a directory. Running rm -r $(TARGETFILE) ..."
 	rm -r $(TARGETFILE)
 	printf " Done.\n"
 
 rmlink:
-	printf "$(TARGETFILE) is a symbolic link. Running rm $(TARGETFILE) ..."
+	printf "** $(TARGETFILE) is a symbolic link. Running rm $(TARGETFILE) ..."
 	rm $(TARGETFILE)
 	printf " Done.\n"
