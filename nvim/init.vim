@@ -1,1 +1,0 @@
-/Users/naughie/config/vimrc
