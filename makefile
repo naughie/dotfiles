@@ -38,9 +38,9 @@ tic:
 	ls -A $(XDG_CONFIG_HOME)/$(TERMINFODIR) | xargs -I{} tic $(XDG_CONFIG_HOME)/$(TERMINFODIR)/{}
 
 rm:
+	test -L $(TARGETFILE) && make TARGETFILE=$(TARGETFILE) -s rmlink
 	test -f $(TARGETFILE) && make TARGETFILE=$(TARGETFILE) -s rmfile
 	test -d $(TARGETFILE) && make TARGETFILE=$(TARGETFILE) -s rmdir
-	test -L $(TARGETFILE) && make TARGETFILE=$(TARGETFILE) -s rmlink
 
 rmfile:
 	printf "$(TARGETFILE) is a regular file. Running rm $(TARGETFILE) ..."
