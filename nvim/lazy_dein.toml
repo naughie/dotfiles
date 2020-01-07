@@ -24,18 +24,6 @@ let g:neosnippet#snippets_directory = $XDG_CONFIG_HOME . '/nvim/snippets'
 on_i  = 1
 
 [[plugins]]
-repo = 'Shougo/unite-outline'
-hook_add = '''
-let g:unite_split_rule = 'botright'
-nnoremap <silent><Space>o :Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal<CR>
-augroup OutlineOnEntering
-  autocmd!
-  autocmd vimenter *.tex Denite unite:outline -split=vertical -winwidth=40 -post-action=suspend -no-ignorecase -mode=normal
-augroup END
-'''
-on_ft = ['tex']
-
-[[plugins]]
 repo = 'tpope/vim-fugitive'
 
 [[plugins]]
