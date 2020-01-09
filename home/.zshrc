@@ -29,6 +29,7 @@ function history-all { history -E 1 }
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "mollifier/cd-gitroot"
+alias gitcd='cd-gitroot'
 zplug "zsh-users/zsh-completions"
 zplug "hchbaw/opp.zsh"
 
