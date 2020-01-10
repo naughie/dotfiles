@@ -148,6 +148,7 @@ augroup RemoveSpacesAfterZenkakuPunc
   autocmd InsertLeave *.tex '[,']s/）\s\+/）/ge
   autocmd InsertLeave *.tex '[,']s/\s\+\\defterm/\\defterm/ge
   autocmd InsertLeave *.tex '[,']s/　/ /ge
+  autocmd BufRead,BufNewFile,InsertLeave,InsertEnter *.tex set cole=0
 augroup END
 
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
