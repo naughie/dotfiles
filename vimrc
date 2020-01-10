@@ -187,8 +187,8 @@ augroup END
 
 augroup SlmEdrAutoCtags
   autocmd!
-  autocmd BufWritePost,FileWritePost /**/SLM/EDR/*.java !ctags --languages=java -R .
-  autocmd BufWritePost,FileWritePost /**/C/src/*.h,/**/C/src/*.h.dadi,/**/C/src/*.h.acme,/**/C/src/*.h.dame,/**/C/src/*.h.acdi,/**/C/src/*.cc !ctags --langmap=c++:.cc.h.dadi.acme.dame.acdi --languages=c++ -R .
+  autocmd BufWritePost,FileWritePost /**/SLM/EDR/*.java silent !ctags --languages=java -R .
+  autocmd BufWritePost,FileWritePost /**/C/src/*.h,/**/C/src/*.h.dadi,/**/C/src/*.h.acme,/**/C/src/*.h.dame,/**/C/src/*.h.acdi,/**/C/src/*.cc silent !ctags --langmap=c++:.cc.h.dadi.acme.dame.acdi --languages=c++ -R .
   autocmd BufNewFile,BufRead /**/SLM/EDR/*log source log.vim
 augroup END
 

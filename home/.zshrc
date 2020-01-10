@@ -29,6 +29,7 @@ function history-all { history -E 1 }
 
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "mollifier/cd-gitroot"
+alias gitcd='cd-gitroot'
 zplug "zsh-users/zsh-completions"
 zplug "hchbaw/opp.zsh"
 
@@ -78,3 +79,4 @@ function zle-line-init zle-keymap-select {
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
+test -f $HOME/.zlogin && source $HOME/.zlogin
