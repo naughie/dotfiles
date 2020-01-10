@@ -9,6 +9,6 @@ $dvipdf = 'dvipdfmx -f classico.map %O -o %D %S';
 $makeindex = 'upmendex -c %O -o %D %S';
 $max_repeat = 5;
 $pdf_mode = 4;
-$clean_ext = 'out dvi xdv snm nav';
+$clean_ext = 'out dvi xdv snm nav synctex.gz';
 $preview_mode = 0;
 $pdf_previewer = 'start zathura';
