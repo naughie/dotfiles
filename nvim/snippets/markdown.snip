@@ -2,7 +2,7 @@ snippet def
         <div class="Thm Definition card" id="definition${1}">
         <div class="card-header">
         <div class="Title DefinitionTitle">
-        Definition ${2}
+        <span class="DefinitionName">Definition</span>${2}
         </div>
         </div>
         <div class="Contents DefinitionContents card-body">
@@ -14,7 +14,7 @@ snippet prop
         <div class="Thm Proposition card" id="proposition${1}">
         <div class="card-header">
         <div class="Title PropositionTitle">
-        Proposition ${2}
+        <span class="PropositionName">Proposition</span>${2}
         </div>
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
           <li class="nav-item">
@@ -40,7 +40,7 @@ snippet thm
         <div class="Thm Theorem card" id="theorem${1}">
         <div class="card-header">
         <div class="Title TheoremTitle">
-        Theorem ${2}
+        <span class="TheoremName">Theorem</span>${2}
         </div>
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
           <li class="nav-item">
@@ -66,7 +66,7 @@ snippet lem
         <div class="Thm Lemma card" id="lemma${1}">
         <div class="card-header">
         <div class="Title LemmaTitle">
-        Lemma ${2}
+        <span class="LemmaName">Lemma</span>${2}
         </div>
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
           <li class="nav-item">
@@ -92,7 +92,7 @@ snippet cor
         <div class="Thm Corollary card" id="corollary${1}">
         <div class="card-header">
         <div class="Title CorollaryTitle">
-        Corollary ${2}
+        <span class="CorollaryName">Corollary</span>${2}
         </div>
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
           <li class="nav-item">
@@ -160,5 +160,18 @@ snippet map
         \end{alignat*}
         $$
 
-snippet ch
-        - \`${1}\` : ${0}
+snippet enum
+        <ol>
+          <li>${0}</li>
+        </ol>
+
+snippet item
+        <ul>
+          <li>${0}</li>
+        </ul>
+
+snippet li
+        <li>${0}</li>
+
+snippet dt
+        <strong>${1}</strong>（<em>${2}</em>）${0}

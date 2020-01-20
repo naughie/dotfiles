@@ -1,3 +1,31 @@
+syn match NaughieTeXDefeq       "\\defeq"                containedin=texStatement  contains=NaughieTeXDefeqBSlash,NaughieTeXDefeqCom
+syn match NaughieTeXDefeqBSlash "\\"                     contained conceal cchar=:
+syn match NaughieTeXDefeqCom    "defeq"                  contained conceal cchar==
+syn match NaughieTeXColon       "\\colon"                containedin=texStatement  conceal cchar=:
+syn match NaughieTeXBbbk        "\\Bbbk"                 containedin=texStatement  conceal cchar=𝕜
+syn match NaughieTeXPholder     "\\pholder"              containedin=texStatement  conceal cchar=•
+syn match NaughieTeXWedge       "\\wedge"                containedin=texStatement  conceal cchar=∧
+syn match NaughieTeXSurj        "\\surj"                 containedin=texStatement  conceal cchar=↠
+syn match NaughieTeXSurj        "\\twoheadrightarrow"    containedin=texStatement  conceal cchar=↠
+syn match NaughieTexInc         "\\inc"                  containedin=texStatement  conceal cchar=↪
+syn match NaughieTeXIso         "\\iso"                  containedin=texStatement  conceal cchar=≅
+syn match NaughieTeXImage       "\\Im"                   containedin=texMathSymbol contains=NaughieTeXImageBSlash,NaughieTeXImageI,NaughieTeXImageM
+syn match NaughieTeXImageBSlash "\\"                     contained conceal cchar=\
+syn match NaughieTeXImageI      "I"                      contained conceal cchar=I
+syn match NaughieTeXImageM      "m"                      contained conceal cchar=m
+hi link NaughieTeXDefeqBSlash texStatement
+hi link NaughieTeXDefeqCom    texStatement
+hi link NaughieTeXColon       texStatement
+hi link NaughieTeXBbbk        texStatement
+hi link NaughieTeXPholder     texStatement
+hi link NaughieTeXWedge       texStatement
+hi link NaughieTeXSurj        texStatement
+hi link NaughieTeXInc         texStatement
+hi link NaughieTeXIso         texStatement
+hi link NaughieTeXImageBSlash texMathSymbol
+hi link NaughieTeXImageI      texMathSymbol
+hi link NaughieTeXImageM      texMathSymbol
+" syn match Error '\\defeq' contained conceal cchar=:
 "" Original file is https://github.com/wjakob/wjakob.vim/blob/master/after/syntax/tex.vim
 "
 "if has('conceal')

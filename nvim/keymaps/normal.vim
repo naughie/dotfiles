@@ -27,6 +27,7 @@ nnoremap <Space>q :q<CR>
 nnoremap <Space>g :vim<Space>
 
 vmap <Space>y "+y
+vmap <Space>p "+p
 nmap <Space>v <C-v>
 nmap <Space>r :QuickRun<CR>
 
@@ -54,10 +55,6 @@ nmap <Space>d cs'"
 cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
 cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-imap <expr><C-k> pumvisible() ? "\<C-N>" : neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><C-k> neosnippet#jumpable() ?  "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-inoremap <expr><C-K>  pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
 nnoremap <Space>m :!make<CR>
 
 nnoremap t <Nop>
@@ -79,4 +76,4 @@ nmap <End> <C-e>
 
 nnoremap <silent><Space><CR> A<CR><ESC>
 
-command TODO vim TODO **
+vnoremap <silent>,u :s/\%V\(.*\%V.\)/\\underbrace{\1}_{}/<CR>

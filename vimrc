@@ -73,7 +73,7 @@ set scrolloff=25
 set display=lastline
 set wrap
 
-set cole=0
+set conceallevel=0
 
 set backspace=indent,eol,start
 
@@ -120,7 +120,7 @@ augroup END
 hi StatusLineFilename ctermfg=46 guifg=#00ff00
 hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
 
-let g:tex_conceal = ''
+" let g:tex_conceal = ''
 
 let g:markdown_syntax_conceal = ''
 
@@ -140,14 +140,15 @@ augroup END
 
 augroup RemoveSpacesAfterZenkakuPunc
   autocmd!
-  autocmd InsertLeave *.tex %s/，\s+/，/ge
-  autocmd InsertLeave *.tex %s/．\s+/．/ge
-  autocmd InsertLeave *.tex %s/\s\+（/（/ge
-  autocmd InsertLeave *.tex %s/（\s\+/（/ge
-  autocmd InsertLeave *.tex %s/\s\+）/）/ge
-  autocmd InsertLeave *.tex %s/）\s\+/）/ge
-  autocmd InsertLeave *.tex %s/\s\+\\defterm/\\defterm/ge
-  autocmd InsertLeave *.tex %s/　/ /ge
+  autocmd InsertLeave *.tex '[,']s/，\s+/，/ge
+  autocmd InsertLeave *.tex '[,']s/．\s+/．/ge
+  autocmd InsertLeave *.tex '[,']s/\s\+（/（/ge
+  autocmd InsertLeave *.tex '[,']s/（\s\+/（/ge
+  autocmd InsertLeave *.tex '[,']s/\s\+）/）/ge
+  autocmd InsertLeave *.tex '[,']s/）\s\+/）/ge
+  autocmd InsertLeave *.tex '[,']s/\s\+\\defterm/\\defterm/ge
+  autocmd InsertLeave *.tex '[,']s/　/ /ge
+  autocmd BufRead,BufNewFile,InsertLeave,InsertEnter *.tex set cole=0
 augroup END
 
 let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
