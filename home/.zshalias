@@ -25,7 +25,6 @@ alias grep='grep -i'
 # alias ocaml='rlwrap ocaml'
 alias less='less -r'
 # alias slack='cd $HOME/develop/slack'
-alias pbcopy='xclip -selection c'
 if [ "${operating_system}" = "Mac" ]; then
   alias off="osascript -e 'tell app \"Finder\" to sleep'"
   alias chrome='open -a "Google Chrome"'
@@ -34,6 +33,9 @@ if [ "${operating_system}" = "Mac" ]; then
   alias notify='terminal-notifier -message'
   alias eject='diskutil eject'
   alias reboot="sudo shutdown -r now"
+fi
+if [ "${operating_system}" = "Linux" ]; then
+  alias pbcopy='xclip -selection c'
 fi
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias javac="javac -J-Duser.language=en"
