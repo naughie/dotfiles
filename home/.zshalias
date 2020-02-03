@@ -38,3 +38,4 @@ fi
 alias col256='for c in {000..255}; do echo -n "\e[38;5;${c}m $c" ; [ $(($c%16)) -eq 15 ] && echo;done'
 alias javac="javac -J-Duser.language=en"
 alias java="java -Duser.language=en"
+alias ls="ls --color"
