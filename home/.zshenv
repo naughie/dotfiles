@@ -7,7 +7,7 @@ case "$(uname -s)" in
   *)       operating_system="$(uname -s)";;
 esac
 if [ "$operating_system" = "Mac" ]; then
-  export PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Library/TeX/texbin:$PATH
+  # export PATH=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Library/TeX/texbin:$PATH
 fi
 # ENVs
 source $HOME/.zshexp
