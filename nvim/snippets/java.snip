@@ -1,0 +1,16 @@
+snippet     printf
+options     head
+  System.out.printf("${0}\n");
+
+snippet b
+        {${0}
+        }
+
+snippet get
+        public ${1} get${2}() {
+          return this.${3};
+        }
+
+        public void set$2($1 $3) {
+          this.$3 = $3;
+        }

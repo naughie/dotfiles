@@ -41,40 +41,23 @@ if ! zplug check --verbose; then
 fi
 zplug load --verbose
 
-EMOJI_YES=$'\u2B55 '
-EMOJI_NO=$'\u274C '
-EMOJI_ABORT=$'\U1F44B '
-EMOJI_EDIT=$'\u270F '
-KAOMOJI_SUCCEED="(๑･𝗏･)و"$'\u2728 '
-KAOMOJI_FAIL="(๑>﹏<%)"$'\U1F32A '
-KAOMOJI_SUGGEST="(๑'~'%)"$'\u2753\uFE0F '
-COLOR_SUCCESS='216'
-COLOR_FAILURE='151'
-COLOR_INSERTM='202'
-COLOR_NORMALM='192'
-COLOR_SUGGEST='212'
-COLOR_RPROMPT='154'
-COLOR_COMMAND='251'
-EMOJI_SUCCEED=$'\U1F60A'
-EMOJI_FAILURE=$'\U1F62D'
 function zle-line-init zle-keymap-select {
   printf "\a"
-  # PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now "%n" and @ "%~"    %f'
-  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%F{%{216}%}!%F{%{151}%}) Last status code is %?!%f    %F{%{6}%}You are now \\\`%n\' and @ \\\`%~\'    %f'
-  SPROMPT=$'%F{%{212}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), n(o), a(bort), e(dit)]: %f'
-  RPROMPT=$'%F{%{154}%}[%D{%m/%d/%Y} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%f'
+  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%{${fg[blue]}%}!%{${fg[red]}%}) Last status code is %?!%{${reset_color}%}    %{${fg[cyan]}%}You are now \\\`%n@%m\' and @ \\\`%~\'    %{${reset_color}%}'
+  SPROMPT=$'%{${fg[yellow]}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), n(o), a(bort), e(dit)]: %{${reset_color}%}'
+  RPROMPT=$'%{${fg[green]}%}[%D{%m/%d/%Y} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%{${reset_color}%}'
   case $KEYMAP in
     vicmd)
-    PROMPT=$PROMPT$'%F{%{192}%}%BNormal%b%f'
+    PROMPT=$PROMPT'%{${fg[blue]}%}%BNormal%b%{${reset_color}%}'
     ;;
     main|viins)
-    PROMPT=$PROMPT$'%F{%{202}%}%BInsert%b%f'
+    PROMPT=$PROMPT'%{${fg[magenta]}%}%BInsert%b%{${reset_color}%}'
     ;;
     *)
-    PROMPT=$PROMPT$'%F{%{192}%}%BNormal%b%f'
+    PROMPT=$PROMPT'%{${fg[blue]}%}%BNormal%b%{${reset_color}%}'
     ;;
   esac
-  PROMPT=$PROMPT$'\n  %F{%{251}%}%BCommand? \U300B%b%f '
+  PROMPT=$PROMPT$'\n  %{${fg[white]}%}%BCommand? \U300B%b%{${reset_color}%} '
   zle reset-prompt
 }
 zle -N zle-line-init
