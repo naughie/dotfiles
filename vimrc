@@ -32,6 +32,9 @@ endif
 let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
 let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
 
+let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
+exec "source " . s:config_home . "/nvim/keymaps/main.vim"
+
 set fencs=utf-8,euc-jp,default
 
 set mouse-=a
@@ -125,72 +128,7 @@ let g:vim_markdown_folding_disabled=1
 
 let g:unite_enable_start_insert=1
 
-augroup MarkdownCtagsUpdate
-  autocmd!
-  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost /Users/nakatam/markdowns/*.md QuickRun -type ctags
-augroup END
-
-augroup CppCtagsUpdate
-  autocmd!
-  "autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {/Users/nakatam/}\@!*.{cpp\|h} QuickRun -type ctags
-augroup END
-
-augroup RemoveSpacesAfterZenkakuPunc
-  autocmd!
-  autocmd InsertLeave *.tex '[,']s/，\s+/，/ge
-  autocmd InsertLeave *.tex '[,']s/．\s+/．/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+（/（/ge
-  autocmd InsertLeave *.tex '[,']s/（\s\+/（/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+）/）/ge
-  autocmd InsertLeave *.tex '[,']s/）\s\+/）/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+\\defterm/\\defterm/ge
-  autocmd InsertLeave *.tex '[,']s/　/ /ge
-  autocmd BufRead,BufNewFile,InsertLeave,InsertEnter *.tex set cole=0
-augroup END
-
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute 'set rtp+=' . g:opamshare . '/merlin/vim'
-execute 'set rtp^=' . g:opamshare . '/ocp-indent/vim'
-
-function! s:ocaml_format()
-    let now_line = line('.')
-    exec ':%! ocp-indent'
-    exec ':' . now_line
-endfunction
-
-augroup ocaml_format
-    autocmd!
-    autocmd BufWrite,FileWritePre,FileAppendPre *.mli\= call s:ocaml_format()
-augroup END
-
-augroup ChangeKeywordsOnTeX
-  autocmd!
-  autocmd BufNewFile,BufRead *.tex setlocal iskeyword=@,48-57,_,-,:,192-255
-augroup END
-
-set rtp+=~/.local/share/nvimpager/runtime
-
-let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
-exec "source " . s:config_home . "/nvim/keymaps/main.vim"
-
 augroup ReadmeFiletype
   autocmd!
   autocmd BufRead,BufNewFile README.md set filetype=markdown.readme
-augroup END
-
-augroup SLMIncFT
-  autocmd!
-  autocmd BufRead,BufNewFile *.h.acdi,*.h.acme,*.h.dadi,*.h.dame set filetype=cpp
-augroup END
-
-augroup SlmEdrAutoCtags
-  autocmd!
-  autocmd BufWritePost,FileWritePost /**/SLM/EDR/*.java silent !ctags --languages=java -R .
-  autocmd BufWritePost,FileWritePost /**/C/src/*.h,/**/C/src/*.h.dadi,/**/C/src/*.h.acme,/**/C/src/*.h.dame,/**/C/src/*.h.acdi,/**/C/src/*.cc silent !ctags --langmap=c++:.cc.h.dadi.acme.dame.acdi --languages=c++ -R .
-  autocmd BufNewFile,BufRead /**/SLM/EDR/*log source log.vim
-augroup END
-
-augroup SetFtPerl
-  autocmd!
-  autocmd BufNewFile,BufRead *.perl,*.pm set filetype=perl
 augroup END
