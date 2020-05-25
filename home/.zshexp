@@ -43,10 +43,13 @@ export PATH=$HOME/.cargo/bin:$PATH
 # enable ocaml/opam
 test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 # tex
-export MANPATH=/usr/local/texlive/2019/texmf-dist/doc/man:$MANPATH
-export INFOPATH=/usr/local/texlive/2019/texmf-dist/doc/info:$INFOPATH
-export PATH=/usr/local/texlive/2019/bin/x86_64-linux:$PATH
+export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH
+export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
 export TEXMFLOCAL=/usr/local/texlive/texmf-local
 export TEXMFHOME=$HOME/.texmf
 # zlogin
 source $HOME/.zlogin
+# Go
+export PATH=/usr/local/go/bin:$PATH
+export GOPATH=$HOME/.go
