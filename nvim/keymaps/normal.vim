@@ -75,5 +75,3 @@ nmap <Home> <C-a>
 nmap <End> <C-e>
 
 nnoremap <silent><Space><CR> A<CR><ESC>
-
-vnoremap <silent>,u :s/\%V\(.*\%V.\)/\\underbrace{\1}_{}/<CR>
