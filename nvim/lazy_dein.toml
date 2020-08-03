@@ -231,14 +231,14 @@ on_ft = ['tex', 'plaintex']
 repo = 'rust-lang/rust.vim'
 hook_add = '''
 let g:rustfmt_autosave = 1
-let g:rustfmt_command = $HOME . '/.cargo/bin/rustfmt'
+let g:rustfmt_command = $CARGO_HOME . '/bin/rustfmt'
 '''
 on_ft = ['rust']
 
 [[plugins]]
 repo = 'racer-rust/vim-racer'
 hook_add = '''
-let g:racer_cmd = $HOME . '/.cargo/bin/racer'
+let g:racer_cmd = $CARGO_HOME . '/bin/racer'
 '''
 on_ft = ['rust']
 

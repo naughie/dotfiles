@@ -23,6 +23,7 @@ export TERM=xterm-256color-italic
 export XDG_CONFIG_HOME=$HOME/etc/xdg-config
 # init java
 which /usr/libexec/java_home 1>/dev/null 2>&1 && export JAVA_HOME=$(/usr/libexec/java_home)
+export GRADLE_USER_HOME=$HOME/etc/gradle
 # init pyenv
 export PYENV_ROOT=$HOME/etc/pyenv
 export PATH=$PYENV_ROOT/bin:$PATH
@@ -42,13 +43,14 @@ export CARGO_HOME=$HOME/etc/cargo
 export RUSTUP_HOME=$HOME/etc/rustup
 export PATH=$CARGO_HOME/bin:$PATH
 # enable ocaml/opam
-test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+export OPAMROOT=$HOME/etc/opam
+test -r $OPAMROOT/opam-init/init.zsh && . $OPAMROOT/opam-init/init.zsh > /dev/null 2> /dev/null || true
 # tex
 export MANPATH=/usr/local/texlive/2020/texmf-dist/doc/man:$MANPATH
 export INFOPATH=/usr/local/texlive/2020/texmf-dist/doc/info:$INFOPATH
 export PATH=/usr/local/texlive/2020/bin/x86_64-linux:$PATH
 export TEXMFLOCAL=/usr/local/texlive/texmf-local
-export TEXMFHOME=$HOME/.texmf
+export TEXMFHOME=$HOME/etc/texmf
 # zlogin
 source $HOME/.zlogin
 # Go

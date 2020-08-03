@@ -85,6 +85,11 @@ alias mat( pmatrix pmat
         ${0}
         \end{pmatrix}
 
+snippet vmat
+        \begin{vmatrix}
+        ${0}
+        \end{vmatrix}
+
 snippet array
 alias arr
         \left${1} \begin{array}{${2}}
@@ -107,6 +112,12 @@ alias tabb
 
 snippet ''
         ``${1}''${2}
+
+snippet not
+options head
+        \begin{notation}<not:${1}>
+        ${0}
+        \end{notation}
 
 snippet thm
 options head

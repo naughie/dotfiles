@@ -1,5 +1,5 @@
 CONFIGDIR = $(PWD)
-XDG_CONFIG_HOME = $(HOME)/.config
+XDG_CONFIG_HOME = $(HOME)/etc/xdg-config
 NVIMDIR = nvim
 TERMINFODIR = terminfo
 HOMEDIR = home
@@ -19,6 +19,7 @@ ln:
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(INITVIM) $(HOME)/.$(VIMRC)
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(DEIN) $(HOME)/.$(DEIN)
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(LAZY_DEIN) $(HOME)/.$(LAZY_DEIN)
+	ln -s -i $(XDG_CONFIG_HOME) $(HOME)/.config
 	ln -s -i $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(HOMEDIR)/{} $(HOME)/{}
 
