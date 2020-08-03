@@ -29,8 +29,8 @@ if has('vim_starting') && dein#check_install()
   call dein#install()
 endif
 
-let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
-let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
+let g:python_host_prog  = $PYENV_ROOT . '/versions/2.7.18/bin/python'
+let g:python3_host_prog = $PYENV_ROOT . '/versions/3.8.3/bin/python'
 
 let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
 exec "source " . s:config_home . "/nvim/keymaps/main.vim"
@@ -52,6 +52,7 @@ set ruler
 set spelllang=en,cjk
 
 set expandtab
+set tabstop=4
 set shiftwidth=2
 set softtabstop=2
 set autoindent
