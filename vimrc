@@ -99,6 +99,10 @@ set ambiwidth=double
 
 set tags=tags,vendor.tags
 
+set signcolumn=yes
+
+set updatetime=300
+
 set cursorline
 hi clear CursorLine
 

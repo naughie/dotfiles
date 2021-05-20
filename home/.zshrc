@@ -1,3 +1,5 @@
+test -f /var/run/reboot-required && cat /var/run/reboot-required /var/run/reboot-required.pkgs
+
 [ -d "$ZPLUG_HOME" ] || git clone https://github.com/zplug/zplug $ZPLUG_HOME
 source $ZPLUG_HOME/init.zsh
 setopt auto_cd

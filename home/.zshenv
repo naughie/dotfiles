@@ -10,6 +10,7 @@ esac
 if [ "$operating_system" = "Mac" ]; then
   export PATH=/Library/TeX/texbin:$PATH
 fi
+ulimit -n 262144
 # ENVs
 source $HOME/.zshexp
 # aliases

@@ -134,11 +134,6 @@ let g:quickrun_config.html = {
   \ 'outputter' : 'null',
   \ 'exec' : ['%c %o %s %a'],
   \}
-let g:quickrun_config.rust = {
-  \ 'command' : 'cargo',
-  \ 'cmdopt' : 'run',
-  \ 'exec' : ['%c %o %s %a'],
-  \}
 let g:quickrun_config.ctags = {
   \ 'command' : 'ctags',
   \ 'cmdopt' : '-R -f',
@@ -285,3 +280,15 @@ let g:UltiSnipsJumpForwardTrigger = "<TAB>"
 let g:UltiSnipsJumpBackwardTrigger = "<S-TAB>"
 '''
 on_ft = ['tex']
+
+[[plugins]]
+repo = 'neoclide/coc.nvim'
+merged = 0
+hook_source = '''
+inoremap <silent><expr> <c-space> coc#refresh()
+inoremap <silent><expr><CR> pumvisible() ? coc#_select_confirm() : <C-g>u<CR><c-r>=coc#on_enter()<CR>
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+'''
