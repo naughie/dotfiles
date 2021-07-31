@@ -1,59 +1,59 @@
-if &compatible
-  set nocompatible
+let g:python_host_prog  = $HOME . '/etc/nvim-python2/bin/python2'
+let g:python3_host_prog  = $HOME . '/etc/nvim-python3/bin/python3'
+
+if has('nvim')
+
+    "for dein cache
+    let s:dein_dir = $HOME . '/.local/share/dein'
+    let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+    " locate dein.toml/lazy_dein.toml
+    let s:nvim_conf_home = $XDG_CONFIG_HOME . '/nvim'
+    let s:toml_file = s:nvim_conf_home . '/dein.toml'
+    let s:lazy_toml_file = s:nvim_conf_home . '/lazy_dein.toml'
+
+    if !isdirectory(s:dein_repo_dir)
+      call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
+    endif
+    let &runtimepath = s:dein_repo_dir .",". &runtimepath
+
+    if dein#load_state(s:dein_dir)
+      call dein#begin(s:dein_dir)
+      call dein#load_toml(s:toml_file, {'lazy': 0})
+      call dein#load_toml(s:lazy_toml_file, {'lazy': 1})
+      call dein#end()
+      call dein#save_state()
+    endif
+
+    if has('vim_starting') && dein#check_install()
+      call dein#install()
+    endif
+
 endif
-
-augroup MyAutoCmd
-  autocmd!
-augroup END
-
-let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
-let s:dein_dir = s:cache_home . '/dein'
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-if !isdirectory(s:dein_repo_dir)
-  call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
-endif
-let &runtimepath = s:dein_repo_dir .",". &runtimepath
-
-let s:toml_file = fnamemodify(expand('<sfile>'), ':h').'/dein.toml'
-let s:lazy_toml_file = fnamemodify(expand('<sfile>'), ':h').'/lazy_dein.toml'
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-  call dein#load_toml(s:toml_file, {'lazy': 0})
-  call dein#load_toml(s:lazy_toml_file, {'lazy': 1})
-  call dein#end()
-  call dein#save_state()
-endif
-
-if has('vim_starting') && dein#check_install()
-  call dein#install()
-endif
-
-let g:python_host_prog  = $PYENV_ROOT . '/versions/neovim2/bin/python'
-let g:python3_host_prog = $PYENV_ROOT . '/versions/neovim3/bin/python'
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#auto_complete_delay = 0
-let g:deoplete#auto_complete_start_length = 1
-
-set fencs=utf-8,euc-jp,default
-
-set mouse-=a
-set sh=zsh
-
-set termguicolors
 
 syntax on
 
 filetype plugin indent on
 
+set fencs=utf-8,euc-jp,default
+
+set mouse-=a
+
+set termguicolors
+
 set number
 set ruler
 
-set spelllang=en,cjk
+set hidden
+
+set spelllang=en_us,cjk
 
 set expandtab
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+" sw is the same as `tabstop`
+set shiftwidth=0
+" sts is the same as `shiftwidth`
+"set softtabstop=4
 set autoindent
 set smartindent
 
@@ -66,11 +66,11 @@ set nohlsearch
 
 set ignorecase
 set smartcase
-set wildignorecase
+set fileignorecase
 
 set scrolloff=25
 
-set display=lastline
+set display=lastline,uhex
 set wrap
 
 set conceallevel=0
@@ -78,122 +78,100 @@ set conceallevel=0
 set backspace=indent,eol,start
 
 set laststatus=2
-set statusline& statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
+set statusline& statusline+=%#StatusLineFilename#%{'ヾ(๑╹◡╹)ﾉ\"@@@'}%f
 set statusline+=%m
 set statusline+=%#warningmsg#
 set statusline+=%=
 set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%{strwidth(getline('.'))})
-set statusline+=%{fugitive#statusline()}
+"set statusline+=%{fugitive#statusline()}
+hi StatusLineFilename ctermfg=46 guifg=#00ff00
+hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
+
 
 set noswapfile
 set backupskip=/tmp/*,/private/tmp/*
+set nobackup
+set nowritebackup
 
-set nopaste
+set visualbell
 
-set vb t_vb=
+set updatetime=300
+
+set shortmess+=c
 
 set guicursor=a:hor5,a:blinkon500,a:blinkoff500,a:blinkwait0
 
-set ambiwidth=double
+"set ambiwidth=double
 
-set tags=tags,vendor.tags
+set tags=./tags
+
+set signcolumn=yes
 
 set cursorline
 hi clear CursorLine
 
-augroup QfGroup
-  au!
-  au QuickFixCmdPost *grep* cwindow
-augroup END
+nnoremap <silent> <BS> <C-w>h
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-j> <C-w>j
 
-augroup TrailingSpace
-  au!
-  au VimEnter,WinEnter,ColorScheme * highlight link TrailingSpaces Error
-  au VimEnter,WinEnter * match TrailingSpaces /\s\+$/
-augroup END
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+nnoremap <silent> gj j
+nnoremap <silent> gk k
+vnoremap <silent> j gj
+vnoremap <silent> k gk
+vnoremap <silent> gj j
+vnoremap <silent> gk k
 
-augroup TwitVimSetting
-  au!
-  au FileType twitvim set wrap
-augroup END
+nnoremap <silent> <Space>h ^
+nnoremap <silent> <Space>l $
+vnoremap <silent> <Space>h ^
+vnoremap <silent> <Space>l $
 
-hi StatusLineFilename ctermfg=46 guifg=#00ff00
-hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
+nnoremap <Space>w :w<CR>
+nnoremap <Space>q :q<CR>
 
-" let g:tex_conceal = ''
+vnoremap <silent> <Space>y "+y
+nnoremap <silent> <Space>v <C-v>
 
-let g:markdown_syntax_conceal = ''
+nnoremap <silent> Y y$
 
-let g:vim_markdown_folding_disabled=1
+nnoremap <C-p> "zdd<Up>"zP
+nnoremap <C-n> "zdd"zp
+vnoremap <C-p> "zx<Up>"zP`[V`]
+vnoremap <C-n> "zx"zp`[V`]
 
-let g:unite_enable_start_insert=1
+nnoremap <silent> <Space><Space> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+nnoremap <silent> <Space>n :noh<CR>
 
-augroup MarkdownCtagsUpdate
-  autocmd!
-  autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost /Users/nakatam/markdowns/*.md QuickRun -type ctags
-augroup END
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <silent> g# g#zz
 
-augroup CppCtagsUpdate
-  autocmd!
-  "autocmd BufWritePost,FilterWritePost,FileAppendPost,FileWritePost {/Users/nakatam/}\@!*.{cpp\|h} QuickRun -type ctags
-augroup END
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-augroup RemoveSpacesAfterZenkakuPunc
-  autocmd!
-  autocmd InsertLeave *.tex '[,']s/，\s+/，/ge
-  autocmd InsertLeave *.tex '[,']s/．\s+/．/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+（/（/ge
-  autocmd InsertLeave *.tex '[,']s/（\s\+/（/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+）/）/ge
-  autocmd InsertLeave *.tex '[,']s/）\s\+/）/ge
-  autocmd InsertLeave *.tex '[,']s/\s\+\\defterm/\\defterm/ge
-  autocmd InsertLeave *.tex '[,']s/　/ /ge
-  autocmd BufRead,BufNewFile,InsertLeave,InsertEnter *.tex set cole=0
-augroup END
+nnoremap <silent> <Space>j <C-]>
 
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-execute 'set rtp+=' . g:opamshare . '/merlin/vim'
-execute 'set rtp^=' . g:opamshare . '/ocp-indent/vim'
+command TODO vim TODO **
 
-function! s:ocaml_format()
-    let now_line = line('.')
-    exec ':%! ocp-indent'
-    exec ':' . now_line
-endfunction
-
-augroup ocaml_format
-    autocmd!
-    autocmd BufWrite,FileWritePre,FileAppendPre *.mli\= call s:ocaml_format()
-augroup END
-
-augroup ChangeKeywordsOnTeX
-  autocmd!
-  autocmd BufNewFile,BufRead *.tex setlocal iskeyword=@,48-57,_,-,:,192-255
-augroup END
-
-set rtp+=~/.local/share/nvimpager/runtime
-
-let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
-exec "source " . s:config_home . "/nvim/keymaps/main.vim"
-
-augroup ReadmeFiletype
-  autocmd!
-  autocmd BufRead,BufNewFile README.md set filetype=markdown.readme
-augroup END
-
-augroup SLMIncFT
-  autocmd!
-  autocmd BufRead,BufNewFile *.h.acdi,*.h.acme,*.h.dadi,*.h.dame set filetype=cpp
-augroup END
-
-augroup SlmEdrAutoCtags
-  autocmd!
-  autocmd BufWritePost,FileWritePost /**/SLM/EDR/*.java silent !ctags --languages=java -R .
-  autocmd BufWritePost,FileWritePost /**/C/src/*.h,/**/C/src/*.h.dadi,/**/C/src/*.h.acme,/**/C/src/*.h.dame,/**/C/src/*.h.acdi,/**/C/src/*.cc silent !ctags --langmap=c++:.cc.h.dadi.acme.dame.acdi --languages=c++ -R .
-  autocmd BufNewFile,BufRead /**/SLM/EDR/*log source log.vim
-augroup END
-
-augroup SetFtPerl
-  autocmd!
-  autocmd BufNewFile,BufRead *.perl,*.pm set filetype=perl
-augroup END
+"augroup TrailingSpace
+"  au!
+"  au VimEnter * hi link TrailingSpaces Error
+"  au WinEnter,BufWinEnter,BufEnter * hi clear TrailingSpaces
+"  "au VimEnter,BufWinEnter * call HighlightTrailingSpaces()
+"augroup END
+"
+"function! HighlightTrailingSpaces() abort
+"    if &filetype ==# 'defx'
+"        highlight clear TrailingSpaces
+"    else
+"        highlight link TrailingSpaces Error
+"    endif
+"    match TrailingSpaces /\s\+$/
+"endfunction

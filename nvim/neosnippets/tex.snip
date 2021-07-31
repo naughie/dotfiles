@@ -13,6 +13,21 @@ alias subsubsection
 options head
         \subsubsection{${0}}
 
+snippet #*
+alias section
+options head
+        \section*{${0}}
+
+snippet ##*
+alias subsection
+options head
+        \subsection*{${0}}
+
+snippet ###*
+alias subsubsection
+options head
+        \subsubsection*{${0}}
+
 snippet item
 alias itemize
 options head
@@ -85,6 +100,11 @@ alias mat( pmatrix pmat
         ${0}
         \end{pmatrix}
 
+snippet vmat
+        \begin{vmatrix}
+        ${0}
+        \end{vmatrix}
+
 snippet array
 alias arr
         \left${1} \begin{array}{${2}}
@@ -107,6 +127,12 @@ alias tabb
 
 snippet ''
         ``${1}''${2}
+
+snippet not
+options head
+        \begin{notation}<not:${1}>
+        ${0}
+        \end{notation}
 
 snippet thm
 options head
@@ -149,6 +175,12 @@ options head
         \begin{problem}<prob:${1}>
         ${0}
         \end{problem}
+
+snippet ass
+options head
+        \begin{assignment}<assign:${1}>
+        ${0}
+        \end{assignment}
 
 snippet pr
 options head

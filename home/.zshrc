@@ -1,5 +1,7 @@
-[ -d "$HOME/.zplug" ] || curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-source $HOME/.zplug/init.zsh
+test -f /var/run/reboot-required && cat /var/run/reboot-required /var/run/reboot-required.pkgs
+
+[ -d "$ZPLUG_HOME" ] || git clone https://github.com/zplug/zplug $ZPLUG_HOME
+source $ZPLUG_HOME/init.zsh
 setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
