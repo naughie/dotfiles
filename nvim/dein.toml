@@ -1,92 +1,77 @@
 [[plugins]]
 repo = 'Shougo/dein.vim'
 
+# not compatible with coc
+#[[plugins]]
+#repo = 'Shougo/deoplete.nvim'
+#hook_add = '''
+#let g:deoplete#enable_at_startup = 1
+#'''
+
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
-nnoremap <Space>f :Denite file/rec -split=floating<CR>
-nnoremap ,dr :Denite -resume<CR>
+nnoremap <Space>f :Denite file/rec -split=floating -floating-preview -vertical-preview<CR>
+nnoremap <Space>g :Denite grep -split=floating -floating-preview -vertical-preview<CR>
+
 autocmd FileType denite call s:denite_my_settings()
 function! s:denite_my_settings() abort
   nnoremap <silent><buffer><expr> <CR>
   \ denite#do_map('do_action')
+  nnoremap <silent><buffer><expr> d
+  \ denite#do_map('do_action', 'delete')
   nnoremap <silent><buffer><expr> p
   \ denite#do_map('do_action', 'preview')
   nnoremap <silent><buffer><expr> q
   \ denite#do_map('quit')
   nnoremap <silent><buffer><expr> i
   \ denite#do_map('open_filter_buffer')
+  nnoremap <silent><buffer><expr> <Space>
+  \ denite#do_map('toggle_select').'j'
 endfunction
+
+"use ripgrep instead of grep
+call denite#custom#var('grep', {
+    \ 'command': ['rg'],
+    \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
+    \ 'recursive_opts': [],
+    \ 'pattern_opt': ['--regexp'],
+    \ 'separator': ['--'],
+    \ 'final_opts': [],
+    \ })
 '''
 
 [[plugins]]
-repo = 'Shougo/unite.vim'
-
-[[plugins]]
-repo = 'Shougo/neosnippet-snippets'
+repo = 'neoclide/coc.nvim'
+merged = '0'
 hook_add = '''
+let g:coc_global_extensions = ['coc-snippets', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json']
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+"inoremap <silent><expr> <C-k> pumvisible() ? coc#_select_confirm() : ""
+imap <C-l> <Plug>(coc-snippets-expand)
+let g:coc_snippet_next = '<c-j>'
+let g:coc_snippet_prev = '<c-k>'
+imap <C-j> <Plug>(coc-snippets-expand-jump)
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 '''
-
-[[plugins]]
-repo = 'thinca/vim-ref'
-
-[[plugins]]
-repo = 'nelstrom/vim-visual-star-search'
-
-[[plugins]]
-repo = 'mattn/emoji-vim'
 
 [[plugins]]
 repo = 'jacoborus/tender.vim'
 hook_add = '''
-if (has("termguicolors"))
- set termguicolors
-endif
 colorscheme tender
-'''
-
-[[plugins]]
-repo = 'kassio/neoterm'
-hook_add = '''
-let g:neoterm_default_mod = 'horizontal'
-let g:neoterm_repl_ruby = 'pry'
-let g:neoterm_repl_rails = 'rundock rails console --sandbox'
-let g:neoterm_automap_keys = ',tt'
-tnoremap <silent> <ESC> <C-\><C-n>
-nnoremap <silent> @r :TREPLSendLine<CR>
-vnoremap <silent> @r :TREPLSendSelection<CR>
-nnoremap <silent> @c :T ./bin/rails console<CR>
-nnoremap <silent> @s :T ./bin/rails console --sandbox<CR>
-nnoremap <silent> @dc :T rundock rails console<CR>
-nnoremap <silent> @ds :T rundock rails console --sandbox<CR>
-nnoremap <silent> @p :T pry<CR>
-nnoremap <silent> ,th :call neoterm#close()<CR>
-nnoremap <silent> ,th :call neoterm#close()<CR>
-'''
-
-[[plugins]]
-repo = 'tpope/vim-surround'
-hook_add = '''
-nmap <Space>s cs"'
-nmap <Space>d cs'"
-nmap <Space>p ysiw)
-'''
-
-[[plugins]]
-repo = 'mattn/sonictemplate-vim'
-hook_add = '''
-let g:sonictemplate_vim_template_dir = $XDG_CONFIG_HOME . '/nvim/template'
-'''
-
-[[plugins]]
-repo = 'Shougo/vimproc.vim'
-build = 'make -f make_mac.mak'
-
-[[plugins]]
-repo = 'reireias/vim-cheatsheet'
-hook_add = '''
-let g:cheatsheet#float_window = 1
-let g:cheatsheet#float_window_width_ratio = 0.6
-let g:cheatsheet#float_window_height_ratio = 0.6
-let g:cheatsheet#cheat_file = $XDG_CONFIG_HOME . '/nvim/cheatsheet'
 '''

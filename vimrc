@@ -1,60 +1,59 @@
-if &compatible
-  set nocompatible
+let g:python_host_prog  = $HOME . '/etc/nvim-python2/bin/python2'
+let g:python3_host_prog  = $HOME . '/etc/nvim-python3/bin/python3'
+
+if has('nvim')
+
+    "for dein cache
+    let s:dein_dir = $HOME . '/.local/share/dein'
+    let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+    " locate dein.toml/lazy_dein.toml
+    let s:nvim_conf_home = $XDG_CONFIG_HOME . '/nvim'
+    let s:toml_file = s:nvim_conf_home . '/dein.toml'
+    let s:lazy_toml_file = s:nvim_conf_home . '/lazy_dein.toml'
+
+    if !isdirectory(s:dein_repo_dir)
+      call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
+    endif
+    let &runtimepath = s:dein_repo_dir .",". &runtimepath
+
+    if dein#load_state(s:dein_dir)
+      call dein#begin(s:dein_dir)
+      call dein#load_toml(s:toml_file, {'lazy': 0})
+      call dein#load_toml(s:lazy_toml_file, {'lazy': 1})
+      call dein#end()
+      call dein#save_state()
+    endif
+
+    if has('vim_starting') && dein#check_install()
+      call dein#install()
+    endif
+
 endif
-
-augroup MyAutoCmd
-  autocmd!
-augroup END
-
-let s:cache_home = empty($XDG_CACHE_HOME) ? expand('~/.cache') : $XDG_CACHE_HOME
-let s:dein_dir = s:cache_home . '/dein'
-let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
-
-if !isdirectory(s:dein_repo_dir)
-  call system('git clone https://github.com/Shougo/dein.vim ' . shellescape(s:dein_repo_dir))
-endif
-let &runtimepath = s:dein_repo_dir .",". &runtimepath
-
-let s:toml_file = fnamemodify(expand('<sfile>'), ':h').'/dein.toml'
-let s:lazy_toml_file = fnamemodify(expand('<sfile>'), ':h').'/lazy_dein.toml'
-if dein#load_state(s:dein_dir)
-  call dein#begin(s:dein_dir)
-  call dein#load_toml(s:toml_file, {'lazy': 0})
-  call dein#load_toml(s:lazy_toml_file, {'lazy': 1})
-  call dein#end()
-  call dein#save_state()
-endif
-
-if has('vim_starting') && dein#check_install()
-  call dein#install()
-endif
-
-let g:python_host_prog  = $PYENV_ROOT . '/versions/2.7.18/bin/python'
-let g:python3_host_prog = $PYENV_ROOT . '/versions/3.8.3/bin/python'
-
-let s:config_home = empty($XDG_CONFIG_HOME) ? expand('~/.config') : $XDG_CONFIG_HOME
-exec "source " . s:config_home . "/nvim/keymaps/main.vim"
-
-set fencs=utf-8,euc-jp,default
-
-set mouse-=a
-set sh=zsh
-
-set termguicolors
 
 syntax on
 
 filetype plugin indent on
 
+set fencs=utf-8,euc-jp,default
+
+set mouse-=a
+
+set termguicolors
+
 set number
 set ruler
 
-set spelllang=en,cjk
+set hidden
+
+set spelllang=en_us,cjk
 
 set expandtab
 set tabstop=4
-set shiftwidth=2
-set softtabstop=2
+" sw is the same as `tabstop`
+set shiftwidth=0
+" sts is the same as `shiftwidth`
+"set softtabstop=4
 set autoindent
 set smartindent
 
@@ -67,11 +66,11 @@ set nohlsearch
 
 set ignorecase
 set smartcase
-set wildignorecase
+set fileignorecase
 
 set scrolloff=25
 
-set display=lastline
+set display=lastline,uhex
 set wrap
 
 set conceallevel=0
@@ -79,101 +78,100 @@ set conceallevel=0
 set backspace=indent,eol,start
 
 set laststatus=2
-set statusline& statusline+=%#StatusLineFilename#%{'٩(๑´3｀)۶@'}%F
+set statusline& statusline+=%#StatusLineFilename#%{'ヾ(๑╹◡╹)ﾉ\"@@@'}%f
 set statusline+=%m
 set statusline+=%#warningmsg#
 set statusline+=%=
 set statusline+=%#StatusLineCursorPosition#(%l,%c)/(%L,%{strwidth(getline('.'))})
-set statusline+=%{fugitive#statusline()}
+"set statusline+=%{fugitive#statusline()}
+hi StatusLineFilename ctermfg=46 guifg=#00ff00
+hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
+
 
 set noswapfile
 set backupskip=/tmp/*,/private/tmp/*
+set nobackup
+set nowritebackup
 
-set nopaste
+set visualbell
 
-set vb t_vb=
+set updatetime=300
+
+set shortmess+=c
 
 set guicursor=a:hor5,a:blinkon500,a:blinkoff500,a:blinkwait0
 
-set ambiwidth=double
+"set ambiwidth=double
 
-set tags=tags,vendor.tags
+set tags=./tags
 
 set signcolumn=yes
-
-set updatetime=300
 
 set cursorline
 hi clear CursorLine
 
-augroup QfGroup
-  au!
-  au QuickFixCmdPost *grep* cwindow
-augroup END
+nnoremap <silent> <BS> <C-w>h
+nnoremap <silent> <C-h> <C-w>h
+nnoremap <silent> <C-l> <C-w>l
+nnoremap <silent> <C-k> <C-w>k
+nnoremap <silent> <C-j> <C-w>j
 
-augroup TrailingSpace
-  au!
-  au VimEnter,WinEnter,ColorScheme * highlight link TrailingSpaces Error
-  au VimEnter,WinEnter * match TrailingSpaces /\s\+$/
-augroup END
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+nnoremap <silent> gj j
+nnoremap <silent> gk k
+vnoremap <silent> j gj
+vnoremap <silent> k gk
+vnoremap <silent> gj j
+vnoremap <silent> gk k
 
-augroup TwitVimSetting
-  au!
-  au FileType twitvim set wrap
-augroup END
+nnoremap <silent> <Space>h ^
+nnoremap <silent> <Space>l $
+vnoremap <silent> <Space>h ^
+vnoremap <silent> <Space>l $
 
-hi StatusLineFilename ctermfg=46 guifg=#00ff00
-hi StatusLineCursorPosition ctermfg=184 guifg=#d7d700
+nnoremap <Space>w :w<CR>
+nnoremap <Space>q :q<CR>
 
-" let g:tex_conceal = ''
+vnoremap <silent> <Space>y "+y
+nnoremap <silent> <Space>v <C-v>
 
-let g:markdown_syntax_conceal = ''
+nnoremap <silent> Y y$
 
-let g:vim_markdown_folding_disabled=1
+nnoremap <C-p> "zdd<Up>"zP
+nnoremap <C-n> "zdd"zp
+vnoremap <C-p> "zx<Up>"zP`[V`]
+vnoremap <C-n> "zx"zp`[V`]
 
-let g:unite_enable_start_insert=1
+nnoremap <silent> <Space><Space> "zyiw:let @/ = '\<' . @z . '\>'<CR>:set hlsearch<CR>
+nnoremap <silent> <Space>n :noh<CR>
 
-augroup ReadmeFiletype
-  autocmd!
-  autocmd BufRead,BufNewFile README.md set filetype=markdown.readme
-augroup END
+nnoremap <silent> n nzz
+nnoremap <silent> N Nzz
+nnoremap <silent> * *zz
+nnoremap <silent> # #zz
+nnoremap <silent> g* g*zz
+nnoremap <silent> g# g#zz
 
-if executable('opam')
-" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
-let s:opam_share_dir = system("opam config var share")
-let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
+cnoremap <expr> / getcmdtype() == '/' ? '\/' : '/'
+cnoremap <expr> ? getcmdtype() == '?' ? '\?' : '?'
 
-let s:opam_configuration = {}
+nnoremap <silent> <Space>j <C-]>
 
-function! OpamConfOcpIndent()
-  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
-endfunction
-let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+command TODO vim TODO **
 
-function! OpamConfOcpIndex()
-  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
-endfunction
-let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
-
-function! OpamConfMerlin()
-  let l:dir = s:opam_share_dir . "/merlin/vim"
-  execute "set rtp+=" . l:dir
-endfunction
-let s:opam_configuration['merlin'] = function('OpamConfMerlin')
-
-let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
-let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
-let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
-for tool in s:opam_packages
-  " Respect package order (merlin should be after ocp-index)
-  if count(s:opam_available_tools, tool) > 0
-    call s:opam_configuration[tool]()
-  endif
-endfor
-" ## end of OPAM user-setup addition for vim / base ## keep this line
-" ## added by OPAM user-setup for vim / ocp-indent ## 553495259df71f355c7dec227d14bc18 ## you can edit, but keep this line
-if count(s:opam_available_tools,"ocp-indent") == 0
-  source "/home/naughie/etc/opam/default/share/ocp-indent/vim/indent/ocaml.vim"
-endif
-" ## end of OPAM user-setup addition for vim / ocp-indent ## keep this line
-endif
+"augroup TrailingSpace
+"  au!
+"  au VimEnter * hi link TrailingSpaces Error
+"  au WinEnter,BufWinEnter,BufEnter * hi clear TrailingSpaces
+"  "au VimEnter,BufWinEnter * call HighlightTrailingSpaces()
+"augroup END
+"
+"function! HighlightTrailingSpaces() abort
+"    if &filetype ==# 'defx'
+"        highlight clear TrailingSpaces
+"    else
+"        highlight link TrailingSpaces Error
+"    endif
+"    match TrailingSpaces /\s\+$/
+"endfunction

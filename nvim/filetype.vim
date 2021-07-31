@@ -1,0 +1,11 @@
+au BufRead,BufNewFile *.coffee set filetype=coffee
+au BufRead,BufNewFile *.dockerfile set filetype=dockerfile
+au BufRead,BufNewFile nginx.conf set ft=nginx
+au BufRead,BufNewFile *.perl,*.pm set filetype=perl
+au BufRead,BufNewFile *.scala set filetype=scala
+au BufRead,BufNewFile *.tex,*.cls,*.sty set filetype=tex
+au BufRead,BufNewFile *.toml,Cargo.lock,*/.cargo/config set filetype=toml
+au BufRead,BufNewFile *.ts set filetype=typescript
+au BufRead,BufNewFile *.tsx set filetype=typescriptreact
+au BufRead,BufNewFile *.yaml set ft=yaml
+au BufRead,BufNewFile *.yml set ft=yaml
