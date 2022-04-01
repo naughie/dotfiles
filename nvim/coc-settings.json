@@ -1,3 +1,4 @@
 {
-    "rust-analyzer.diagnostics.enableExperimental": false
+    "rust-analyzer.diagnostics.enableExperimental": false,
+    "rust-analyzer.cargo.allFeatures": true
 }
