@@ -61,3 +61,5 @@ source $HOME/.zlogin
 # Go
 export GOPATH=$HOME/etc/go
 export PATH=$GOPATH/bin:/usr/local/go/bin:$PATH
+# WezTerm
+export WEZTERM_CONFIG_FILE=$HOME/etc/dotfiles/wezterm.lua
