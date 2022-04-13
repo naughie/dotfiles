@@ -1,5 +1,5 @@
-let g:python_host_prog  = $HOME . '/etc/nvim-python2/bin/python2'
-let g:python3_host_prog  = $HOME . '/etc/nvim-python3/bin/python3'
+let g:python_host_prog  = $HOME . '/etc/nvim-python/nvim-python2/bin/python2'
+let g:python3_host_prog  = $HOME . '/etc/nvim-python/nvim-python3/bin/python3'
 
 if has('nvim')
 
