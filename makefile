@@ -7,6 +7,7 @@ VIMRC = vimrc
 INITVIM = init.vim
 DEIN = dein.toml
 LAZY_DEIN = lazy_dein.toml
+WEZTERM = wezterm.lua
 
 install:
 	make mkdir
@@ -19,6 +20,7 @@ ln:
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(INITVIM) $(HOME)/.$(VIMRC)
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(DEIN) $(HOME)/.$(DEIN)
 	ln -s -i $(XDG_CONFIG_HOME)/$(NVIMDIR)/$(LAZY_DEIN) $(HOME)/.$(LAZY_DEIN)
+	ln -s -i $(CONFIGDIR)/$(WEZTERM) $(HOME)/.$(WEZTERM)
 	ln -s -i $(XDG_CONFIG_HOME) $(HOME)/.config
 	ln -s -i $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(HOMEDIR)/{} $(HOME)/{}
@@ -29,6 +31,7 @@ clean:
 	make TARGETFILE=$(HOME)/.$(VIMRC) -s -i rm
 	make TARGETFILE=$(HOME)/.$(DEIN) -s -i rm
 	make TARGETFILE=$(HOME)/.$(LAZY_DEIN) -s -i rm
+	make TARGETFILE=$(HOME)/.$(WEZTERM) -s -i rm
 	make TARGETFILE=$(XDG_CONFIG_HOME)/$(TERMINFODIR) -s -i rm
 	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} make TARGETFILE=$(HOME)/{} -s -i rm
 

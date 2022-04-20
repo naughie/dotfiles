@@ -17,4 +17,8 @@ return {
     keys = {
         {key="h", mods="CTRL", action={SendKey={key="Backspace"}}},
     },
+
+    audible_bell = "Disabled",
+
+    exit_behavior = "Close",
 }

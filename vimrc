@@ -78,7 +78,7 @@ set conceallevel=0
 set backspace=indent,eol,start
 
 set laststatus=2
-set statusline& statusline+=%#StatusLineFilename#%{'ヾ(๑╹◡╹)ﾉ\"@@@'}%f
+set statusline& statusline+=%#StatusLineFilename#%{'@'}%f
 set statusline+=%m
 set statusline+=%#warningmsg#
 set statusline+=%=
