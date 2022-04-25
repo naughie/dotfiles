@@ -16,9 +16,21 @@ return {
 
     keys = {
         {key="h", mods="CTRL", action={SendKey={key="Backspace"}}},
+
+        {key="x", mods="CTRL|SHIFT", action="DisableDefaultAssignment"},
+        {key="Insert", mods="CTRL", action="DisableDefaultAssignment"},
+        {key="Insert", mods="SHIFT", action="DisableDefaultAssignment"},
+        {key="Insert", mods="CTRL|SHIFT", action="ActivateCopyMode"},
+
+        {key="-", mods="SUPER", action="DisableDefaultAssignment"},
+        {key="-", mods="CTRL", action="DisableDefaultAssignment"},
+        {key="=", mods="SUPER", action="DisableDefaultAssignment"},
+        {key="=", mods="CTRL", action="DisableDefaultAssignment"},
     },
 
     audible_bell = "Disabled",
 
     exit_behavior = "Close",
+
+    tab_bar_at_bottom = true,
 }
