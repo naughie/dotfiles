@@ -45,22 +45,22 @@ zplug load --verbose
 
 function zle-line-init zle-keymap-select {
   printf "\a"
-  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%{${fg[blue]}%}!%{${fg[red]}%}) Last status code is %?!%{${reset_color}%}    %{${fg[cyan]}%}%n@%m:%~%{${reset_color}%}    '
+  PROMPT=$'%(?!\U1F60A!\U1F62D)%(?!%{${fg[blue]}%}!%{${fg[red]}%}) Exited %?%{${reset_color}%}'
   # man 3 strftime
-  PROMPT=$PROMPT$'%{${fg[green]}%}[%D{%m/%d/%Y} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%{${reset_color}%}    '
-  SPROMPT=$'%{${fg[yellow]}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), n(o), a(bort), e(dit)]: %{${reset_color}%}'
+  PROMPT=$PROMPT$'  %{${fg[green]}%}[%D{%Y-%m-%d} %0(D.\U2603.%1(D.\U2603.%2(D.\U1F338.%3(D.\U1F338.%4(D.\U1F338.%5(D.\U2614.%6(D.\U1F33B.%7(D.\U1F33B.%8(D.\U1F341.%9(D.\U1F341.%10(D.\U1F341.\U2603))))))))))) %T]%{${reset_color}%}'
+  PROMPT=$PROMPT$'\n%{${fg[cyan]}%}%n@%m:$(replace_lsta %d)%{${reset_color}%}\n  '
+  SPROMPT=$'%{${fg[yellow]}%}%{$suggest%}\U1F914 You may intend to ... %B%r%b [y(es), N(o), a(bort), e(dit)]: %{${reset_color}%}'
   case $KEYMAP in
     vicmd)
-    PROMPT=$PROMPT'%{${fg[blue]}%}%BNormal%b%{${reset_color}%}'
+    PROMPT=$PROMPT'%{${fg[magenta]}%}%B$%b%{${reset_color}%} '
     ;;
     main|viins)
-    PROMPT=$PROMPT'%{${fg[magenta]}%}%BInsert%b%{${reset_color}%}'
+    PROMPT=$PROMPT'%{${fg[white]}%}%B$%b%{${reset_color}%} '
     ;;
     *)
-    PROMPT=$PROMPT'%{${fg[blue]}%}%BNormal%b%{${reset_color}%}'
+    PROMPT=$PROMPT'%{${fg[magenta]}%}%B$%b%{${reset_color}%} '
     ;;
   esac
-  PROMPT=$PROMPT$'\n  %{${fg[white]}%}%BCommand? $%b%{${reset_color}%} '
   zle reset-prompt
 }
 zle -N zle-line-init
