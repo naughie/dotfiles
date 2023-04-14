@@ -25,6 +25,8 @@ local config = {
         {key="-", mods="CTRL", action="DisableDefaultAssignment"},
         {key="=", mods="SUPER", action="DisableDefaultAssignment"},
         {key="=", mods="CTRL", action="DisableDefaultAssignment"},
+
+        {key="raw:36", mods="CTRL", action={SendKey={key="raw:36", mods="CTRL"}}},
     },
 
     audible_bell = "Disabled",
