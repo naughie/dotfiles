@@ -44,34 +44,81 @@ call denite#custom#var('grep', {
 [[plugins]]
 repo = 'neoclide/coc.nvim'
 merged = '0'
+rev = 'release'
 hook_add = '''
 let g:coc_global_extensions = ['coc-snippets', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-pyright']
 
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-function! s:check_back_space() abort
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice.
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-"inoremap <silent><expr> <C-k> pumvisible() ? coc#_select_confirm() : ""
-imap <C-l> <Plug>(coc-snippets-expand)
-let g:coc_snippet_next = '<c-j>'
-let g:coc_snippet_prev = '<c-k>'
-imap <C-j> <Plug>(coc-snippets-expand-jump)
+inoremap <silent><expr> <leader><space> coc#refresh()
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
 
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+
+"inoremap <silent><expr> <C-k> pumvisible() ? coc#_select_confirm() : ""
+"imap <C-l> <Plug>(coc-snippets-expand)
+"let g:coc_snippet_next = '<c-j>'
+"let g:coc_snippet_prev = '<c-k>'
+"imap <C-j> <Plug>(coc-snippets-expand-jump)
 '''
 
+#[[plugins]]
+#repo = 'jacoborus/tender.vim'
+#hook_add = '''
+#colorscheme tender
+#'''
+
 [[plugins]]
-repo = 'jacoborus/tender.vim'
+repo = 'sainnhe/everforest'
 hook_add = '''
-colorscheme tender
+set bg=dark
+"set bg=light
+let g:everforest_background = 'soft'
+let g:everforest_better_performance = 1
+"let g:everforest_transparent_background = 1
+let g:everforest_sign_column_background = 'gray'
+let g:everforest_diagnostic_text_highlight = 1
+let g:everforest_diagnostic_virtual_text = 'colored'
+colorscheme everforest
 '''
