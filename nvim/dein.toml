@@ -46,7 +46,7 @@ repo = 'neoclide/coc.nvim'
 merged = '0'
 rev = 'release'
 hook_add = '''
-let g:coc_global_extensions = ['coc-snippets', 'coc-tsserver', 'coc-rust-analyzer', 'coc-json', 'coc-pyright']
+let g:coc_global_extensions = ['coc-snippets', 'coc-tsserver', 'coc-deno', 'coc-rust-analyzer', 'coc-json', 'coc-pyright']
 
 inoremap <silent><expr> <TAB>
       \ coc#pum#visible() ? coc#pum#next(1) :
