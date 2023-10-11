@@ -1,0 +1,80 @@
+# A valid snippet should starts with:
+#
+#		snippet trigger_word [ "description" [ options ] ]
+#
+# and end with:
+#
+#		endsnippet
+#
+# Snippet options:
+#
+#		b - Beginning of line.
+#		i - In-word expansion.
+#		w - Word boundary.
+#		r - Regular expression
+#		e - Custom context snippet
+#		A - Snippet will be triggered automatically, when condition matches.
+#
+# Basic example:
+#
+#		snippet emitter "emitter properties" b
+#		private readonly ${1} = new Emitter<$2>()
+#		public readonly ${1/^_(.*)/$1/}: Event<$2> = this.$1.event
+#		endsnippet
+#
+# Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
+
+snippet \label "label" A
+\\label\{${1}\}${2}
+endsnippet
+
+snippet \ref "ref" A
+\\ref\{${1}\}${2}
+endsnippet
+
+snippet \text "text" A
+\\text\{${1}\}${2}
+endsnippet
+
+snippet $ "inline math" Aw
+$${1}$
+endsnippet
+
+snippet sec "section" Ab
+\\section\{${1}\}
+
+endsnippet
+
+snippet subsec "subsection" Ab
+\\subsection\{${1}\}
+
+endsnippet
+
+snippet subsubsec "subsubsection" Ab
+\\subsubsection\{${1}\}
+
+endsnippet
+
+snippet env "environment" Ab
+\\begin\{${1}\}
+${2}
+\\end\{${1}\}
+endsnippet
+
+snippet enum "enumerate" Ab
+\\begin\{enumerate\}
+${1}
+\\end\{enumerate\}
+endsnippet
+
+snippet item "itemize" Ab
+\\begin\{itemize\}
+${1}
+\\end\{itemize\}
+endsnippet
+
+snippet al "align*" Ab
+\\begin\{align*\}
+${1}
+\\end\{align*\}
+endsnippet
