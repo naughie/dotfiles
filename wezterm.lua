@@ -1,7 +1,10 @@
 local wezterm = require 'wezterm';
 
 local config = {
-    font = wezterm.font("Source Han Code JP L"),
+    font = wezterm.font_with_fallback {
+        { family = "Source Han Code JP L", assume_emoji_presentation = false },
+        { family = "Source Han Code JP L", assume_emoji_presentation = true },
+    },
     font_size = 12,
 
     -- color_scheme = 'everforest light',
