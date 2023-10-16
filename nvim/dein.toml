@@ -9,36 +9,73 @@ repo = 'Shougo/dein.vim'
 #'''
 
 [[plugins]]
-repo = 'Shougo/denite.nvim'
+repo = 'vim-denops/denops.vim'
+
+[[plugins]]
+repo = 'Shougo/ddu.vim'
 hook_add = '''
-nnoremap <Space>f :Denite file/rec -split=floating -floating-preview -vertical-preview<CR>
-nnoremap <Space>g :Denite grep -split=floating -floating-preview -vertical-preview<CR>
-
-autocmd FileType denite call s:denite_my_settings()
-function! s:denite_my_settings() abort
-  nnoremap <silent><buffer><expr> <CR>
-  \ denite#do_map('do_action')
-  nnoremap <silent><buffer><expr> d
-  \ denite#do_map('do_action', 'delete')
-  nnoremap <silent><buffer><expr> p
-  \ denite#do_map('do_action', 'preview')
-  nnoremap <silent><buffer><expr> q
-  \ denite#do_map('quit')
-  nnoremap <silent><buffer><expr> i
-  \ denite#do_map('open_filter_buffer')
-  nnoremap <silent><buffer><expr> <Space>
-  \ denite#do_map('toggle_select').'j'
-endfunction
-
-"use ripgrep instead of grep
-call denite#custom#var('grep', {
-    \ 'command': ['rg'],
-    \ 'default_opts': ['-i', '--vimgrep', '--no-heading'],
-    \ 'recursive_opts': [],
-    \ 'pattern_opt': ['--regexp'],
-    \ 'separator': ['--'],
-    \ 'final_opts': [],
+call ddu#custom#patch_local('filer', {
+    \   'ui': 'filer',
+    \   'sources': [{'name': 'file', 'params': {}}],
+    \   'sourceOptions': {
+    \     'file': {
+    \       'columns': ['icon_filename'],
+    \     },
+    \   },
+    \   'columnParams': {
+    \     'icon_filename': {
+    \       'defaultIcon': {'icon': ''},
+    \     },
+    \   },
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   },
+    \   'uiParams': {
+    \     'filer': {
+    \       'split': 'floating',
+    \     }
+    \   },
     \ })
+
+nnoremap <silent> <C-e> :call ddu#start({ 'name': 'filer' })<CR>
+'''
+
+[[plugins]]
+repo = 'Shougo/ddu-kind-file'
+[[plugins]]
+repo = 'Shougo/ddu-source-file'
+[[plugins]]
+repo = 'ryota2357/ddu-column-icon_filename'
+
+[[plugins]]
+repo = 'Shougo/ddu-ui-filer'
+hook_add = '''
+autocmd FileType ddu-filer call s:ddu_my_settings()
+function! s:ddu_my_settings() abort
+  nnoremap <buffer><silent> <CR>
+        \ <Cmd>call ddu#ui#filer#do_action('itemAction')<CR>
+  nnoremap <buffer><silent> N
+        \ <Cmd>call ddu#ui#filer#do_action('itemAction',
+        \ {'name': 'newFile'})<CR>
+  nnoremap <buffer><silent> K
+        \ <Cmd>call ddu#ui#filer#do_action('itemAction',
+        \ {'name': 'newDirectory'})<CR>
+  nnoremap <buffer><silent> D
+        \ <Cmd>call ddu#ui#filer#do_action('itemAction',
+        \ {'name': 'delete'})<CR>
+  nnoremap <buffer><silent> r
+        \ <Cmd>call ddu#ui#filer#do_action('itemAction',
+        \ {'name': 'rename'})<CR>
+  nnoremap <buffer><silent> <Space>
+        \ <Cmd>call ddu#ui#filer#do_action('toggleSelectItem')<CR>
+  nnoremap <buffer> o
+        \ <Cmd>call ddu#ui#filer#do_action('expandItem',
+        \ {'mode': 'toggle'})<CR>
+  nnoremap <buffer><silent> q
+        \ <Cmd>call ddu#ui#filer#do_action('quit')<CR>
+endfunction
 '''
 
 [[plugins]]
