@@ -39,7 +39,42 @@ call ddu#custom#patch_local('filer', {
     \   },
     \ })
 
+call ddu#custom#patch_local('file_rec', {
+    \   'ui': 'ff',
+    \   'sources': [{
+    \     'name': 'file_rec',
+    \     'params': {'ignoredDirectories': ['.git', 'target', 'node_modules']}
+    \   }],
+    \   'sourceOptions': {
+    \     '_': {
+    \       'matchers': ['matcher_substring'],
+    \     },
+    \   },
+    \   'columnParams': {
+    \     'icon_filename': {
+    \       'defaultIcon': {'icon': ''},
+    \     },
+    \   },
+    \   'kindOptions': {
+    \     'file': {
+    \       'defaultAction': 'open',
+    \     },
+    \   },
+    \   'uiParams': {
+    \     'ff': {
+    \       'split': 'floating',
+    \       'startFilter': v:true,
+    \     }
+    \   },
+    \   'filterParams': {
+    \      'matcher_substring': {
+    \          'highlightMatched': 'Search',
+    \      },
+    \   },
+    \ })
+
 nnoremap <silent> <C-e> :call ddu#start({ 'name': 'filer' })<CR>
+nnoremap <silent> <Leader>f :call ddu#start({ 'name': 'file_rec' })<CR>
 '''
 
 [[plugins]]
@@ -47,13 +82,41 @@ repo = 'Shougo/ddu-kind-file'
 [[plugins]]
 repo = 'Shougo/ddu-source-file'
 [[plugins]]
+repo = 'Shougo/ddu-source-file_rec'
+[[plugins]]
 repo = 'ryota2357/ddu-column-icon_filename'
+[[plugins]]
+repo = 'Shougo/ddu-filter-matcher_substring'
+
+[[plugins]]
+repo = 'Shougo/ddu-ui-ff'
+hook_add = '''
+autocmd FileType ddu-ff call s:ddu_ff_my_settings()
+function s:ddu_ff_my_settings() abort
+  nnoremap <buffer> <CR>
+  \ <Cmd>call ddu#ui#do_action('itemAction')<CR>
+  nnoremap <buffer> <Space>
+  \ <Cmd>call ddu#ui#do_action('toggleSelectItem')<CR>
+  nnoremap <buffer> i
+  \ <Cmd>call ddu#ui#do_action('openFilterWindow')<CR>
+  nnoremap <buffer> q
+  \ <Cmd>call ddu#ui#do_action('quit')<CR>
+endfunction
+
+autocmd FileType ddu-ff-filter call s:ddu_ff_filter_my_settings()
+function s:ddu_ff_filter_my_settings() abort
+  inoremap <buffer> <CR>
+        \ <Esc><Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
+  nnoremap <buffer> <CR>
+        \ <Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
+endfunction
+'''
 
 [[plugins]]
 repo = 'Shougo/ddu-ui-filer'
 hook_add = '''
-autocmd FileType ddu-filer call s:ddu_my_settings()
-function! s:ddu_my_settings() abort
+autocmd FileType ddu-filer call s:ddu_filer_my_settings()
+function! s:ddu_filer_my_settings() abort
   nnoremap <buffer><silent> <CR>
         \ <Cmd>call ddu#ui#filer#do_action('itemAction')<CR>
   nnoremap <buffer><silent> N
