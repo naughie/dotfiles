@@ -54,9 +54,6 @@ repo = 'peitalin/vim-jsx-typescript'
 on_ft = ['typescriptreact']
 
 [[plugins]]
-repo = 'honza/vim-snippets'
-
-[[plugins]]
 repo = 'thinca/vim-quickrun'
 hook_add = '''
 nnoremap <Leader>r :QuickRun<cr>
