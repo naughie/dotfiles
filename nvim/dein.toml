@@ -50,11 +50,6 @@ call ddu#custom#patch_local('file_rec', {
     \       'matchers': ['matcher_substring'],
     \     },
     \   },
-    \   'columnParams': {
-    \     'icon_filename': {
-    \       'defaultIcon': {'icon': ''},
-    \     },
-    \   },
     \   'kindOptions': {
     \     'file': {
     \       'defaultAction': 'open',
@@ -108,6 +103,12 @@ function s:ddu_ff_filter_my_settings() abort
   inoremap <buffer> <CR>
         \ <Esc><Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
   nnoremap <buffer> <CR>
+        \ <Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
+  nnoremap <buffer> <ESC>
+        \ <Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
+  nnoremap <buffer> <S-ESC>
+        \ <Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
+  nnoremap <buffer> q
         \ <Cmd>call ddu#ui#do_action('closeFilterWindow')<CR>
 endfunction
 '''
@@ -163,8 +164,6 @@ function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-inoremap <silent><expr> <leader><space> coc#refresh()
 
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
