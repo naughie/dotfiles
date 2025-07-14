@@ -1,3 +1,7 @@
+-- External tools
+-- tree-sitter: cargo install --locked tree-sitter-cli
+-- ts_ls: npm install -g typescript-language-server typescript
+-- biome_ls: bun.js
 return {
     -- https://lazy.folke.io/spec/examples
     {
@@ -6,8 +10,23 @@ return {
         priority = 1000,
         config = function()
             vim.cmd([[colorscheme kawaii]])
+            vim.api.nvim_set_hl(0, 'CursorLine', { link = 'Visual' })
         end,
     },
+    -- {
+    --     'sainnhe/everforest',
+    --     lazy = false,
+    --     priority = 1000,
+    --     config = function()
+    --         vim.opt.background = 'dark'
+    --         vim.g.everforest_background = 'soft'
+    --         vim.g.everforest_better_performance = 1
+    --         vim.g.everforest_sign_column_background = 'gray'
+    --         vim.g.everforest_diagnostic_text_highlight = 1
+    --         vim.g.everforest_diagnostic_virtual_text = 'colored'
+    --         vim.cmd([[colorscheme everforest]])
+    --     end,
+    -- },
 
     {
         'naughie/termplexer.nvim',
@@ -45,7 +64,6 @@ return {
 
                 output_buffer = {
                     { 'n', 'q', ':q<CR>' },
-                    { 'n', '<Space>i', 'enter_term_insert' },
                     { 'n', 'i', 'open_cmdline_and_insert' },
                     { 'n', 'I', 'open_cmdline_and_insert' },
                     { 'n', 'a', 'open_cmdline_and_append' },
@@ -57,8 +75,9 @@ return {
                     { 'v', '<CR>', ':<C-u>lua require("termplexer").fn.open_file_from_selection()<CR>' },
                     { 'n', '<C-j>', 'open_cmdline_and_move' },
 
+                     { 'n', '<Space>i', 'enter_term_insert' },
+
                     { 't', '<C-q>', '<C-\\><C-n>' },
-                    { 't', '<Esc>', '<C-\\><C-n>' },
                 },
             },
         },
@@ -76,7 +95,7 @@ return {
 
             local treesitter_au = vim.api.nvim_create_augroup('nvim-treesitter-setup', { clear = true })
             vim.api.nvim_create_autocmd({ 'FileType' }, {
-                pattern = { 'css', 'help', 'html', 'javascript', 'javascriptreact', 'json', 'jsonc', 'latex', 'lua', 'markdown', 'plaintex', 'rust', 'sh', 'toml', 'typescript', 'typescriptreact', 'vim', 'yaml' },
+                pattern = { '*.css', '*.help', '*.html', '*.javascript', '*.javascriptreact', '*.json', '*.jsonc', '*.latex', '*.lua', '*.markdown', '*.plaintex', '*.rust', '*.sh', '*.toml', '*.typescript', '*.typescriptreact', '*.vim', '*.yaml' },
                 group = treesitter_au,
                 callback = function()
                     vim.treesitter.start()
@@ -101,8 +120,6 @@ return {
 
         version = '1.*',
 
-        ---@module 'blink.cmp'
-        ---@type blink.cmp.Config
         opts = {
             keymap = {
                 preset = 'none',
@@ -133,11 +150,7 @@ return {
                     path = {
                         opts = {
                             get_cwd = function(_)
-                                if vim.t.naughie and vim.t.naughie.term_cwd then
-                                    return vim.t.naughie.term_cwd
-                                else
-                                    return vim.fn.getcwd()
-                                end
+                                return vim.fn.getcwd()
                             end,
                             trailing_slash = false,
                             show_hidden_files_by_default = true,
@@ -146,7 +159,16 @@ return {
                 },
             },
 
-            fuzzy = { implementation = 'prefer_rust' },
+            fuzzy = {
+                implementation = 'prefer_rust',
+                max_typos = 0,
+                use_frecency = false,
+                sorts = {
+                    'exact',
+                    'score',
+                    'sort_text',
+                },
+            },
 
             signature = { enabled = true },
 
