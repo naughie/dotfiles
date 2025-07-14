@@ -5,12 +5,13 @@ local config = {
         { family = "Source Han Code JP L", assume_emoji_presentation = false },
         { family = "Source Han Code JP L", assume_emoji_presentation = true },
     },
-    font_size = 12,
+    font_size = 13,
 
     -- color_scheme = 'everforest light',
     color_scheme = 'everforest dark',
 
-    window_background_opacity = 1.0,
+    window_background_opacity = 0.96,
+    text_background_opacity = 0.4,
 
     use_fancy_tab_bar = false,
 
@@ -18,6 +19,11 @@ local config = {
 
     keys = {
         {key="h", mods="CTRL", action={SendKey={key="Backspace"}}},
+
+        {key="t", mods="CTRL|SHIFT", action="DisableDefaultAssignment"},
+        {key="Tab", mods="CTRL", action="DisableDefaultAssignment"},
+        {key="Tab", mods="CTRL|SHIFT", action="DisableDefaultAssignment"},
+        {key="w", mods="CTRL|SHIFT", action="DisableDefaultAssignment"},
 
         {key="x", mods="CTRL|SHIFT", action="DisableDefaultAssignment"},
         {key="Insert", mods="CTRL", action="DisableDefaultAssignment"},
@@ -30,6 +36,7 @@ local config = {
         {key="=", mods="CTRL", action="DisableDefaultAssignment"},
 
         {key="raw:36", mods="CTRL", action={SendKey={key="raw:36", mods="CTRL"}}},
+        {key="raw:31", mods="CTRL", action={SendKey={key="raw:31", mods="CTRL"}}},
     },
 
     audible_bell = "Disabled",
@@ -41,6 +48,8 @@ local config = {
     warn_about_missing_glyphs = false,
 
     show_update_window = false,
+
+    window_decorations = "NONE",
 }
 
 config.color_schemes = {
@@ -57,7 +66,7 @@ config.color_schemes = {
     ['everforest dark'] = {
         foreground = "#d3c6aa",
         background = "#333c43",
-        selection_bg = "#5c3f4f",
+        selection_bg = "rgba(92, 63, 79, 50%)", -- #5c3f4f
 
         ansi = {"#333c43", "#e67e80", "#a7c080", "#dbbc7f", "#7fbbb3", "#d699b6", "#83c092", "#d3b987"},
         brights = {"#333c43", "#e67e80", "#a7c080", "#dbbc7f", "#7fbbb3", "#d699b6", "#83c092", "#d3b987"},
