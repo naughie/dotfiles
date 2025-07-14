@@ -2,7 +2,8 @@ CONFIGDIR = $(PWD)
 XDG_CONFIG_HOME = $(HOME)/.config
 NVIMDIR = nvim
 TERMINFODIR = terminfo
-HOMEDIR = home
+FISHDIR = fish
+MISCDIR = misc
 WEZTERM = wezterm.lua
 
 install:
@@ -12,15 +13,17 @@ install:
 
 ln:
 	ln -s -i $(CONFIGDIR)/$(NVIMDIR) $(XDG_CONFIG_HOME)/$(NVIMDIR)
+	ln -s -i $(CONFIGDIR)/$(FISHDIR) $(XDG_CONFIG_HOME)/$(FISHDIR)
 	ln -s -i $(CONFIGDIR)/$(WEZTERM) $(HOME)/.$(WEZTERM)
 	ln -s -i $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
-	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(HOMEDIR)/{} $(HOME)/{}
+	ls -A $(CONFIGDIR)/$(MISCDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(MISCDIR)/{} $(HOME)/{}
 
 clean:
 	make TARGETFILE=$(XDG_CONFIG_HOME)/$(NVIMDIR) -s -i rm
+	make TARGETFILE=$(XDG_CONFIG_HOME)/$(FISHDIR) -s -i rm
 	make TARGETFILE=$(HOME)/.$(WEZTERM) -s -i rm
 	make TARGETFILE=$(XDG_CONFIG_HOME)/$(TERMINFODIR) -s -i rm
-	ls -A $(CONFIGDIR)/$(HOMEDIR) | xargs -I{} make TARGETFILE=$(HOME)/{} -s -i rm
+	ls -A $(CONFIGDIR)/$(MISCDIR) | xargs -I{} make TARGETFILE=$(HOME)/{} -s -i rm
 
 mkdir:
 	mkdir -p $(XDG_CONFIG_HOME)
