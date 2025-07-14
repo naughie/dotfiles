@@ -24,22 +24,6 @@
 #
 # Online reference: https://github.com/SirVer/ultisnips/blob/master/doc/UltiSnips.txt
 
-snippet crate "crate item" b
-${1} = \{ version = "${2}"${3} \}
-endsnippet
-
-snippet path "crate item with path" b
-${1} = \{ path = "${2}"${3} \}
-endsnippet
-
-snippet features "features" w
-features = ["${1}"${2}]
-endsnippet
-
-snippet disable "disable default features" w
-default-features = false
-endsnippet
-
-snippet tokio "tokio"
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+snippet import "import { } from" b
+import { ${2} } from "${1}";
 endsnippet

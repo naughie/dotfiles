@@ -1,0 +1,8 @@
+{
+  "blink.cmp": { "branch": "main", "commit": "3536ce464e82843b00c76718d9bfe1994647d686" },
+  "kawaii.nvim": { "branch": "main", "commit": "93846c88614cfa297d811a9d71484ceee0c96985" },
+  "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
+  "nvim-lspconfig": { "branch": "master", "commit": "d005da998edad401524504d03c7a88a56d125224" },
+  "nvim-treesitter": { "branch": "main", "commit": "c3ecec599b09684d900f4dd888676589a195a719" },
+  "termplexer.nvim": { "branch": "main", "commit": "a139c865f37546726ba03ca58a34055912980634" }
+}
