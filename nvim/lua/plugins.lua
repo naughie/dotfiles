@@ -28,6 +28,23 @@ return {
     --     end,
     -- },
 
+    { "naughie/glocal-states.nvim", lazy = true },
+
+    { "naughie/my-ui.nvim", lazy = true },
+
+    {
+        'naughie/lazy-filer.nvim',
+        lazy = false,
+        build = function(plugin)
+            require('lazy-filer').build_and_spawn_filer(plugin.dir)
+        end,
+        opts = function(plugin)
+            return {
+                root_dir = plugin.dir,
+            }
+        end,
+    },
+
     {
         'naughie/termplexer.nvim',
         lazy = false,
@@ -78,6 +95,7 @@ return {
                      { 'n', '<Space>i', 'enter_term_insert' },
 
                     { 't', '<C-q>', '<C-\\><C-n>' },
+                    { 't', '<Esc>', '<C-\\><C-n>' },
                 },
             },
         },
