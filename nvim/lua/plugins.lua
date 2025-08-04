@@ -41,6 +41,18 @@ return {
         opts = function(plugin)
             return {
                 root_dir = plugin.dir,
+                keymaps = {
+                    global = {
+                        { 'n', '<C-e>', 'new_filer' },
+                    },
+
+                    filer = {
+                        { 'n', 'o', 'open_or_expand' },
+                        { 'n', '<CR>', 'open_or_expand' },
+                        { 'n', 'u', 'move_to_parent' },
+                        { 'n', 'q', ':q<CR>' },
+                    },
+                },
             }
         end,
     },
