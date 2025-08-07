@@ -50,7 +50,17 @@ return {
                         { 'n', 'o', 'open_or_expand' },
                         { 'n', '<CR>', 'open_or_expand' },
                         { 'n', 'u', 'move_to_parent' },
-                        { 'n', 'q', ':q<CR>' },
+                        { 'n', '<C-n>', 'open_new_entry_win' },
+                        { 'n', 'q', 'close_filer' },
+
+                        { { 'n', 'i' }, '<C-j>', 'move_to_subwin' },
+                    },
+
+                    new_entry = {
+                        { { 'n', 'i' }, '<CR>', 'create_entry' },
+                        { 'n', 'q', 'close_subwin' },
+
+                        { { 'n', 'i' }, '<C-k>', 'move_to_filer' },
                     },
                 },
             }
@@ -89,6 +99,7 @@ return {
 
                     { 'n', 'k', 'cursor_up_or_history_prev' },
                     { 'n', 'j', 'cursor_down_or_history_next' },
+                    { 'n', '<C-c>', 'send_sigint' },
                 },
 
                 output_buffer = {
@@ -104,7 +115,9 @@ return {
                     { 'v', '<CR>', ':<C-u>lua require("termplexer").fn.open_file_from_selection()<CR>' },
                     { 'n', '<C-j>', 'open_cmdline_and_move' },
 
-                     { 'n', '<Space>i', 'enter_term_insert' },
+                    { 'n', '<C-c>', 'send_sigint' },
+
+                    { 'n', '<Space>i', 'enter_term_insert' },
 
                     { 't', '<C-q>', '<C-\\><C-n>' },
                     { 't', '<Esc>', '<C-\\><C-n>' },
