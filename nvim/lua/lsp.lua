@@ -29,6 +29,9 @@ local function diag_on_hold()
         return false
     end
 
+    local diag_win = nil
+    local diag_buf = nil
+
     local mygroup = vim.api.nvim_create_augroup('OpenDiagnosticAuto', { clear = true })
     vim.api.nvim_create_autocmd('CursorHold', {
         group = mygroup,
@@ -37,7 +40,28 @@ local function diag_on_hold()
             if is_float_open() then return end
             local diag = vim.diagnostic.get(0, { severity = { min = vim.diagnostic.severity.WARN } })
             if #diag > 0 then
-                vim.diagnostic.open_float({ border = 'rounded', scope = 'cursor' })
+                if diag_win and vim.api.nvim_win_is_valid(diag_win) then
+                    vim.api.nvim_win_close(diag_win, true)
+                end
+                if diag_buf and vim.api.nvim_buf_is_valid(diag_buf) then
+                    vim.api.nvim_buf_delete(diag_buf, { force = true })
+                end
+
+                local buf, win = vim.diagnostic.open_float({ border = 'rounded', scope = 'cursor' })
+                diag_win = win
+                diag_buf = buf
+            end
+        end,
+    })
+    vim.api.nvim_create_autocmd('WinLeave', {
+        group = mygroup,
+        pattern = '*',
+        callback = function()
+            if diag_win and vim.api.nvim_win_is_valid(diag_win) then
+                vim.api.nvim_win_close(diag_win, true)
+            end
+            if diag_buf and vim.api.nvim_buf_is_valid(diag_buf) then
+                vim.api.nvim_buf_delete(diag_buf, { force = true })
             end
         end,
     })
