@@ -100,7 +100,7 @@ return {
 
                 input_buffer = {
                     { {  'n', 'i' }, '<CR>', 'send_cmd' },
-                    { 'n', 'q', ':q<CR>' },
+                    { 'n', 'q', 'close_win' },
                     { { 'n', 'i' }, '<C-k>', 'move_to_output_win' },
                     { 'n', '<C-o>', 'open_file_from_input_buffer' },
                     { 'i', '<C-o>', function()
@@ -110,11 +110,11 @@ return {
 
                     { 'n', 'k', 'cursor_up_or_history_prev' },
                     { 'n', 'j', 'cursor_down_or_history_next' },
-                    { 'n', '<C-c>', 'send_sigint' },
+                    { { 'n', 'i' }, '<C-c>', 'send_sigint' },
                 },
 
                 output_buffer = {
-                    { 'n', 'q', ':q<CR>' },
+                    { 'n', 'q', 'close_win' },
                     { 'n', 'i', 'open_cmdline_and_insert' },
                     { 'n', 'I', 'open_cmdline_and_insert' },
                     { 'n', 'a', 'open_cmdline_and_append' },
