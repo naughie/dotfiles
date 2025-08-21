@@ -28,6 +28,17 @@ return {
     --     end,
     -- },
 
+    {
+        "naughie/nvim-router.nvim",
+        lazy = false,
+        opts = function(plugin)
+            return {
+                plugin_dir = plugin.dir,
+                ns = { "lazy-filer" },
+            }
+        end,
+    },
+
     { "naughie/glocal-states.nvim", lazy = true },
 
     { "naughie/my-ui.nvim", lazy = true },
@@ -35,58 +46,68 @@ return {
     {
         'naughie/lazy-filer.nvim',
         lazy = false,
-        build = function(plugin)
-            require('lazy-filer').build_and_spawn_filer(plugin.dir)
+        config = function(plugin, opts)
+            opts.root_dir = plugin.dir
+
+            local lf = require("lazy-filer")
+            lf.setup(opts)
+
+            require("nvim-router").register(lf.lib_info())
         end,
-        opts = function(plugin)
-            return {
-                root_dir = plugin.dir,
-                keymaps = {
-                    global = {
-                        { 'n', '<C-e>', 'new_filer' },
-                        { 'n', '<C-f>', 'move_to_filer' },
-                    },
+        opts = {
+            border = {
+                hl_group = "Keyword",
+            },
+            rpc_ns = "lazy-filer",
 
-                    filer = {
-                        { 'n', 'o', 'open_or_expand' },
-                        { 'n', '<CR>', 'open_or_expand' },
-                        { 'n', 'u', 'move_to_parent' },
-                        { 'n', '<C-n>', 'open_new_entry_win' },
-                        { 'n', 'd', 'open_delete_entry_win' },
-                        { 'n', 'r', 'refresh' },
-                        { 'n', 'm', 'open_rename_entry_win' },
-                        { 'n', 'q', 'close_filer' },
-
-                        { { 'n', 'i' }, '<C-j>', 'move_to_subwin' },
-                    },
-
-                    new_entry = {
-                        { { 'n', 'i' }, '<CR>', 'create_entry' },
-                        { 'n', 'q', 'close_subwin' },
-
-                        { { 'n', 'i' }, '<C-k>', 'move_to_filer' },
-                    },
-
-                    rename_entry = {
-                        { { 'n', 'i' }, '<CR>', 'rename_entry' },
-                        { 'n', 'q', 'close_subwin' },
-
-                        { { 'n', 'i' }, '<C-k>', 'move_to_filer' },
-                    },
+            keymaps = {
+                global = {
+                    { 'n', '<C-e>', 'new_filer' },
+                    { 'n', '<C-f>', 'move_to_filer' },
                 },
-            }
-        end,
+
+                filer = {
+                    { 'n', 'o', 'open_or_expand' },
+                    { 'n', '<CR>', 'open_or_expand' },
+                    { 'n', 'u', 'move_to_parent' },
+                    { 'n', '<C-n>', 'open_new_entry_win' },
+                    { 'n', 'd', 'open_delete_entry_win' },
+                    { 'n', 'r', 'refresh' },
+                    { 'n', 'm', 'open_rename_entry_win' },
+                    { 'n', 'q', 'close_filer' },
+
+                    { { 'n', 'i' }, '<C-j>', 'move_to_subwin' },
+                },
+
+                new_entry = {
+                    { { 'n', 'i' }, '<CR>', 'create_entry' },
+                    { 'n', 'q', 'close_subwin' },
+
+                    { { 'n', 'i' }, '<C-k>', 'move_to_filer' },
+                },
+
+                rename_entry = {
+                    { { 'n', 'i' }, '<CR>', 'rename_entry' },
+                    { 'n', 'q', 'close_subwin' },
+
+                    { { 'n', 'i' }, '<C-k>', 'move_to_filer' },
+                },
+            },
+        },
     },
 
     {
         'naughie/termplexer.nvim',
         lazy = false,
         opts = {
-            open_term_if_no_file = true,
+            open_term_if_no_file = false,
             dim = {
                 width = function() return math.floor(vim.api.nvim_get_option('columns') * 0.5) end,
                 height_output = function() return math.floor(vim.api.nvim_get_option('lines') * 0.8) end,
                 height_input = 3,
+            },
+            border = {
+                hl_group = "Keyword",
             },
 
             keymaps = {
@@ -108,6 +129,9 @@ return {
                         require("termplexer").fn.open_file_from_input_buffer()
                     end },
 
+                    { 'n', '<Space>i', 'enter_term_insert' },
+                    { 'n', 'I', 'enter_term_insert' },
+
                     { 'n', 'k', 'cursor_up_or_history_prev' },
                     { 'n', 'j', 'cursor_down_or_history_next' },
                     { { 'n', 'i' }, '<C-c>', 'send_sigint' },
@@ -116,7 +140,6 @@ return {
                 output_buffer = {
                     { 'n', 'q', 'close_win' },
                     { 'n', 'i', 'open_cmdline_and_insert' },
-                    { 'n', 'I', 'open_cmdline_and_insert' },
                     { 'n', 'a', 'open_cmdline_and_append' },
                     { 'n', 'A', 'open_cmdline_and_append' },
                     { 'n', 'o', 'open_file_under_cursor' },
@@ -129,9 +152,10 @@ return {
                     { 'n', '<C-c>', 'send_sigint' },
 
                     { 'n', '<Space>i', 'enter_term_insert' },
+                    { 'n', 'I', 'enter_term_insert' },
 
                     { 't', '<C-q>', '<C-\\><C-n>' },
-                    { 't', '<Esc>', '<C-\\><C-n>' },
+                    { 't', '<Esc>', '<Esc><C-\\><C-n>' },
                 },
             },
         },
