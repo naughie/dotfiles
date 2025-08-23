@@ -2,10 +2,11 @@ local wezterm = require 'wezterm';
 
 local config = {
     font = wezterm.font_with_fallback {
-        { family = "Source Han Code JP L", assume_emoji_presentation = false },
-        { family = "Source Han Code JP L", assume_emoji_presentation = true },
+        { family = "SauceCodePro Nerd Font", weight = "Light", assume_emoji_presentation = false },
+        { family = "Source Han Code JP L", scale = 0.975, assume_emoji_presentation = false },
+        { family = "Source Han Code JP L", scale = 0.975, assume_emoji_presentation = true },
     },
-    font_size = 13,
+    font_size = 15,
 
     -- color_scheme = 'everforest light',
     color_scheme = 'everforest dark',
