@@ -1,3 +1,8 @@
+local fnm_node_host_prog = vim.env.FNM_DIR .. "/aliases/default/bin/neovim-node-host"
+if vim.fn.executable(fnm_node_host_prog) == 1 then
+    vim.g.node_host_prog = fnm_node_host_prog
+end
+
 -- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -71,10 +76,67 @@ vim.opt.conceallevel = 0
 
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 
+local function gen_statusline()
+    local tmp_hl = vim.api.nvim_get_hl(0, { name = "Operator", link = false })
+    local fg = string.format("#%06x", tmp_hl.fg or 0)
+    vim.api.nvim_set_hl(0, "NaughieStatusLineFname", { reverse = true, fg = fg })
+    vim.api.nvim_set_hl(0, "NaughieStatusLineFnameTick", { fg = fg })
+
+    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %f%m %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
+
+    tmp_hl = vim.api.nvim_get_hl(0, { name = "Keyword", link = false })
+    fg = string.format("#%06x", tmp_hl.fg or 0)
+    vim.api.nvim_set_hl(0, "NaughieStatusLineMode", { reverse = true, fg = fg })
+    vim.api.nvim_set_hl(0, "NaughieStatusLineModeTick", { fg = fg })
+
+    local mode = "%#NaughieStatusLineModeTick#\u{e0b6}%#NaughieStatusLineMode# %{v:lua.gen_mode()} %#NaughieStatusLineModeTick#\u{e0b4}%#StatusLine#"
+
+    tmp_hl = vim.api.nvim_get_hl(0, { name = "Type", link = false })
+    fg = string.format("#%06x", tmp_hl.fg or 0)
+    vim.api.nvim_set_hl(0, "NaughieStatusLineCursor", { reverse = true, fg = fg })
+    vim.api.nvim_set_hl(0, "NaughieStatusLineCursorTick", { fg = fg })
+
+    local cursor = "%#NaughieStatusLineCursorTick#\u{e0b6}%#NaughieStatusLineCursor# \u{ed00}(%l,%v)/(%L,%{strwidth(getline('.'))}) %#NaughieStatusLineCursorTick#\u{e0b4}%#StatusLine#"
+
+    local mode_icon = "\u{f4e1}\u{a0}"
+    local mode_map = {
+          ["n"]   = "NORMAL",
+          ["i"]   = "INSERT",
+          ["v"]   = "VISUAL",
+          ["V"]   = "VISUAL\u{a0}L",
+          ["\22"] = "VISUAL\u{a0}B", -- CTRL-V
+          ["c"]   = "COMMAND",
+          ["s"]   = "SELECT",
+          ["S"]   = "SELECT\u{a0}L",
+          ["\19"] = "SELECT\u{a0}B", -- CTRL-S
+          ["R"]   = "REPLACE",
+          ["t"]   = "TERMINAL",
+    }
+    local max_mode_len = 0
+    for _, val in pairs(mode_map) do
+        max_mode_len = math.max(max_mode_len, vim.fn.strwidth(val))
+    end
+    max_mode_len = max_mode_len + vim.fn.strwidth(mode_icon)
+    function gen_mode()
+        local mode = vim.api.nvim_get_mode().mode
+        local mode_str = mode_icon .. (mode_map[mode] or mode)
+
+        local diff = max_mode_len - vim.fn.strwidth(mode_str)
+        local pad_left = math.floor(diff / 2)
+        local pad_right = diff - pad_left
+
+        return string.rep("\u{a0}", pad_left) .. mode_str .. string.rep("\u{a0}", pad_right)
+    end
+
+    local statusline = { fname, mode, cursor }
+
+    return " " .. table.concat(statusline, "%=") .. " "
+end
+-- vim.opt.fillchars:append("stl:\u{f4c3}")
+vim.opt.fillchars:append("stl:o,stlnc:o")
+vim.opt.statusline = gen_statusline()
+vim.opt.showmode = false
 vim.opt.laststatus = 2
-vim.opt.statusline = '%#StatusLineFilename#%{"@"}%f%m%#warningmsg#%=%#StatusLineCursorPosition#(%l,%c)/(%L,%{strwidth(getline("."))})'
-vim.cmd.highlight({ 'StatusLineFilename', 'ctermfg=46', 'guifg=#00ff00' })
-vim.cmd.highlight({ 'StatusLineCursorPosition', 'ctermfg=184', 'guifg=#d7d700' })
 
 vim.opt.swapfile = false
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
@@ -89,7 +151,7 @@ vim.opt.timeoutlen = 500
 
 vim.opt.shortmess:append('c')
 
-vim.opt.guicursor = { a = 'hor5-blinkon500-blinkoff500-blinkwait0' }
+vim.opt.guicursor = 'a:hor5-blinkon500-blinkoff500-blinkwait0'
 
 vim.opt.signcolumn = 'yes'
 
