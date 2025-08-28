@@ -76,13 +76,14 @@ vim.opt.conceallevel = 0
 
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 
+local fillchar = "o"
 local function gen_statusline()
     local tmp_hl = vim.api.nvim_get_hl(0, { name = "Operator", link = false })
     local fg = string.format("#%06x", tmp_hl.fg or 0)
     vim.api.nvim_set_hl(0, "NaughieStatusLineFname", { reverse = true, fg = fg })
     vim.api.nvim_set_hl(0, "NaughieStatusLineFnameTick", { fg = fg })
 
-    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %{v:lua.naughie_gen_path()}%m %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
+    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %{v:lua.naughie_gen_path()}%m%r %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
 
     tmp_hl = vim.api.nvim_get_hl(0, { name = "Keyword", link = false })
     fg = string.format("#%06x", tmp_hl.fg or 0)
@@ -147,10 +148,9 @@ local function gen_statusline()
 
     local statusline = { fname, mode, cursor }
 
-    return " " .. table.concat(statusline, "%=") .. " "
+    return fillchar .. table.concat(statusline, "%=") .. fillchar
 end
--- vim.opt.fillchars:append("stl:\u{f4c3}")
-vim.opt.fillchars:append("stl:o,stlnc:o")
+vim.opt.fillchars:append(string.format("stl:%s,stlnc:%s", fillchar, fillchar))
 vim.opt.statusline = gen_statusline()
 vim.opt.showmode = false
 vim.opt.laststatus = 2
