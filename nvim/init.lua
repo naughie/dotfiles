@@ -76,7 +76,7 @@ vim.opt.conceallevel = 0
 
 vim.opt.backspace = { 'indent', 'eol', 'start' }
 
-local fillchar = "o"
+local fillchar = "*"
 local function gen_statusline()
     local tmp_hl = vim.api.nvim_get_hl(0, { name = "Operator", link = false })
     local fg = string.format("#%06x", tmp_hl.fg or 0)
@@ -102,6 +102,7 @@ local function gen_statusline()
     local home_dir = vim.env.HOME
     function naughie_gen_path()
         local path = vim.fn.expand("%")
+        if path == "" then return "[NO\u{a0}NAME]" end
 
         local cwd = vim.uv.cwd()
         if string.find(path, cwd, 1, true) == 1 then
