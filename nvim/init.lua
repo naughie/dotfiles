@@ -82,14 +82,14 @@ local function gen_statusline()
     vim.api.nvim_set_hl(0, "NaughieStatusLineFname", { reverse = true, fg = fg })
     vim.api.nvim_set_hl(0, "NaughieStatusLineFnameTick", { fg = fg })
 
-    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %f%m %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
+    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %{v:lua.naughie_gen_path()}%m %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
 
     tmp_hl = vim.api.nvim_get_hl(0, { name = "Keyword", link = false })
     fg = string.format("#%06x", tmp_hl.fg or 0)
     vim.api.nvim_set_hl(0, "NaughieStatusLineMode", { reverse = true, fg = fg })
     vim.api.nvim_set_hl(0, "NaughieStatusLineModeTick", { fg = fg })
 
-    local mode = "%#NaughieStatusLineModeTick#\u{e0b6}%#NaughieStatusLineMode# %{v:lua.gen_mode()} %#NaughieStatusLineModeTick#\u{e0b4}%#StatusLine#"
+    local mode = "%#NaughieStatusLineModeTick#\u{e0b6}%#NaughieStatusLineMode# %{v:lua.naughie_gen_mode()} %#NaughieStatusLineModeTick#\u{e0b4}%#StatusLine#"
 
     tmp_hl = vim.api.nvim_get_hl(0, { name = "Type", link = false })
     fg = string.format("#%06x", tmp_hl.fg or 0)
@@ -97,6 +97,23 @@ local function gen_statusline()
     vim.api.nvim_set_hl(0, "NaughieStatusLineCursorTick", { fg = fg })
 
     local cursor = "%#NaughieStatusLineCursorTick#\u{e0b6}%#NaughieStatusLineCursor# \u{ed00}(%l,%v)/(%L,%{strwidth(getline('.'))}) %#NaughieStatusLineCursorTick#\u{e0b4}%#StatusLine#"
+
+    local home_dir = vim.env.HOME
+    function naughie_gen_path()
+        local path = vim.fn.expand("%")
+
+        local cwd = vim.uv.cwd()
+        if string.find(path, cwd, 1, true) == 1 then
+            path = "." .. string.sub(path, #cwd + 1)
+        end
+
+        if string.find(path, home_dir, 1, true) == 1 then
+            path = "~" .. string.sub(path, #home_dir + 1)
+        end
+
+        local shorten = vim.fn.pathshorten(path)
+        return shorten
+    end
 
     local mode_icon = "\u{f4e1}\u{a0}"
     local mode_map = {
@@ -117,7 +134,7 @@ local function gen_statusline()
         max_mode_len = math.max(max_mode_len, vim.fn.strwidth(val))
     end
     max_mode_len = max_mode_len + vim.fn.strwidth(mode_icon)
-    function gen_mode()
+    function naughie_gen_mode()
         local mode = vim.api.nvim_get_mode().mode
         local mode_str = mode_icon .. (mode_map[mode] or mode)
 
