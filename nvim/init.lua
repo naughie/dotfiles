@@ -1,6 +1,8 @@
-local fnm_node_host_prog = vim.env.FNM_DIR .. "/aliases/default/bin/neovim-node-host"
-if vim.fn.executable(fnm_node_host_prog) == 1 then
-    vim.g.node_host_prog = fnm_node_host_prog
+if vim.env.FNM_DIR then
+    local fnm_node_host_prog = vim.env.FNM_DIR .. "/aliases/default/bin/neovim-node-host"
+    if vim.fn.executable(fnm_node_host_prog) == 1 then
+        vim.g.node_host_prog = fnm_node_host_prog
+    end
 end
 
 -- Bootstrap lazy.nvim
