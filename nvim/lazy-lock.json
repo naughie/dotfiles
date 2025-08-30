@@ -1,8 +1,13 @@
 {
-  "blink.cmp": { "branch": "main", "commit": "3536ce464e82843b00c76718d9bfe1994647d686" },
-  "kawaii.nvim": { "branch": "main", "commit": "93846c88614cfa297d811a9d71484ceee0c96985" },
+  "blink.cmp": { "branch": "main", "commit": "bae4bae0eedd1fa55f34b685862e94a222d5c6f8" },
+  "glocal-states.nvim": { "branch": "main", "commit": "c12b07c1213e7c050294601cdb2e0fccc31b527f" },
+  "kawaii.nvim": { "branch": "main", "commit": "04a62a7e83b63378888be2abec2f9c5e6312b0ed" },
+  "lazy-filer.nvim": { "branch": "main", "commit": "a642f36d41f58c3d6b898524dfcdc8dd93841cbe" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
-  "nvim-lspconfig": { "branch": "master", "commit": "d005da998edad401524504d03c7a88a56d125224" },
-  "nvim-treesitter": { "branch": "main", "commit": "c3ecec599b09684d900f4dd888676589a195a719" },
-  "termplexer.nvim": { "branch": "main", "commit": "a139c865f37546726ba03ca58a34055912980634" }
+  "my-ui.nvim": { "branch": "main", "commit": "da9ba637aa696de17c9bfec1c110e2103bd7017b" },
+  "nvim-lspconfig": { "branch": "master", "commit": "408cf07b97535825cca6f1afa908d98348712ba6" },
+  "nvim-router.nvim": { "branch": "main", "commit": "6078a0383557fd487e94c6013382ef08a1a759fc" },
+  "nvim-treesitter": { "branch": "main", "commit": "cd64fd3f448eb6cc529830c7f265f7584168572b" },
+  "rg-fancy.nvim": { "branch": "main", "commit": "fbc5f494642bb7799f974e1474564dd60a2279fb" },
+  "termplexer.nvim": { "branch": "main", "commit": "5d1a6b0115d35923c56a4f3a5cc01b313783572d" }
 }
