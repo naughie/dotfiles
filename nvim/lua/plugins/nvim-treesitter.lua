@@ -1,21 +1,135 @@
+local filetypes = {
+    {
+        "bash",
+        { "sh", "bash" },
+    },
+    {
+        "bibtex",
+        { "bib" },
+    },
+    {
+        "caddy",
+        { "caddy" },
+    },
+    {
+        "cpp",
+        { "c", "cpp" },
+    },
+    {
+        "css",
+        { "css" },
+    },
+    {
+        "csv",
+        { "csv", "tsv" },
+    },
+    {
+        "dockerfile",
+        { "dockerfile" },
+    },
+    {
+        "fish",
+        { "fish" },
+    },
+    {
+        "go",
+        { "go" },
+    },
+    {
+        "html",
+        { "html" },
+    },
+    {
+        "javascript",
+        { "javascript", "javascriptreact" },
+    },
+    {
+        "json",
+        { "json", "jsonc" },
+    },
+    {
+        "latex",
+        { "latex", "plaintex", "tex" },
+    },
+    {
+        "lua",
+        { "lua" },
+    },
+    {
+        "markdown",
+        { "markdown" },
+    },
+    {
+        "rust",
+        { "rust" },
+    },
+    {
+        "scss",
+        { "scss" },
+    },
+    {
+        "ssh_config",
+        { "sshconfig" },
+    },
+    {
+        "toml",
+        { "toml" },
+    },
+    {
+        "tsx",
+        { "typescriptreact" },
+    },
+    {
+        "typescript",
+        { "typescript" },
+    },
+    {
+        "vim",
+        { "vim" },
+    },
+    {
+        "vimdoc",
+        { "help" },
+    },
+    {
+        "xml",
+        { "xml" },
+    },
+    {
+        "yaml",
+        { "yaml" },
+    },
+}
+
+local treesitter_langs = {}
+local ft_patterns = {}
+
+for _, ft_table in ipairs(filetypes) do
+    table.insert(treesitter_langs, ft_table[1])
+
+    for _, ft in ipairs(ft_table[2]) do
+        table.insert(ft_patterns, ft)
+    end
+end
+
 return {
     {
-        'nvim-treesitter/nvim-treesitter',
-        build = ':TSUpdate',
+        "nvim-treesitter/nvim-treesitter",
+        build = ":TSUpdate",
         lazy = false,
-        branch = 'main',
+        branch = "main",
         config = function () 
-            local configs = require('nvim-treesitter')
+            local configs = require("nvim-treesitter")
 
-            configs.install { 'bash', 'css', 'html', 'javascript', 'json', 'latex', 'lua', 'markdown', 'rust', 'toml', 'tsx', 'typescript', 'vim', 'vimdoc', 'yaml' }
+            configs.install(treesitter_langs)
 
-            local treesitter_au = vim.api.nvim_create_augroup('nvim-treesitter-setup', { clear = true })
-            vim.api.nvim_create_autocmd({ 'FileType' }, {
-                pattern = { '*.css', '*.help', '*.html', '*.javascript', '*.javascriptreact', '*.json', '*.jsonc', '*.latex', '*.lua', '*.markdown', '*.plaintex', '*.rust', '*.sh', '*.toml', '*.typescript', '*.typescriptreact', '*.vim', '*.yaml' },
+            local treesitter_au = vim.api.nvim_create_augroup("nvim-treesitter-setup", { clear = true })
+            vim.api.nvim_create_autocmd({ "FileType" }, {
+                pattern = ft_patterns,
                 group = treesitter_au,
                 callback = function()
                     vim.treesitter.start()
-                    vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+                    vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
                     -- vim.bo.indentexpr = 'v:lua.require"nvim-treesitter".indentexpr()'
                 end,
             })
