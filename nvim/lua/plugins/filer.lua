@@ -22,6 +22,7 @@ return {
                     filer = {
                         { 'n', 'o', 'open_or_expand' },
                         { 'n', '<CR>', 'open_or_expand' },
+                        { 'n', 'c', 'chdir_to_cursor' },
                         { 'n', 'u', 'move_to_parent' },
                         { 'n', '<C-n>', 'open_new_entry_win' },
                         { 'n', 'd', 'open_delete_entry_win' },
