@@ -57,8 +57,8 @@ return {
                     { 'n', '<Space>i', 'enter_term_insert' },
                     { 'n', 'I', 'enter_term_insert' },
 
-                    { 't', '<C-q>', '<C-\\><C-n>' },
-                    { 't', '<Esc>', '<Esc><C-\\><C-n>' },
+                    { 't', '<C-q>', '<Esc>' },
+                    { 't', '<Esc>', '<C-\\><C-n>' },
                 },
             },
         },
