@@ -4,7 +4,7 @@ return {
         lazy = false,
         opts = function(plugin)
             return {
-                root_dir = plugin.dir,
+                plugin_dir = plugin.dir,
                 border = {
                     hl_group = "Keyword",
                 },
