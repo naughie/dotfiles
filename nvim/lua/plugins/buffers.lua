@@ -9,10 +9,13 @@ return {
                     border = {
                         hl_group = "Keyword",
                     },
+                    hl = {
+                        frame_title = { link = "Operator" },
+                    },
 
                     keymaps = {
                         global = {
-                            { "n", "<Space>b", "open" },
+                            { "n", "<C-b>", "open" },
                         },
 
                         input = {
