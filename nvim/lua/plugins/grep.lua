@@ -34,6 +34,8 @@ return {
 
                         { 'n', 'j', 'goto_next_item_line' },
                         { 'n', 'k', 'goto_prev_item_line' },
+                        { 'n', 'gg', 'goto_first_item_line' },
+                        { 'n', 'G', 'goto_last_item_line' },
                     },
 
                     input = {
