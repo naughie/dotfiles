@@ -6,7 +6,6 @@ return {
         priority = 1000,
         config = function()
             vim.cmd([[colorscheme kawaii]])
-            vim.api.nvim_set_hl(0, 'CursorLine', { link = 'Visual' })
         end,
     },
 
