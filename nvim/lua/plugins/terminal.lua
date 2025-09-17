@@ -1,7 +1,7 @@
 return {
     {
-        'naughie/termplexer.nvim',
-        lazy = false,
+        "naughie/termplexer.nvim",
+        event = "VeryLazy",
         opts = {
             open_term_if_no_file = false,
             dim = {

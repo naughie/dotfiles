@@ -1,7 +1,7 @@
 return {
     {
         "naughie/nvim-router.nvim",
-        lazy = false,
+        lazy = true,
         opts = function(plugin)
             return {
                 plugin_dir = plugin.dir,

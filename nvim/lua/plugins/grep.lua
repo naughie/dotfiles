@@ -1,7 +1,7 @@
 return {
     {
-        'naughie/rg-fancy.nvim',
-        lazy = false,
+        "naughie/rg-fancy.nvim",
+        event = "VeryLazy",
         opts = function(plugin)
             return {
                 plugin_dir = plugin.dir,

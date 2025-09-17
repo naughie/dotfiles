@@ -1,7 +1,7 @@
 return {
     {
         "naughie/buffer-switcher.nvim",
-        lazy = false,
+        event = "VeryLazy",
         opts = function(plugin)
                 return {
                     plugin_dir = plugin.dir,
