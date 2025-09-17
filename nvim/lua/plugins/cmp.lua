@@ -38,6 +38,7 @@ return {
                                 return vim.fn.getcwd()
                             end,
                             trailing_slash = false,
+                            label_trailing_slash = true,
                             show_hidden_files_by_default = true,
                         },
                     },
@@ -47,7 +48,9 @@ return {
             fuzzy = {
                 implementation = 'prefer_rust',
                 max_typos = 0,
-                use_frecency = false,
+                frecency = {
+                    enabled = false,
+                },
                 sorts = {
                     'exact',
                     'score',
@@ -58,9 +61,13 @@ return {
             signature = { enabled = true },
 
             cmdline = {
+                enabled = true,
                 completion = {
                     list = {
                         selection = { preselect = false },
+                    },
+                    menu = {
+                        auto_show = true,
                     },
                 },
             },
