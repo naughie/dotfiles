@@ -1,4 +1,10 @@
-local M = {}
+local lsp = {
+    "rust_analyzer",
+    "ts_ls",
+    "denols",
+    "biome",
+    "texlab",
+}
 
 local function define_keymaps(bufnr)
     local keymap_opts = { buffer = bufnr, silent = true }
@@ -95,16 +101,14 @@ local function fmt_on_save()
     })
 end
 
-function M.setup(configs)
-    common_on_attach()
+return {
+    setup = function()
+        common_on_attach()
+        diag_on_hold()
+        fmt_on_save()
 
-    for key, config in pairs(configs) do
-        vim.lsp.enable(key)
-        vim.lsp.config(key, config)
-    end
-
-    diag_on_hold()
-    fmt_on_save()
-end
-
-return M
+        for _, key in ipairs(lsp) do
+            vim.lsp.enable(key)
+        end
+    end,
+}

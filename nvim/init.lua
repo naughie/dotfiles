@@ -39,6 +39,8 @@ require("lazy").setup({
   checker = { enabled = false },
 })
 
+require("lsp-setup").setup()
+
 vim.opt.fencs = { 'utf-8', 'euc-jp', 'shift-jis', 'default' }
 
 vim.opt.mouse = ''
