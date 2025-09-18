@@ -42,7 +42,15 @@ end
 
 return {
     rust_analyzer = {
-        cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+        cmd = (function()
+            local path = vim.fn.expand('~/bin/rust-analyzer')
+
+            if vim.fn.executable(path) == 1 then
+              return { path }
+            else
+              return { 'rustup', 'run', 'stable', 'rust-analyzer' }
+            end
+        end)(),
         settings = {
             -- https://rust-analyzer.github.io/book/configuration
             ['rust-analyzer'] = {

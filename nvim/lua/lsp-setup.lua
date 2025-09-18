@@ -14,9 +14,19 @@ local function enable_inlayhints(client, bufnr)
     end
 end
 
-local function common_on_attach(client, bufnr)
-    enable_inlayhints(client, bufnr)
-    define_keymaps(bufnr)
+local function common_on_attach()
+    local mygroup = vim.api.nvim_create_augroup('MyLspAttachCommon', { clear = true })
+    vim.api.nvim_create_autocmd('LspAttach', {
+        group = mygroup,
+        pattern = '*',
+        callback = function(ev)
+            local client = vim.lsp.get_client_by_id(ev.data.client_id)
+            local bufnr = ev.buf
+
+            enable_inlayhints(client, bufnr)
+            define_keymaps(bufnr)
+        end,
+    })
 end
 
 local function diag_on_hold()
@@ -32,7 +42,7 @@ local function diag_on_hold()
     local diag_win = nil
     local diag_buf = nil
 
-    local mygroup = vim.api.nvim_create_augroup('OpenDiagnosticAuto', { clear = true })
+    local mygroup = vim.api.nvim_create_augroup('MyOpenDiagnosticAuto', { clear = true })
     vim.api.nvim_create_autocmd('CursorHold', {
         group = mygroup,
         pattern = '*',
@@ -68,7 +78,7 @@ local function diag_on_hold()
 end
 
 local function fmt_on_save()
-    local mygroup = vim.api.nvim_create_augroup('FmtOnSave', { clear = true })
+    local mygroup = vim.api.nvim_create_augroup('MyFmtOnSave', { clear = true })
     vim.api.nvim_create_autocmd('BufWritePre', {
         group = mygroup,
         pattern = '*',
@@ -86,19 +96,11 @@ local function fmt_on_save()
 end
 
 function M.setup(configs)
-    for key, value in pairs(configs) do
-        local config = vim.deepcopy(value)
-        if value.on_attach then
-            config.on_attach = function(client, bufnr)
-                value.on_attach(client, bufnr)
-                common_on_attach(client, bufnr)
-            end
-        else
-            config.on_attach = common_on_attach
-        end
+    common_on_attach()
 
-        vim.lsp.config(key, config)
+    for key, config in pairs(configs) do
         vim.lsp.enable(key)
+        vim.lsp.config(key, config)
     end
 
     diag_on_hold()
