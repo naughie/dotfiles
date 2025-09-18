@@ -80,26 +80,28 @@ vim.opt.backspace = { 'indent', 'eol', 'start' }
 
 local fillchar = "*"
 local function gen_statusline()
-    local tmp_hl = vim.api.nvim_get_hl(0, { name = "Operator", link = false })
-    local fg = string.format("#%06x", tmp_hl.fg or 0)
-    vim.api.nvim_set_hl(0, "NaughieStatusLineFname", { reverse = true, fg = fg })
-    vim.api.nvim_set_hl(0, "NaughieStatusLineFnameTick", { fg = fg })
+    local function define_hl(base_hl_name, link_to)
+        local tmp_hl = vim.api.nvim_get_hl(0, { name = link_to, link = false })
+        local fg = string.format("#%06x", tmp_hl.fg or 0)
 
-    local fname = "%#NaughieStatusLineFnameTick#\u{e0b6}%#NaughieStatusLineFname# \u{eda5} %{v:lua.naughie_gen_path()}%m%r %#NaughieStatusLineFnameTick#\u{e0b4}%#StatusLine#"
+        local hl = "NaughieStatusLine" .. base_hl_name
+        local hl_tick = "NaughieStatusLine" .. base_hl_name .. "Tick"
 
-    tmp_hl = vim.api.nvim_get_hl(0, { name = "Keyword", link = false })
-    fg = string.format("#%06x", tmp_hl.fg or 0)
-    vim.api.nvim_set_hl(0, "NaughieStatusLineMode", { reverse = true, fg = fg })
-    vim.api.nvim_set_hl(0, "NaughieStatusLineModeTick", { fg = fg })
+        vim.api.nvim_set_hl(0, hl, { reverse = true, fg = fg })
+        vim.api.nvim_set_hl(0, hl_tick, { fg = fg })
 
-    local mode = "%#NaughieStatusLineModeTick#\u{e0b6}%#NaughieStatusLineMode# %{v:lua.naughie_gen_mode()} %#NaughieStatusLineModeTick#\u{e0b4}%#StatusLine#"
+        return function(content)
+            local left_tick = "%#" .. hl_tick .. "#\u{e0b6}"
+            local body = "%#" .. hl .. "#" .. content
+            local right_tick = "%#" .. hl_tick .. "#\u{e0b4}"
 
-    tmp_hl = vim.api.nvim_get_hl(0, { name = "Type", link = false })
-    fg = string.format("#%06x", tmp_hl.fg or 0)
-    vim.api.nvim_set_hl(0, "NaughieStatusLineCursor", { reverse = true, fg = fg })
-    vim.api.nvim_set_hl(0, "NaughieStatusLineCursorTick", { fg = fg })
+            return left_tick .. body .. right_tick .. "%#StatusLine#"
+        end
+    end
 
-    local cursor = "%#NaughieStatusLineCursorTick#\u{e0b6}%#NaughieStatusLineCursor# \u{ed00}(%l,%v)/(%L,%{strwidth(getline('.'))}) %#NaughieStatusLineCursorTick#\u{e0b4}%#StatusLine#"
+    local fname = define_hl("Fname", "Operator")(" \u{eda5} %{v:lua.naughie_gen_path()}%m%r ")
+    local mode = define_hl("Mode", "Keyword")(" %{v:lua.naughie_gen_mode()} ")
+    local cursor = define_hl("Cursor", "Type")(" \u{ed00}(%l,%v)/(%L,%{strwidth(getline('.'))}) ")
 
     local home_dir = vim.env.HOME
     function naughie_gen_path()
