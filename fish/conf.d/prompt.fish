@@ -1,3 +1,3 @@
-if command -v -q starship
-    starship init fish | source
+if command -v -q $HOME/bin/starship
+    $HOME/bin/starship init fish | source
 end

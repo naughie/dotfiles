@@ -6,7 +6,7 @@ set FNM_PATH $HOME/etc/fnm/bin
 set -x FNM_DIR $HOME/etc/fnm
 if [ -d "$FNM_PATH" ]
   set PATH "$FNM_PATH" $PATH
-  fnm env | source
+  fnm env --shell fish | source
 end
 
 set -x DENO_INSTALL $HOME/etc/deno
