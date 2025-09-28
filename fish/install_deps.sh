@@ -79,7 +79,7 @@ install_node() {
     test -x $FNM_I/bin/fnm && return 0
 
     echo 'Install fnm'
-    curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir $FNM_I --skip-shell
+    curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir $FNM_I/bin --skip-shell
     echo "Installed fnm to $FNM_I"
     echo 'Run:'
     echo ''
