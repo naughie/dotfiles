@@ -202,7 +202,9 @@ vim.keymap.set({ 'n', 'v' }, '<Space>h', '^', silent_opt)
 vim.keymap.set({ 'n', 'v' }, '<Space>l', '$', silent_opt)
 
 vim.keymap.set('n', '<Space>w', ':w<CR>', silent_opt)
-vim.keymap.set('n', '<Space>q', ':qa<CR>', silent_opt)
+vim.keymap.set('n', '<Space>q', ':detach<CR>', silent_opt)
+
+vim.keymap.set('n', '<Bar>', function() vim.cmd('vsplit | vsplit') end, silent_opt)
 
 vim.keymap.set('v', '<Space>y', '"+y', silent_opt)
 vim.keymap.set('n', 'Y', 'y$', silent_opt)
@@ -225,3 +227,21 @@ vim.keymap.set('c', '?', function()
     if vim.fn.getcmdtype() == '?' then return '\\?' end
     return '?'
 end, { expr = true })
+
+function naughie_open_file(file)
+    local bufname = vim.api.nvim_buf_get_name(0)
+    if bufname ~= '' then
+        vim.api.nvim_open_win(0, true, {
+            split = 'right',
+        })
+    end
+    vim.cmd('e ' .. vim.fn.fnameescape(file))
+end
+
+local eq_win_augroup = vim.api.nvim_create_augroup('NaughieEqualizeWindows', { clear = true }),
+vim.api.nvim_create_autocmd('UIEnter', {
+    group = eq_win_augroup,
+    callback = function()
+        vim.cmd('wincmd =')
+    end,
+})
