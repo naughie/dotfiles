@@ -53,7 +53,7 @@ install_go() {
 
     echo 'Install Go'
     GO_LATEST=$(curl -s "https://go.dev/dl/?mode=json" | jq -r '.[0].version')
-    curl -sfL https://go.dev/dl/go${GO_LATEST}.linux-amd64.tar.gz | tar xz -C "$(dirname $GO_I)"
+    curl -sfL https://go.dev/dl/${GO_LATEST}.linux-amd64.tar.gz | tar xz -C "$(dirname $GO_I)"
     echo "Installed Go to $GO_I"
 }
 
@@ -88,9 +88,11 @@ install_node() {
     echo ''
     echo 'fnm install --lts'
     echo 'fnm default lts-latest'
+    echo 'fnm use lts-latest'
     echo ''
     echo 'fnm install --latest'
     echo 'fnm default latest'
+    echo 'fnm use latest'
 }
 
 install_ruby() {
@@ -130,18 +132,78 @@ install_starship() {
     echo "Installed Starship to $HOME/bin/starship"
 }
 
-command -v -q jq
-command -v -q curl
-command -v -q git
+print_help() {
+  echo "Usage: $0 [tool1] [tool2] ..."
+  echo ""
+  echo "A script to install various development tools."
+  echo "Make sure you have installed jq, curl, git."
+  echo ""
+  echo "Available Tools (aliases in parentheses):"
+  echo "  - all"
+  echo ""
+  echo "  - anaconda (anaconda3)"
+  echo "  - bun"
+  echo "  - deno"
+  echo "  - fish"
+  echo "  - go (golang)"
+  echo "  - neovim (nvim)"
+  echo "  - node (fnm)"
+  echo "  - ruby (rb)"
+  echo "  - rust (cargo, rustc)"
+  echo "  - starship"
+  echo ""
+  echo "Example: $0 nvim bun anaconda3"
+}
+
+command -v jq >/dev/null
+command -v curl >/dev/null
+command -v git >/dev/null
 test -d $HOME/bin || mkdir $HOME/bin
 
-install_anaconda
-install_bun
-install_deno
-install_fish
-install_go
-install_neovim
-install_node
-install_ruby
-install_rust
-install_starship
+if [ "$#" -eq 0 ]; then
+  print_help
+  exit 1
+fi
+
+if [ "$1" = "all" ]; then
+  all_installers=$(declare -F | awk '{print $3}' | grep '^install_')
+
+  for installer in $all_installers; do
+    "$installer"
+  done
+
+  exit 0
+fi
+
+for arg in "$@"; do
+  target_tool="$arg"
+
+  case "$arg" in
+    anaconda3)
+      target_tool="anaconda"
+      ;;
+    golang)
+      target_tool="go"
+      ;;
+    nvim)
+      target_tool="neovim"
+      ;;
+    fnm)
+      target_tool="node"
+      ;;
+    rb)
+      target_tool="ruby"
+      ;;
+    cargo|rustc)
+      target_tool="rust"
+      ;;
+  esac
+
+  install_function="install_${target_tool}"
+
+  if [ "$(type -t "$install_function")" = "function" ]; then
+    "$install_function"
+  else
+    echo "Error: Unknown tool '$arg'. No installer function"
+  fi
+done
