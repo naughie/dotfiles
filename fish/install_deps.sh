@@ -149,7 +149,7 @@ print_help() {
   echo "  - neovim (nvim)"
   echo "  - node (fnm)"
   echo "  - ruby (rb)"
-  echo "  - rust (cargo, rustc)"
+  echo "  - rust (cargo, rustc, rustup)"
   echo "  - starship"
   echo ""
   echo "Example: $0 nvim bun anaconda3"
@@ -194,7 +194,7 @@ for arg in "$@"; do
     rb)
       target_tool="ruby"
       ;;
-    cargo|rustc)
+    cargo|rustc|rustup)
       target_tool="rust"
       ;;
   esac
