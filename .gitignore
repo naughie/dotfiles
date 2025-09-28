@@ -1,3 +1,4 @@
 /fish/conf.d/cred.fish
 /fish/completions/
 /fish/fish_variables
+/nvim/lazy-lock.json
