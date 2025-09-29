@@ -1,9 +1,12 @@
 local api = vim.api
 
-function show_in_float(cmd, cwd)
+local helper = {}
+
+function helper.show_in_float(cmd, cwd)
     local buf = api.nvim_create_buf(false, true)
-    api.nvim_buf_set_option(buf, "bufhidden", "wipe")
-    api.nvim_buf_set_option(buf, "filetype", "log")
+    api.nvim_set_option_value("bufhidden", "wipe", { buf = buf })
+    api.nvim_set_option_value("filetype", "log", { buf = buf })
+    api.nvim_set_option_value("modifiable", false, { buf = buf })
 
     local width = math.floor(api.nvim_get_option("columns") * 0.5)
     local height = math.floor(api.nvim_get_option("lines") * 0.8)
@@ -24,7 +27,7 @@ function show_in_float(cmd, cwd)
         title_pos = "center",
     })
 
-    api.nvim_buf_set_keymap(buf, "n", "q", "<Cmd>close<CR>", { silent = true })
+    api.nvim_buf_set_keymap(buf, "n", "q", ":q<CR>", { silent = true })
 
     vim.fn.jobstart(cmd, {
         term = true,
@@ -32,13 +35,15 @@ function show_in_float(cmd, cwd)
         height = height,
         width = width,
     })
+
+    vim.api.nvim_feedkeys("G", "n", true)
 end
 
-function cargocheck(opts)
+function helper.run_cargo_cmd(subcmd, opts)
     local cmd, cwd
 
     if #opts.fargs == 0 then
-        cmd = { 'cargo', 'clippy' }
+        cmd = { "cargo", subcmd }
 
         local buf_path = vim.api.nvim_buf_get_name(0)
         if buf_path == "" then
@@ -47,11 +52,18 @@ function cargocheck(opts)
             cwd = vim.fs.dirname(buf_path)
         end
     else
-        cmd = { 'cargo', 'clippy', '-p', opts.fargs[1] }
+        cmd = { "cargo", subcmd, "-p", opts.fargs[1] }
         cwd = vim.fn.getcwd()
     end
+    table.insert(cmd, "--all-features")
 
-    show_in_float(cmd, cwd)
+    helper.show_in_float(cmd, cwd)
 end
 
-api.nvim_create_user_command('Clippy', cargocheck, { nargs = '?', force = true })
+local cargo = {
+    test = function(opts) helper.run_cargo_cmd("test", opts) end,
+    check = function(opts) helper.run_cargo_cmd("clippy", opts) end,
+}
+
+api.nvim_create_user_command("Clippy", cargo.check, { nargs = "?", force = true })
+api.nvim_create_user_command("Rustest", cargo.test, { nargs = "?", force = true })
