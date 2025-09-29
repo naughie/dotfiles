@@ -202,7 +202,15 @@ vim.keymap.set({ 'n', 'v' }, '<Space>h', '^', silent_opt)
 vim.keymap.set({ 'n', 'v' }, '<Space>l', '$', silent_opt)
 
 vim.keymap.set('n', '<Space>w', ':w<CR>', silent_opt)
-vim.keymap.set('n', '<Space>q', ':detach<CR>', silent_opt)
+vim.keymap.set('n', '<Space>q', function()
+    local current_sock = vim.v.servername
+    local global_sock = vim.env.NVIM_SOCK
+    if global_sock and global_sock == current_sock then
+        vim.cmd('detach')
+    else
+        vim.cmd('qa')
+    end
+end, silent_opt)
 
 vim.keymap.set('n', '<Bar>', function() vim.cmd('vsplit | vsplit') end, silent_opt)
 

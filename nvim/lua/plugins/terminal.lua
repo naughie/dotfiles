@@ -19,7 +19,14 @@ return {
                     { { 'n', 'i', 't' }, '<C-S-t>', function() vim.cmd('stopi | tabnew | vsplit | vsplit | Term') end },
                     { { 'n', 'i', 't' }, '<C-Tab>', function() vim.cmd('stopi | tabn') end },
                     { { 'n', 'i', 't' }, '<C-S-Tab>', function() vim.cmd('stopi | tabp') end },
-                    { { 'n', 'i', 't' }, '<C-S-w>', function() vim.cmd('tabc') end },
+                    { { 'n', 'i', 't' }, '<C-S-w>', function()
+                        local tabs = vim.api.nvim_list_tabpages()
+                        if #tabs == 1 then
+                            vim.cmd('qa')
+                        else
+                            vim.cmd('tabc')
+                        end
+                    end },
                 },
 
                 input_buffer = {
