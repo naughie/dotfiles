@@ -112,6 +112,11 @@ for _, ft_table in ipairs(filetypes) do
     end
 end
 
+if vim.fn.executable("tree-sitter") == 0 then
+    return {}
+end
+
+
 return {
     {
         "nvim-treesitter/nvim-treesitter",
