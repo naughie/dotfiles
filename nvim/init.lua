@@ -263,7 +263,7 @@ function naughie_open_dir(dir)
     local curr_cwd = vim.uv.cwd()
     if curr_cwd == dir then return end
 
-    vim.cmd('tabnew | cd ' .. vim.fn.fnameescape(dir))
+    vim.cmd('tabnew | vsplit | vsplit | cd ' .. vim.fn.fnameescape(dir))
 end
 
 local eq_win_augroup = vim.api.nvim_create_augroup('NaughieEqualizeWindows', { clear = true }),

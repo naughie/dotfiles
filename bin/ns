@@ -1,0 +1,40 @@
+#!/bin/sh
+
+set -e
+
+if [ -z "$1" ]; then
+    echo "Usage: $(basename $0) SSH_HOST"
+    exit 1
+fi
+REMOTE_HOST="$1"
+
+if ! command -v nvim >/dev/null; then
+    echo "nvim is not installed."
+    exit 1
+fi
+
+LOCAL_SOCK="/tmp/nvim-${REMOTE_HOST}-$$.sock"
+SSH_SOCK="/tmp/nvimssh-${REMOTE_HOST}-$$.sock"
+
+SSH="ssh $REMOTE_HOST -S $SSH_SOCK"
+
+$SSH -M -f -N
+trap "$SSH -O exit 2>/dev/null ; rm $LOCAL_SOCK" EXIT
+
+REMOTE_USER=$($SSH whoami)
+REMOTE_SOCK="/tmp/nvim-${REMOTE_HOST}-${REMOTE_USER}.sock"
+
+PORT_MAP="${LOCAL_SOCK}:${REMOTE_SOCK}"
+if ! $SSH "test -S $REMOTE_SOCK" >/dev/null; then
+    NVIM_EXEC="/usr/bin/env fish -c \"nvim --listen $REMOTE_SOCK --headless\""
+    $SSH "bash -c 'NVIM_SOCK=${REMOTE_SOCK} nohup ${NVIM_EXEC} >/dev/null 2>&1 &'"
+    $SSH -f -N -L "${PORT_MAP}"
+    until nvim --server "$LOCAL_SOCK" --remote-send "<esc>" >/dev/null 2>&1; do
+        sleep 0.1
+    done
+else
+    $SSH -f -N -L "${PORT_MAP}"
+fi
+
+
+nvim --server "$LOCAL_SOCK" --remote-ui

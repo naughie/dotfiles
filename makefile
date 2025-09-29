@@ -5,6 +5,7 @@ TERMINFODIR = terminfo
 FISHDIR = fish
 MISCDIR = misc
 WEZTERM = wezterm.lua
+BINDIR = bin
 
 install:
 	make mkdir
@@ -16,6 +17,7 @@ ln:
 	ln -s -i $(CONFIGDIR)/$(FISHDIR) $(XDG_CONFIG_HOME)/$(FISHDIR)
 	ln -s -i $(CONFIGDIR)/$(WEZTERM) $(HOME)/.$(WEZTERM)
 	ln -s -i $(CONFIGDIR)/$(TERMINFODIR) $(XDG_CONFIG_HOME)/$(TERMINFODIR)
+	ls -A $(CONFIGDIR)/$(BINDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(BINDIR)/{} $(HOME)/$(BINDIR)/{}
 	ls -A $(CONFIGDIR)/$(MISCDIR) | xargs -I{} ln -s -i $(CONFIGDIR)/$(MISCDIR)/{} $(HOME)/{}
 
 clean:
@@ -23,10 +25,12 @@ clean:
 	make TARGETFILE=$(XDG_CONFIG_HOME)/$(FISHDIR) -s -i rm
 	make TARGETFILE=$(HOME)/.$(WEZTERM) -s -i rm
 	make TARGETFILE=$(XDG_CONFIG_HOME)/$(TERMINFODIR) -s -i rm
+	ls -A $(CONFIGDIR)/$(BINDIR) | xargs -I{} make TARGETFILE=$(HOME)/$(BINDIR)/{} -s -i rm
 	ls -A $(CONFIGDIR)/$(MISCDIR) | xargs -I{} make TARGETFILE=$(HOME)/{} -s -i rm
 
 mkdir:
 	mkdir -p $(XDG_CONFIG_HOME)
+	mkdir -p $(HOME)/$(BINDIR)
 
 tic:
 	ls -A $(XDG_CONFIG_HOME)/$(TERMINFODIR) | xargs -I{} tic $(XDG_CONFIG_HOME)/$(TERMINFODIR)/{}

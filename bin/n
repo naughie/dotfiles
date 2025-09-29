@@ -1,0 +1,22 @@
+#!/bin/sh
+
+NVIM_SOCK="/tmp/nvim.sock"
+
+nvim_open_file() {
+    NEW_CWD=$(pwd -P)
+    nvim --server "$NVIM_SOCK" --remote-expr "v:lua.naughie_open_dir(\"$NEW_CWD\")" >/dev/null 2>&1
+    if [ ! -z "$1" ]; then
+        nvim --server "$NVIM_SOCK" --remote-expr "v:lua.naughie_open_file(\"$1\")" >/dev/null 2>&1
+        shift
+        for arg in "$@"; do
+            nvim --server "$NVIM_SOCK" --remote-expr "v:lua.naughie_open_file(\"$arg\")" >/dev/null 2>&1
+        done
+    fi
+}
+
+if [ -S "$NVIM_SOCK" ]; then
+    nvim_open_file "$@" &
+    nvim --remote-ui --server "$NVIM_SOCK"
+else
+    NVIM_SOCK="$NVIM_SOCK" nvim -O3 --listen "$NVIM_SOCK" $@
+fi
