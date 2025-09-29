@@ -237,13 +237,33 @@ vim.keymap.set('c', '?', function()
 end, { expr = true })
 
 function naughie_open_file(file)
-    local bufname = vim.api.nvim_buf_get_name(0)
-    if bufname ~= '' then
-        vim.api.nvim_open_win(0, true, {
-            split = 'right',
-        })
+    local curr_buf = vim.api.nvim_buf_get_name(0)
+    if curr_buf == '' then
+        vim.cmd('e ' .. vim.fn.fnameescape(file))
+        return
     end
-    vim.cmd('e ' .. vim.fn.fnameescape(file))
+
+    local wins = vim.api.nvim_tabpage_list_wins(0)
+    if #wins == 0 or #wins == 1 then return end
+
+    local fname_modified = vim.fn.fnamemodify(file, ':p')
+    for _, win in ipairs(wins) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        local bufname = vim.api.nvim_buf_get_name(buf)
+        if bufname == fname_modified then return end
+        if bufname == '' then
+            vim.api.nvim_set_current_win(win)
+            vim.cmd('e ' .. vim.fn.fnameescape(file))
+            return
+        end
+    end
+end
+
+function naughie_open_dir(dir)
+    local curr_cwd = vim.uv.cwd()
+    if curr_cwd == dir then return end
+
+    vim.cmd('tabnew | cd ' .. vim.fn.fnameescape(dir))
 end
 
 local eq_win_augroup = vim.api.nvim_create_augroup('NaughieEqualizeWindows', { clear = true }),
