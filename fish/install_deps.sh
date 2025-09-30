@@ -35,10 +35,11 @@ install_deno() {
 
 install_fish() {
     test -x /usr/bin/fish && return 0
+    command -v jq >/dev/null || return 1
 
     echo 'Install fish'
-    FISH_LATEST=$(curl -s -f https://api.github.com/repos/fish-shell/fish-shell/releases/latest | jq -r .tag_name)
-    curl -sfL "https://github.com/fish-shell/fish-shell/releases/download/$FISH_LATEST/fish-${FISH_LATEST}-linux-x86_64.tar.xz" | tar xJ -C $HOME/bin
+    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | jq -r .tag_name)
+    curl -sfL "https://github.com/fish-shell/fish-shell/releases/download/$fish_latest/fish-${fish_latest}-linux-x86_64.tar.xz" | tar xJ -C $HOME/bin
     echo "Installed fish to $HOME/bin/fish"
     echo 'Run:'
     echo ''
@@ -52,8 +53,8 @@ install_go() {
     test -x $GO_I/bin/go && return 0
 
     echo 'Install Go'
-    GO_LATEST=$(curl -s "https://go.dev/dl/?mode=json" | jq -r '.[0].version')
-    curl -sfL https://go.dev/dl/${GO_LATEST}.linux-amd64.tar.gz | tar xz -C "$(dirname $GO_I)"
+    go_latest=$(curl -fsL "https://go.dev/VERSION?m=text" | head -1)
+    curl -sfL https://go.dev/dl/${go_latest}.linux-amd64.tar.gz | tar xz -C "$(dirname $GO_I)"
     echo "Installed Go to $GO_I"
 }
 
@@ -61,7 +62,6 @@ install_neovim() {
     test -x $HOME/bin/nvim && return 0
 
     echo 'Install neovim'
-    NVIM_LATEST=$(curl -s -f https://api.github.com/repos/neovim/neovim/releases/latest | jq -r .tag_name)
     curl -sL https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage -o $HOME/bin/nvim
     chmod u+x $HOME/bin/nvim
     echo "Installed neovim to $HOME/bin/nvim"
@@ -155,7 +155,6 @@ print_help() {
   echo "Example: $0 nvim bun anaconda3"
 }
 
-command -v jq >/dev/null
 command -v curl >/dev/null
 command -v git >/dev/null
 test -d $HOME/bin || mkdir $HOME/bin
