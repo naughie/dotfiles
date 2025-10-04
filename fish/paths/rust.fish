@@ -1,6 +1,3 @@
-function setup_rust
-    if [ -d "$CARGO_HOME" ]
-        fish_add_path "$CARGO_HOME/bin"
-    end
+if [ -d "$CARGO_HOME" ]
+    fish_add_path "$CARGO_HOME/bin"
 end
-set -ax setup_list rust

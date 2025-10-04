@@ -1,6 +1,3 @@
-function setup_go
-    if [ -d "$GOPATH" ]
-        fish_add_path "$GOPATH/bin"
-    end
+if [ -d "$GOPATH" ]
+    fish_add_path "$GOPATH/bin"
 end
-set -ax setup_list go

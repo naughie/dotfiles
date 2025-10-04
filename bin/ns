@@ -24,7 +24,7 @@ remote_sock="/tmp/nvim-${remote_host}-$($ssh_exec id -u).sock"
 
 port_map="${local_sock}:${remote_sock}"
 if ! $ssh_exec "test -S $remote_sock" >/dev/null; then
-    nvim_exec="/usr/bin/env fish -c \"nvim --listen $remote_sock --headless\""
+    nvim_exec="/usr/bin/env fish -c \"nvim_scratch --listen $remote_sock --headless\""
     $ssh_exec "bash -c 'NVIM_SOCK=$remote_sock nohup $nvim_exec >/dev/null 2>&1 &'"
     $ssh_exec -f -N -L "$port_map"
     until nvim --server "$local_sock" --remote-send "<esc>" >/dev/null 2>&1; do

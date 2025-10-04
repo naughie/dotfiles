@@ -5,45 +5,53 @@ set -x CPATH /usr/local/include $CPATH
 set -x LIBRARY_PATH /usr/local/lib $LIBRARY_PATH
 set -x LD_LIBRARY_PATH /usr/local/lib $LD_LIBRARY_PATH
 
-# set EDITOR to either nvim or vim
-command -v nvim >/dev/null &&
-  set -x EDITOR nvim ||
-  set -x EDITOR vim
-
 # set config env
 set -x XDG_CONFIG_HOME $HOME/.config
 
-for file in $__fish_config_dir/paths/*.fish
-    source $file
-end
-
 if status is-interactive
-    for target in $setup_list
-        "setup_$target"
+    for file in $__fish_config_dir/paths/*.fish
+        source $file
     end
 
     for file in $__fish_config_dir/interactive/*.fish
         source $file
     end
 else
+    function setup_impl
+        set -l target $argv[1]
+        source "$__fish_config_dir/paths/$target.fish"
+    end
     function setup
         set -l target "$argv[1]"
         switch "$target"
             case golang
-                setup_go
+                setup_impl go
             case nodejs
-                setup_node
+                setup_impl node
             case conda anaconda anaconda3 python3
-                setup_python
+                setup_impl python
             case rustc rustup cargo
-                setup_rust
+                setup_impl rust
             case latex
-                setup_tex
+                setup_impl tex
             case '*'
-                "setup_$target"
+                setup_impl $target
         end
+    end
+
+    function nvim_scratch
+        for file in $__fish_config_dir/paths/*.fish
+            source $file
+        end
+        source $__fish_config_dir/interactive/term.fish
+
+        nvim $argv
     end
 end
 
 
 fish_add_path $HOME/bin
+
+command -v nvim >/dev/null &&
+  set -x EDITOR nvim ||
+  set -x EDITOR vim
