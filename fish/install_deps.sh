@@ -34,10 +34,10 @@ install_deno() {
 }
 
 install_fish() {
-    command -v /usr/bin/python3 >/dev/null || return 1
+    command -v python3 >/dev/null || return 1
 
     echo 'Install fish'
-    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | /usr/bin/python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')
+    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')
     curl -sfL "https://github.com/fish-shell/fish-shell/releases/download/$fish_latest/fish-${fish_latest}-linux-x86_64.tar.xz" | tar xJ -C $HOME/bin
     echo "Installed fish to $HOME/bin/fish"
     echo 'Run:'
@@ -71,6 +71,24 @@ install_neovim() {
     echo 'mv squashfs-root nvim-squashfs-root'
     echo 'rm nvim && ln -s ./nvim-squashfs-root/AppRun nvim'
     echo './nvim --version'
+}
+
+install_neovim_deps() {
+    echo "Required: bun cargo deno go npm, python3"
+
+    command -v bun >/dev/null || return 1
+    command -v cargo >/dev/null || return 1
+    command -v deno >/dev/null || return 1
+    command -v go >/dev/null || return 1
+    command -v npm >/dev/null || return 1
+    command -v python3 >/dev/null || return 1
+
+    cargo install --locked tree-sitter-cli
+    npm install -g typescript-language-server typescript
+    npm install -g neovim
+    go install golang.org/x/tools/gopls@latest
+    cargo install --git https://github.com/latex-lsp/texlab --locked --tag "$(curl -fsL https://api.github.com/repos/latex-lsp/texlab/releases/latest | python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')"
+    curl -sSfL https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gzip -d >"$HOME/bin/rust-analyzer" && chmod u+x "$HOME/bin/rust-analyzer"
 }
 
 install_node() {
@@ -135,18 +153,19 @@ print_help() {
   echo "Usage: $0 [tool1] [tool2] ..."
   echo ""
   echo "A script to install various development tools."
-  echo "Make sure you have installed curl, git, /usr/bin/python3."
+  echo "Make sure you have installed curl, git, python3."
   echo ""
   echo "Available Tools (aliases in parentheses):"
   echo "  - all"
   echo ""
-  echo "  - anaconda (anaconda3)"
+  echo "  - anaconda (anaconda3, python, python3)"
   echo "  - bun"
   echo "  - deno"
   echo "  - fish"
   echo "  - go (golang)"
   echo "  - neovim (nvim)"
-  echo "  - node (fnm)"
+  echo "  - neovim_deps"
+  echo "  - node (fnm, nodejs, npm)"
   echo "  - ruby (rb)"
   echo "  - rust (cargo, rustc, rustup)"
   echo "  - starship"
@@ -177,7 +196,7 @@ for arg in "$@"; do
   target_tool="$arg"
 
   case "$arg" in
-    anaconda3)
+    anaconda3|python|python3)
       target_tool="anaconda"
       ;;
     golang)
@@ -186,7 +205,7 @@ for arg in "$@"; do
     nvim)
       target_tool="neovim"
       ;;
-    fnm)
+    fnm|nodejs|npm)
       target_tool="node"
       ;;
     rb)
