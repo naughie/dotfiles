@@ -1,9 +1,10 @@
 local lsp = {
-    "rust_analyzer",
-    "ts_ls",
-    "denols",
     "biome",
+    "denols",
+    "gopls",
+    "rust_analyzer",
     "texlab",
+    "ts_ls",
 }
 
 local function define_keymaps(bufnr)
