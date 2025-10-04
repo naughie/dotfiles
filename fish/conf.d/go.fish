@@ -1,2 +1,3 @@
 # Go
-set -x GOPATH $HOME/etc/go
+set -x GOROOT $HOME/etc/go
+set -x GOPATH $GOROOT/vendor

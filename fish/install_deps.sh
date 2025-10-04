@@ -48,7 +48,7 @@ install_fish() {
 }
 
 install_go() {
-    GO_I=${GOPATH:-$HOME/etc/go}
+    GO_I=${GOROOT:-$HOME/etc/go}
     test -x $GO_I/bin/go && return 0
 
     echo 'Install Go'
