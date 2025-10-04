@@ -34,11 +34,10 @@ install_deno() {
 }
 
 install_fish() {
-    test -x /usr/bin/fish && return 0
-    command -v jq >/dev/null || return 1
+    command -v /usr/bin/python3 >/dev/null || return 1
 
     echo 'Install fish'
-    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | jq -r .tag_name)
+    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | /usr/bin/python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')
     curl -sfL "https://github.com/fish-shell/fish-shell/releases/download/$fish_latest/fish-${fish_latest}-linux-x86_64.tar.xz" | tar xJ -C $HOME/bin
     echo "Installed fish to $HOME/bin/fish"
     echo 'Run:'
@@ -136,7 +135,7 @@ print_help() {
   echo "Usage: $0 [tool1] [tool2] ..."
   echo ""
   echo "A script to install various development tools."
-  echo "Make sure you have installed jq, curl, git."
+  echo "Make sure you have installed curl, git, /usr/bin/python3."
   echo ""
   echo "Available Tools (aliases in parentheses):"
   echo "  - all"
