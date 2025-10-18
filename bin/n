@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NVIM_SOCK="/tmp/nvim.sock"
+NVIM_SOCK="/run/user/$(id -u)/nvim.sock"
 
 nvim_open_file() {
     nvim_expr="nvim --server $NVIM_SOCK --remote-expr"

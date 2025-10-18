@@ -13,17 +13,20 @@ if ! command -v nvim >/dev/null; then
     exit 1
 fi
 
-local_sock="/tmp/nvim-${remote_host}-$$.sock"
+local_sock="/run/user/$(id -u)/nvim-${remote_host}-$$.sock"
 
-ssh_exec="ssh $remote_host -S /tmp/nvimssh-${remote_host}-$$.sock"
+ssh_exec="ssh $remote_host -S /run/user/$(id -u)/nvimssh-${remote_host}-$$.sock"
 
 $ssh_exec -M -f -N
 trap "$ssh_exec -O exit 2>/dev/null ; rm $local_sock" EXIT
 
-remote_sock="/tmp/nvim-${remote_host}-$($ssh_exec id -u).sock"
+remote_uid="$($ssh_exec id -u)"
+remote_sock="/run/user/${remote_uid}/nvim-${remote_host}-${remote_uid}.sock"
 
 port_map="${local_sock}:${remote_sock}"
-if ! $ssh_exec "test -S $remote_sock" >/dev/null; then
+
+socket_exists="$($ssh_exec ss -Hlx src $remote_sock)"
+if test -z "$socket_exists"; then
     nvim_exec="/usr/bin/env fish -c \"nvim_scratch --listen $remote_sock --headless\""
     $ssh_exec "bash -c 'NVIM_SOCK=$remote_sock nohup $nvim_exec >/dev/null 2>&1 &'"
     $ssh_exec -f -N -L "$port_map"
