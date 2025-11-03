@@ -1,6 +1,7 @@
 local lsp = {
     "biome",
     "denols",
+    "dartls",
     "gopls",
     "rust_analyzer",
     "texlab",

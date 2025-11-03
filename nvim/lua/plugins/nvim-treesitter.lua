@@ -24,6 +24,10 @@ local filetypes = {
         { "csv", "tsv" },
     },
     {
+      "dart",
+      { "dart" },
+    },
+    {
         "dockerfile",
         { "dockerfile" },
     },
