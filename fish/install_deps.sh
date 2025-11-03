@@ -14,6 +14,17 @@ install_anaconda() {
     echo "Installed Anaconda3 to $CONDA_I"
 }
 
+install_uv() {
+    test -x $HOME/bin/uv && return 0
+
+    echo 'Install uv'
+    curl -LsSf https://astral.sh/uv/install.sh | XDG_BIN_HOME=$HOME/bin UV_NO_MODIFY_PATH=1 sh
+    echo "Installed uv to $HOME/bin"
+
+    XDG_BIN_HOME=$HOME/bin $HOME/bin/uv python install --default
+    echo "Installed python to $HOME/bin"
+}
+
 install_bun() {
     BUN_I=${BUN_INSTALL:-$HOME/etc/bun}
     test -x $BUN_I/bin/bun && return 0
@@ -158,7 +169,7 @@ print_help() {
   echo "Available Tools (aliases in parentheses):"
   echo "  - all"
   echo ""
-  echo "  - anaconda (anaconda3, python, python3)"
+  echo "  - anaconda (anaconda3, conda)"
   echo "  - bun"
   echo "  - deno"
   echo "  - fish"
@@ -169,6 +180,7 @@ print_help() {
   echo "  - ruby (rb)"
   echo "  - rust (cargo, rustc, rustup)"
   echo "  - starship"
+  echo "  - uv (python, python3)"
   echo ""
   echo "Example: $0 nvim bun anaconda3"
 }
@@ -196,7 +208,7 @@ for arg in "$@"; do
   target_tool="$arg"
 
   case "$arg" in
-    anaconda3|python|python3)
+    anaconda3|conda)
       target_tool="anaconda"
       ;;
     golang)
@@ -207,6 +219,9 @@ for arg in "$@"; do
       ;;
     fnm|nodejs|npm)
       target_tool="node"
+      ;;
+    python|python3)
+      target_tool="uv"
       ;;
     rb)
       target_tool="ruby"
