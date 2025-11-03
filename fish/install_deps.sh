@@ -3,6 +3,21 @@
 set -e
 set -o pipefail
 
+# Helper tool
+install_jaq() {
+    test -x $HOME/bin/jaq && return 0
+
+    echo 'Install jaq'
+    curl -fsSL https://github.com/01mf02/jaq/releases/latest/download/jaq-$(uname -m)-unknown-linux-musl -o $HOME/bin/jaq && chmod +x $HOME/bin/jaq
+    echo "Installed jaq to $HOME/bin"
+}
+
+fetch_latest_tag() {
+    install_jaq
+    jaq=$HOME/bin/jaq
+    curl -fsL "https://api.github.com/repos/$1/releases/latest" | $jaq -r ".tag_name"
+}
+
 install_anaconda() {
     CONDA_I=${CONDA_HOME:-$HOME/etc/anaconda3}
     test -x $CONDA_I/bin/conda && return 0
@@ -45,10 +60,8 @@ install_deno() {
 }
 
 install_fish() {
-    command -v python3 >/dev/null || return 1
-
     echo 'Install fish'
-    fish_latest=$(curl -fsL https://api.github.com/repos/fish-shell/fish-shell/releases/latest | python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')
+    fish_latest="$(fetch_latest_tag fish-shell/fish-shell)"
     curl -sfL "https://github.com/fish-shell/fish-shell/releases/download/$fish_latest/fish-${fish_latest}-linux-x86_64.tar.xz" | tar xJ -C $HOME/bin
     echo "Installed fish to $HOME/bin/fish"
     echo 'Run:'
@@ -85,20 +98,19 @@ install_neovim() {
 }
 
 install_neovim_deps() {
-    echo "Required: bun cargo deno go npm, python3"
+    echo "Required: bun cargo deno go npm"
 
     command -v bun >/dev/null || return 1
     command -v cargo >/dev/null || return 1
     command -v deno >/dev/null || return 1
     command -v go >/dev/null || return 1
     command -v npm >/dev/null || return 1
-    command -v python3 >/dev/null || return 1
 
     cargo install --locked tree-sitter-cli
     npm install -g typescript-language-server typescript
     npm install -g neovim
     go install golang.org/x/tools/gopls@latest
-    cargo install --git https://github.com/latex-lsp/texlab --locked --tag "$(curl -fsL https://api.github.com/repos/latex-lsp/texlab/releases/latest | python3 -c 'import sys, json; print(json.load(sys.stdin).get("tag_name"))')"
+    cargo install --git https://github.com/latex-lsp/texlab --locked --tag "$(fetch_latest_tag latex-lsp/texlab)"
     curl -sSfL https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gzip -d >"$HOME/bin/rust-analyzer" && chmod u+x "$HOME/bin/rust-analyzer"
 }
 
@@ -164,7 +176,7 @@ print_help() {
   echo "Usage: $0 [tool1] [tool2] ..."
   echo ""
   echo "A script to install various development tools."
-  echo "Make sure you have installed curl, git, python3."
+  echo "Make sure you have installed curl, git."
   echo ""
   echo "Available Tools (aliases in parentheses):"
   echo "  - all"
@@ -174,6 +186,7 @@ print_help() {
   echo "  - deno"
   echo "  - fish"
   echo "  - go (golang)"
+  echo "  - jaq (jq)"
   echo "  - neovim (nvim)"
   echo "  - neovim_deps"
   echo "  - node (fnm, nodejs, npm)"
@@ -213,6 +226,9 @@ for arg in "$@"; do
       ;;
     golang)
       target_tool="go"
+      ;;
+    jq)
+      target_tool="jaq"
       ;;
     nvim)
       target_tool="neovim"
