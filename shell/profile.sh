@@ -60,6 +60,6 @@ export PATH=$HOME/etc/flutter/bin:$PATH
 
 case "$-" in
     *i*)
-        exec /usr/bin/fish -il
+        exec fish -il
         ;;
 esac
