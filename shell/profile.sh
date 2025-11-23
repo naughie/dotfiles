@@ -18,6 +18,9 @@ export PATH=${GOPATH}/bin:${GOROOT}/bin:$PATH
 # Node
 export FNM_DIR=$HOME/etc/fnm
 export PATH=$FNM_DIR/bin:$PATH
+if [ -d "$FNM_DIR/bin" ]; then
+    eval "$(fnm env --shell bash)"
+fi
 
 # Deno
 export DENO_INSTALL=$HOME/etc/deno
