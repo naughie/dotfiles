@@ -1,26 +1,18 @@
 return {
     -- https://lazy.folke.io/spec/examples
     {
-        'Sonya-sama/kawaii.nvim',
+        'Maya-sama/kawaii.nvim',
         lazy = false,
         priority = 1000,
-        config = function()
+        opts = {
+            override_colors = {
+                NormalFG = "#d5c3cb",
+                NormalBG = "#2c2123",
+            },
+        },
+        config = function(plugin, opts)
+            require("kawaii").setup(opts)
             vim.cmd([[colorscheme kawaii]])
         end,
     },
-
-    -- {
-    --     'sainnhe/everforest',
-    --     lazy = false,
-    --     priority = 1000,
-    --     config = function()
-    --         vim.opt.background = 'dark'
-    --         vim.g.everforest_background = 'soft'
-    --         vim.g.everforest_better_performance = 1
-    --         vim.g.everforest_sign_column_background = 'gray'
-    --         vim.g.everforest_diagnostic_text_highlight = 1
-    --         vim.g.everforest_diagnostic_virtual_text = 'colored'
-    --         vim.cmd([[colorscheme everforest]])
-    --     end,
-    -- },
 }
