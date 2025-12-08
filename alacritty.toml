@@ -1,0 +1,41 @@
+[font]
+size = 9
+builtin_box_drawing = false
+normal = { family = "SauceCodePro Nerd Font", style = "Light" }
+
+[window]
+decorations = "None"
+opacity = 0.975
+startup_mode = "Maximized"
+
+[mouse]
+hide_when_typing = true
+
+[terminal.shell]
+program = "/bin/sh"
+args = ["-il"]
+
+[colors]
+primary = { foreground = "#d5c3cb", background = "#2c2123" }
+selection = { text = "#d3c6aa", background = "#5c3f4f" }
+transparent_background_colors = true
+
+[colors.normal]
+black = "#333c43"
+red = "#e67e80"
+green = "#a7c080"
+yellow = "#dbbc7f"
+blue = "#7fbbb3"
+magenta = "#d699b6"
+cyan = "#83c092"
+white = "#d3b987"
+
+[colors.bright]
+black = "#333c43"
+red = "#e67e80"
+green = "#a7c080"
+yellow = "#dbbc7f"
+blue = "#7fbbb3"
+magenta = "#d699b6"
+cyan = "#83c092"
+white = "#d3b987"
