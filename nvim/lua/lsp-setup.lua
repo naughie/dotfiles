@@ -3,6 +3,7 @@ local lsp = {
     "denols",
     "dartls",
     "gopls",
+    "ruff",
     "rust_analyzer",
     "texlab",
     "ts_ls",

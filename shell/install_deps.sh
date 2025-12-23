@@ -98,13 +98,14 @@ install_neovim() {
 }
 
 install_neovim_deps() {
-    echo "Required: bun cargo deno go npm"
+    echo "Required: bun cargo deno go npm uv"
 
     command -v bun >/dev/null || return 1
     command -v cargo >/dev/null || return 1
     command -v deno >/dev/null || return 1
     command -v go >/dev/null || return 1
     command -v npm >/dev/null || return 1
+    command -v uv >/dev/null || return 1
 
     cargo install --locked tree-sitter-cli
     npm install -g typescript-language-server typescript
@@ -112,6 +113,7 @@ install_neovim_deps() {
     go install golang.org/x/tools/gopls@latest
     cargo install --git https://github.com/latex-lsp/texlab --locked --tag "$(fetch_latest_tag latex-lsp/texlab)"
     curl -sSfL https://github.com/rust-lang/rust-analyzer/releases/latest/download/rust-analyzer-x86_64-unknown-linux-gnu.gz | gzip -d >"$HOME/bin/rust-analyzer" && chmod u+x "$HOME/bin/rust-analyzer"
+    uv tool install ruff@latest
 }
 
 install_node() {
