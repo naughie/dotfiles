@@ -26,6 +26,7 @@ fi
 export DENO_INSTALL=$HOME/etc/deno
 export DENO_INSTALL_ROOT=$DENO_INSTALL
 export PATH=$DENO_INSTALL/bin:$PATH
+export DENO_DIR="${DENO_INSTALL}/cache"
 
 # Bun
 export BUN_INSTALL=$HOME/etc/bun
@@ -33,6 +34,17 @@ export PATH=$BUN_INSTALL/bin:$PATH
 
 # Python
 
+UV_ROOT="$HOME/etc/uv"
+export UV_INSTALL_DIR="${UV_ROOT}/bin"
+export UV_PYTHON_BIN_DIR="${UV_INSTALL_DIR}"
+export UV_CACHE_DIR="${UV_ROOT}/cache/uv"
+export UV_PYTHON_CACHE_DIR="${UV_ROOT}/cache/python"
+export UV_PYTHON_INSTALL_DIR="${UV_ROOT}/python"
+export UV_TOOL_BIN_DIR="${UV_INSTALL_DIR}"
+export UV_TOOL_DIR="${UV_ROOT}/tools"
+export PATH=$UV_INSTALL_DIR:$PATH
+
+export HF_HOME="${UV_ROOT}/hf"
 
 # Ruby
 export RBENV_ROOT=$HOME/etc/rbenv
@@ -42,6 +54,7 @@ export PATH=$RBENV_ROOT/bin:$PATH
 export CARGO_HOME=$HOME/etc/cargo
 export RUSTUP_HOME=$HOME/etc/rustup
 export PATH=$CARGO_HOME/bin:$PATH
+export CARGO_INSTALL_ROOT="${CARGO_HOME}"
 
 # TeX
 export TEXMFLOCAL=/usr/local/texlive/texmf-local
@@ -60,9 +73,11 @@ export PATH=/usr/local/texlive/$TEX_YEAR/bin/$TEX_DIST:$PATH
 # Flutter
 export PATH=$HOME/etc/flutter/bin:$PATH
 
+FISH_INSTALL="${XDG_BIN_HOME}"
+
 
 case "$-" in
     *i*)
-        exec fish -il
+        test -x "${FISH_INSTALL}/fish" && exec fish -il
         ;;
 esac
