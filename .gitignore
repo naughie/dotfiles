@@ -1,4 +1,5 @@
-/fish/conf.d/cred.fish
-/fish/completions/
-/fish/fish_variables
+/shell/fish/conf.d/cred.fish
+/shell/fish/completions/
+/shell/fish/fish_variables
+/shell/generated.profile.sh
 /nvim/lazy-lock.json

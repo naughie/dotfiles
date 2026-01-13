@@ -1,0 +1,34 @@
+[package]
+name = "tools"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+async-channel = "2.5"
+async-compression = { version = "0.4", features = ["tokio", "gzip", "xz"] }
+futures = "0.3"
+tokio-util = { version = "0.7", features = ["compat", "io", "io-util"] }
+tokio-tar = { version = "0.5", package = "astral-tokio-tar" }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+
+owo-colors = "4"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+anyhow = "1"
+clap = { version = "4.5", features = ["derive"] }
+dotenvy = "0.15"
+
+[dependencies.async_zip]
+version = "0.0.18"
+features = ["tokio", "bzip2", "deflate", "deflate64", "lzma", "xz", "zstd"]
+
+[dependencies.reqwest]
+version = "0.12"
+default-features = false
+features = ["http2", "json", "rustls-tls", "stream", "system-proxy", "gzip", "brotli", "zstd", "deflate"]
+
+[dependencies.tokio]
+version = "1"
+features = ["fs", "io-util", "io-std", "macros", "process", "rt-multi-thread", "signal", "sync"]
