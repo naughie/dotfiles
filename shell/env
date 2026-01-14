@@ -1,28 +1,28 @@
 XDG_CONFIG_HOME="${HOME}/.config"
 XDG_BIN_HOME="${HOME}/bin"
-__TOOL_ROOT="${HOME}/etc"
+_TOOL_ROOT="${HOME}/etc"
 
-GOROOT="${__TOOL_ROOT}/go"
+GOROOT="${_TOOL_ROOT}/go"
 GOPATH="${GOROOT}/vendor"
 GOCACHE="${GOROOT}/cache"
 
-FNM_DIR="${__TOOL_ROOT}/fnm"
+FNM_DIR="${_TOOL_ROOT}/fnm"
 npm_config_cache="${FNM_DIR}/cache/npm"
 
-__DENO_INSTALL="${__TOOL_ROOT}/deno"
+__DENO_INSTALL="${_TOOL_ROOT}/deno"
 DENO_INSTALL_ROOT="${__DENO_INSTALL}/bin"
 DENO_DIR="${__DENO_INSTALL}/cache"
 
-BUN_INSTALL="${__TOOL_ROOT}/bun"
+BUN_INSTALL="${_TOOL_ROOT}/bun"
 
-RBENV_ROOT="${__TOOL_ROOT}/rbenv"
+RBENV_ROOT="${_TOOL_ROOT}/rbenv"
 
-CARGO_HOME="${__TOOL_ROOT}/cargo"
+CARGO_HOME="${_TOOL_ROOT}/cargo"
 CARGO_INSTALL_ROOT="${CARGO_HOME}"
-RUSTUP_HOME="${__TOOL_ROOT}/rustup"
+RUSTUP_HOME="${_TOOL_ROOT}/rustup"
 _RUST_ANALYZER_INSTALL="${XDG_BIN_HOME}"
 
-__UV_ROOT="${__TOOL_ROOT}/uv"
+__UV_ROOT="${_TOOL_ROOT}/uv"
 UV_INSTALL_DIR="${__UV_ROOT}/bin"
 UV_CACHE_DIR="${__UV_ROOT}/cache"
 UV_PYTHON_BIN_DIR="${__UV_ROOT}/python/bin"
