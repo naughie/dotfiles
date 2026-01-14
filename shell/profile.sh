@@ -8,26 +8,26 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 _generated_profile_sh="$HOME/etc/dotfiles/shell/generated.profile.sh"
 test -f "${_generated_profile_sh}" && . "${_generated_profile_sh}"
 
-export PATH="$HOME/bin:$PATH"
+export PATH="${XDG_BIN_HOME}:$PATH"
 
 # Go
 export PATH="${GOPATH}/bin:${GOROOT}/bin:$PATH"
 
 # Node
 export PATH="${FNM_DIR}/bin:$PATH"
-if [ -d "$FNM_DIR/bin" ]; then
+if [ -x "${FNM_DIR}/bin/fnm" ]; then
     eval "$(fnm env --shell bash)"
 fi
 
 # Deno
-export PATH="${DENO_INSTALL_ROOT}/bin:$PATH"
+export PATH="${DENO_INSTALL_ROOT}:$PATH"
 
 # Bun
 export PATH="${BUN_INSTALL}/bin:$PATH"
 
 # Python
 
-export PATH="${UV_INSTALL_DIR}:$PATH"
+export PATH="${UV_INSTALL_DIR}:${UV_PYTHON_BIN_DIR}:${UV_TOOL_BIN_DIR}:$PATH"
 export HF_HOME="$HOME/etc/hf"
 
 # Ruby
