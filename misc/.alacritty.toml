@@ -1,5 +1,5 @@
 [font]
-size = 9
+size = 15
 builtin_box_drawing = false
 normal = { family = "SauceCodePro Nerd Font", style = "Light" }
 
@@ -12,7 +12,8 @@ startup_mode = "Maximized"
 hide_when_typing = true
 
 [terminal.shell]
-program = "/bin/sh"
+# program = "/bin/sh"
+program = "/bin/bash"
 args = ["-il"]
 
 [colors]

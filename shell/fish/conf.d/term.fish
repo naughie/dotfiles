@@ -1,6 +1,6 @@
 # set terminal color
-set -x TERM wezterm
-# set -x TERM alacritty
+# set -x TERM wezterm
+set -x TERM alacritty
 
 set -x CLICOLOR true
 set -x KEYTIMEOUT 1
