@@ -51,9 +51,9 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("{args:?}");
 
     match args.command {
-        Command::Install(args) => tools::install_tools(&args.env).await?,
-        Command::Link(args) => tools::setup_links(&args.env, args.root).await?,
-        Command::Profile(args) => tools::gen_profile(&args.env, args.root).await?,
+        Command::Install(args) => make::install_tools(&args.env).await?,
+        Command::Link(args) => make::setup_links(&args.env, args.root).await?,
+        Command::Profile(args) => make::gen_profile(&args.env, args.root).await?,
     }
 
     Ok(())
