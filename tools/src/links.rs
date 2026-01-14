@@ -169,7 +169,7 @@ impl Ctx {
                         let fname = entry.file_name();
 
                         let name = name_dir.join(&fname);
-                        let link_to = link_to.join(&fname);
+                        let link_to = link_to_dir.join(&fname);
 
                         resolved.push(to_resolved_link(name, link_to).await?);
                     }
