@@ -1,6 +1,5 @@
 use super::definitions;
 use super::links;
-use super::profile;
 use definitions::InstallStatus;
 
 use anyhow::{Result, anyhow};
@@ -403,6 +402,7 @@ async fn gen_profile_impl(
     root: Option<PathBuf>,
     env: &Path,
 ) -> Result<()> {
+    use owo_colors::OwoColorize as _;
     use owo_colors::colors::Green;
 
     use tokio::fs::File;
@@ -415,7 +415,28 @@ async fn gen_profile_impl(
     println!("{}", LogHeader("PROFILE", Green));
     println!();
 
-    let generated = profile::find_path(root).await?;
+    let root = if let Some(root) = root {
+        root
+    } else {
+        links::get_root().await?
+    };
+
+    println!("- repository root: {}", root.display().green());
+
+    let profile = root.join("shell/profile.sh");
+    let profile_exists = tokio::fs::try_exists(&profile).await.is_ok_and(|v| v);
+    let generated = root.join("shell/generated.profile.sh");
+
+    if !profile_exists {
+        println!("- profile.sh: {}", profile.display().red());
+        println!();
+
+        return Err(anyhow!("profile: could not find profile.sh"));
+    }
+
+    println!("- profile.sh: {}", profile.display().green());
+    println!("- generated.profile.sh: {}", generated.display().green());
+    println!();
 
     let src = File::open(env).await?;
     let src = BufReader::new(src);
@@ -439,20 +460,6 @@ async fn gen_profile_impl(
         dst.write_all(line.as_bytes()).await?;
         dst.write_all(b"\n").await?;
     }
-
-    let mut exp = profile::path_exports().into_iter().rev().fold(
-        String::from("export PATH=\""),
-        |mut acc, exp| {
-            acc.push_str("${");
-            acc.push_str(exp.root);
-            acc.push('}');
-            acc.push_str(exp.bin);
-            acc.push(':');
-            acc
-        },
-    );
-    exp.push_str("$PATH\"\n");
-    dst.write_all(exp.as_bytes()).await?;
 
     dst.shutdown().await?;
 

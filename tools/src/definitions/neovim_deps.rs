@@ -341,19 +341,29 @@ async fn run_npm(args: &[&str], name: &str) -> Result<()> {
             "{name}: fnm env --json: could not get $FNM_MULTISHELL_PATH: {fnm_env:?}"
         ));
     };
-    let exec = Path::new(activated_root).join("bin/npm");
 
-    let mut npm = Command::new(&exec);
+    let mut npm = Command::new(Path::new(activated_root).join("bin/npm"));
     npm.args(args)
         .kill_on_drop(true)
         .stdin(Stdio::null())
         .stdout(Stdio::null())
         .stderr(Stdio::null());
 
+    let activated_bin = Path::new(activated_root).join("bin");
     for (key, value) in fnm_env {
         npm.env(key, value);
     }
 
+    if let Some(path) = std::env::var_os("PATH") {
+        let mut new_path = activated_bin.into_os_string();
+        new_path.push(":");
+        new_path.push(&path);
+        npm.env("PATH", new_path);
+    } else {
+        npm.env("PATH", activated_bin);
+    }
+
+    tracing::info!("{name}: {npm:?}");
     let mut child = npm.spawn()?;
     let status = child.wait().await?;
 
