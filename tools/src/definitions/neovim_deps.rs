@@ -261,11 +261,29 @@ impl ToolInstall for RustAnalyzer {
     }
 
     async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
-        let stream = github_latest_dl(
-            "rust-lang/rust-analyzer",
-            "rust-analyzer-x86_64-unknown-linux-gnu.gz",
-        )
-        .await?;
+        fn fname() -> Result<&'static str> {
+            if cfg!(target_os = "linux") {
+                if cfg!(target_arch = "x86_64") {
+                    Ok("rust-analyzer-x86_64-unknown-linux-gnu.gz")
+                } else if cfg!(target_arch = "aarch64") {
+                    Ok("rust-analyzer-aarch64-unknown-linux-gnu.gz")
+                } else {
+                    unknown_arch()
+                }
+            } else if cfg!(target_os = "macos") {
+                if cfg!(target_arch = "x86_64") {
+                    Ok("rust-analyzer-x86_64-apple-darwin.gz")
+                } else if cfg!(target_arch = "aarch64") {
+                    Ok("rust-analyzer-aarch64-apple-darwin.gz")
+                } else {
+                    unknown_arch()
+                }
+            } else {
+                unknown_os()
+            }
+        }
+
+        let stream = github_latest_dl("rust-lang/rust-analyzer", fname()?).await?;
 
         let mut gz = gz::GzipDecoder::new(BufReader::new(stream));
 
