@@ -33,4 +33,11 @@ curl -L 'https://github.com/naughie/dotfiles/releases/latest/download/make-x86_6
 
 ```
 $ apt install -y git curl build-essential musl-dev
+$ brew install fish neovim
 ```
+
+- [Golang](https://go.dev/doc/install) for macOS
+
+# Other setups
+
+- [`xremap-config`](https://github.com/naughie/xremap-config)
