@@ -126,6 +126,23 @@ pub struct Ctx {
 
 async fn to_resolved_link(name: PathBuf, link_to: PathBuf) -> Result<ResolvedLink> {
     if matches!(tokio::fs::try_exists(&link_to).await, Ok(true)) {
+        let fs_root = Path::new("/");
+
+        for (count, ancestor) in name.ancestors().skip(1).enumerate() {
+            if ancestor == fs_root {
+                break;
+            }
+
+            if let Ok(link_to_rel) = link_to.strip_prefix(ancestor) {
+                let mut link_to = PathBuf::from("");
+                for _ in 0..count {
+                    link_to.push("..");
+                }
+                link_to.push(link_to_rel);
+                return Ok(ResolvedLink { name, link_to });
+            }
+        }
+
         Ok(ResolvedLink { name, link_to })
     } else {
         Err(anyhow!("link: {}: not found", link_to.display()))
