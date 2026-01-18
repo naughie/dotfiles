@@ -243,12 +243,13 @@ impl ToolInstall for RustAnalyzer {
     const DEPENDS_ON: &[&str] = &[];
 
     fn install_targets() -> impl IntoIterator<Item = PathBuf> {
-        [env("_RUST_ANALYZER_INSTALL").join("rust-analyzer")]
+        [env("_my_rust_analyzer_install").join("rust-analyzer")]
     }
 
     async fn already_installed() -> Result<Vec<InstallStatus>> {
         Ok(vec![
-            InstallStatus::check_file(env("_RUST_ANALYZER_INSTALL").join("rust-analyzer")).await?,
+            InstallStatus::check_file(env("_my_rust_analyzer_install").join("rust-analyzer"))
+                .await?,
         ])
     }
 
@@ -287,7 +288,7 @@ impl ToolInstall for RustAnalyzer {
 
         let mut gz = gz::GzipDecoder::new(BufReader::new(stream));
 
-        let output = env("_RUST_ANALYZER_INSTALL").join("rust-analyzer");
+        let output = env("_my_rust_analyzer_install").join("rust-analyzer");
         let mut output = BufWriter::new(create_exec(&output).await?);
         copy(&mut gz, &mut output).await?;
         output.shutdown().await?;

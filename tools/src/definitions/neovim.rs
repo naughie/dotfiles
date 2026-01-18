@@ -17,7 +17,7 @@ fn fname() -> Result<&'static str> {
 }
 
 fn bin_path() -> PathBuf {
-    env("_NVIM_INSTALL").join("nvim")
+    env("_my_nvim_install").join("nvim")
 }
 
 impl ToolInstall for Tool {
@@ -51,7 +51,7 @@ impl ToolInstall for Tool {
     async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
         let mut resp = github_latest_dl("neovim/neovim", fname()?).await?;
 
-        fs::create_dir_all(env("_NVIM_INSTALL")).await?;
+        fs::create_dir_all(env("_my_nvim_install")).await?;
         let mut f = BufWriter::new(create_exec(bin_path()).await?);
         copy(&mut resp, &mut f).await?;
         f.flush().await?;

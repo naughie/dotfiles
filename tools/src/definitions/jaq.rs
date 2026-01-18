@@ -25,7 +25,7 @@ fn fname() -> Result<&'static str> {
 }
 
 fn bin_path() -> PathBuf {
-    env("_JAQ_INSTALL").join("jq")
+    env("_my_jaq_install").join("jq")
 }
 
 impl ToolInstall for Tool {
@@ -61,7 +61,7 @@ impl ToolInstall for Tool {
     async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
         let mut resp = github_latest_dl("01mf02/jaq", fname()?).await?;
 
-        fs::create_dir_all(env("_JAQ_INSTALL")).await?;
+        fs::create_dir_all(env("_my_jaq_install")).await?;
         let mut f = BufWriter::new(create_exec(bin_path()).await?);
         copy(&mut resp, &mut f).await?;
         f.flush().await?;

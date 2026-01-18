@@ -25,7 +25,7 @@ fn fname() -> Result<&'static str> {
 }
 
 fn bin_path() -> PathBuf {
-    env("_STARSHIP_INSTALL").join("starship")
+    env("_my_starship_install").join("starship")
 }
 
 impl ToolInstall for Tool {
@@ -58,7 +58,7 @@ impl ToolInstall for Tool {
 
     async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
         let resp = github_latest_dl("starship/starship", fname()?).await?;
-        fs::create_dir_all(env("_STARSHIP_INSTALL")).await?;
+        fs::create_dir_all(env("_my_starship_install")).await?;
 
         let mut tar = tar::Tar::new(gz::GzipDecoder::new(BufReader::new(resp)));
         let mut entries = tar.entries()?;

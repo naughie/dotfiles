@@ -17,7 +17,7 @@ fn fname(ver: &str) -> Result<String> {
 }
 
 fn bin_path() -> PathBuf {
-    env("_FISH_INSTALL").join("fish")
+    env("_my_fish_install").join("fish")
 }
 
 impl ToolInstall for Tool {
@@ -50,7 +50,7 @@ impl ToolInstall for Tool {
         let ver = vers[0].as_ref().expect("vers should be non-empty");
         let url_fname = fname(ver)?;
         let resp = github_latest_dl("fish-shell/fish-shell", &url_fname).await?;
-        fs::create_dir_all(env("_FISH_INSTALL")).await?;
+        fs::create_dir_all(env("_my_fish_install")).await?;
 
         let mut tar = tar::Tar::new(xz::XzDecoder::new(BufReader::new(resp)));
         let mut entries = tar.entries()?;

@@ -406,7 +406,31 @@ async fn gen_profile_impl(
     use owo_colors::colors::Green;
 
     use tokio::fs::File;
+    use tokio::io::AsyncWrite;
     use tokio::io::{AsyncBufReadExt as _, AsyncWriteExt as _, BufReader, BufWriter};
+
+    async fn write_env(dst: &mut (impl AsyncWrite + Unpin), path: impl AsRef<Path>) -> Result<()> {
+        let src = File::open(path).await?;
+        let src = BufReader::new(src);
+
+        let mut lines = src.lines();
+        while let Some(line) = lines.next_line().await? {
+            let line = line.trim();
+            if line.is_empty() {
+                continue;
+            }
+
+            if line.starts_with('_') {
+                println!("> {line}");
+            } else {
+                println!("> export {line}");
+                dst.write_all(b"export ").await?;
+            }
+            dst.write_all(line.as_bytes()).await?;
+            dst.write_all(b"\n").await?;
+        }
+        Ok(())
+    }
 
     let _logger_handle = spawn_redirect_logger(&logger);
 
@@ -438,28 +462,15 @@ async fn gen_profile_impl(
     println!("- generated.profile.sh: {}", generated.display().green());
     println!();
 
-    let src = File::open(env).await?;
-    let src = BufReader::new(src);
-
     let dst = File::create(&generated).await?;
     let mut dst = BufWriter::new(dst);
 
-    let mut lines = src.lines();
-    while let Some(line) = lines.next_line().await? {
-        let line = line.trim();
-        if line.is_empty() {
-            continue;
-        }
-
-        if line.starts_with('_') {
-            println!("> {line}");
-        } else {
-            println!("> export {line}");
-            dst.write_all(b"export ").await?;
-        }
-        dst.write_all(line.as_bytes()).await?;
-        dst.write_all(b"\n").await?;
-    }
+    dst.write_all(b"# auto-generated in github.com:naughie/dotfiles\n")
+        .await?;
+    dst.write_all(b"###  CONFIG  ###\n").await?;
+    write_env(&mut dst, env.join("env.config")).await?;
+    dst.write_all(b"### TEMPLATE ###\n").await?;
+    write_env(&mut dst, env.join("env.template")).await?;
 
     dst.shutdown().await?;
 
@@ -508,7 +519,36 @@ async fn run_async_fn(
     env_path: &Path,
     f: impl AsyncFnOnce(Receiver<Vec<u8>>) -> Result<()>,
 ) -> Result<()> {
-    dotenvy::from_path_override(env_path)?;
+    {
+        use owo_colors::OwoColorize as _;
+
+        println!("Reading env files:");
+        let env_config = env_path.join("env.config");
+        let env_template = env_path.join("env.template");
+
+        let config_exists = tokio::fs::try_exists(&env_config).await.is_ok_and(|v| v);
+        if config_exists {
+            println!("- config:   {}", env_config.display().green());
+        } else {
+            println!("- config:   {}", env_config.display().red());
+        }
+
+        let template_exists = tokio::fs::try_exists(&env_template).await.is_ok_and(|v| v);
+        if template_exists {
+            println!("- template: {}", env_template.display().green());
+        } else {
+            println!("- template: {}", env_template.display().red());
+        }
+        println!();
+
+        if !config_exists || !template_exists {
+            return Err(anyhow!("could not read env files: not found"));
+        }
+
+        dotenvy::from_path_override(&env_config)?;
+        dotenvy::from_path_override(&env_template)?;
+    }
+
     let logger = init_log()?;
 
     let cli_fut = async move {
