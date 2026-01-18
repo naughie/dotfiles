@@ -1,9 +1,15 @@
 FROM debian:trixie-slim
 
-RUN apt install -y git curl build-essential musl-dev
+RUN apt update && apt install -y git curl build-essential musl-dev
 
-RUN cd $HOME && \
-    mkdir etc && \
+RUN groupadd --gid 1234 testgroup && \
+    useradd --home-dir /home/testuser --gid testgroup --shell /bin/sh --create-home --uid 1234 testuser
+
+USER testuser
+
+WORKDIR /home/testuser
+
+RUN mkdir etc && \
     cd etc && \
     git clone https://github.com/naughie/dotfiles.git && \
     cd dotfiles && \

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 _cmd="$0"
 case "${_cmd}" in
     */*) _script_path="${_cmd}" ;;
@@ -10,5 +12,5 @@ _dockerfile="$(dirname "${_script_path}")/Dockerfile"
 
 _docker_image_test="dotfiles:test"
 
-docker build -f "${_dockerfile}" -t "${_docker_image_test}"
+cat "${_dockerfile}" | docker build -t "${_docker_image_test}" -
 docker run --rm -it "${_docker_image_test}"
