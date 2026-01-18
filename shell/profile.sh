@@ -1,10 +1,3 @@
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-
-export CPATH=/usr/local/include:$CPATH
-export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
 __my_load_generated_profile() {
     local __generated_profile_sh="$HOME/etc/dotfiles/shell/generated.profile.sh"
     test -f "${__generated_profile_sh}" && . "${__generated_profile_sh}"
@@ -35,6 +28,15 @@ __my_setup_tools() {
 }
 
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+export CPATH=/usr/local/include:$CPATH
+export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+__my_load_generated_profile
+__my_setup_tools
 
 case "$-" in
     *i*)
