@@ -1,15 +1,9 @@
-__my_load_generated_profile() {
+__my_setup_tools_4d75232a() {
     local __generated_profile_sh="$HOME/etc/dotfiles/shell/generated.profile.sh"
-    test -f "${__generated_profile_sh}" && . "${__generated_profile_sh}"
-}
+    test -f "${__generated_profile_sh}" || return
+    . "${__generated_profile_sh}"
 
-__my_setup_tools() {
-    test -n "${_my_tool_root}" || return
-
-    # Node
-    if [ -x "${FNM_DIR}/bin/fnm" ]; then
-        eval "$("${FNM_DIR}/bin/fnm" env --shell bash)"
-    fi
+    test -x "${_my_fish_install}/fish" && _fish_exec_4d75232a="${_my_fish_install}/fish"
 
     # Hugging Face
     export HF_HOME="${_my_tool_root}/hf"
@@ -27,6 +21,15 @@ __my_setup_tools() {
             ;;
     esac
     export PATH="/usr/local/texlive/${__my_tex_year}/bin/${__my_tex_dist}:$PATH"
+
+    _my_clear_generated_envs
+
+    # Node
+    if [ -x "${FNM_DIR}/bin/fnm" ]; then
+        eval "$("${FNM_DIR}/bin/fnm" env --shell bash)"
+    fi
+
+    unset -f __my_setup_tools_4d75232a
 }
 
 
@@ -38,11 +41,10 @@ export CPLUS_INCLUDE_PATH="/usr/local/include:${CPLUS_INCLUDE_PATH}"
 export LIBRARY_PATH="/usr/local/lib:${LIBRARY_PATH}"
 export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
-__my_load_generated_profile
-__my_setup_tools
+__my_setup_tools_4d75232a
 
 case "$-" in
     *i*)
-        test -x "${_my_fish_install}/fish" && exec "${_my_fish_install}/fish" -il
+        test -n "${_fish_exec_4d75232a}" && exec "${_fish_exec_4d75232a}" -il
         ;;
 esac

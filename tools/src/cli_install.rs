@@ -409,7 +409,17 @@ async fn gen_profile_impl(
     use tokio::io::AsyncWrite;
     use tokio::io::{AsyncBufReadExt as _, AsyncWriteExt as _, BufReader, BufWriter};
 
-    async fn write_env(dst: &mut (impl AsyncWrite + Unpin), path: impl AsRef<Path>) -> Result<()> {
+    #[derive(Default)]
+    struct Ctx {
+        public_tmps: Vec<String>,
+    }
+
+    async fn write_env(
+        dst: &mut (impl AsyncWrite + Unpin),
+        path: impl AsRef<Path>,
+        ctx: &mut Ctx,
+    ) -> Result<()> {
+        let path = path.as_ref();
         let src = File::open(path).await?;
         let src = BufReader::new(src);
 
@@ -420,8 +430,22 @@ async fn gen_profile_impl(
                 continue;
             }
 
-            if line.starts_with('_') {
+            assert!(
+                line.contains('='),
+                "{}: invalid env format: no equal sign: {line:?}",
+                path.display()
+            );
+
+            dst.write_all(b"    ").await?;
+
+            if line.starts_with("__") {
+                println!("> local {line}");
+                dst.write_all(b"local ").await?;
+            } else if line.starts_with('_') {
                 println!("> {line}");
+                if let Some((key, _)) = line.split_once('=') {
+                    ctx.public_tmps.push(key.to_owned());
+                }
             } else {
                 println!("> export {line}");
                 dst.write_all(b"export ").await?;
@@ -467,10 +491,28 @@ async fn gen_profile_impl(
 
     dst.write_all(b"# auto-generated in github.com:naughie/dotfiles\n")
         .await?;
-    dst.write_all(b"###  CONFIG  ###\n").await?;
-    write_env(&mut dst, env.join("env.config")).await?;
-    dst.write_all(b"### TEMPLATE ###\n").await?;
-    write_env(&mut dst, env.join("env.template")).await?;
+
+    dst.write_all(b"__my_setup_generated_envs() {\n").await?;
+
+    let mut ctx = Ctx::default();
+
+    dst.write_all(b"    ###  CONFIG  ###\n").await?;
+    write_env(&mut dst, env.join("env.config"), &mut ctx).await?;
+    dst.write_all(b"    ### TEMPLATE ###\n").await?;
+    write_env(&mut dst, env.join("env.template"), &mut ctx).await?;
+
+    dst.write_all(b"}\n_my_clear_generated_envs() {\n").await?;
+
+    for env_key in &ctx.public_tmps {
+        dst.write_all(b"    unset -v ").await?;
+        dst.write_all(env_key.as_bytes()).await?;
+        dst.write_all(b"\n").await?;
+    }
+    dst.write_all(b"    unset -f n_my_clear_generated_envs\n")
+        .await?;
+
+    dst.write_all(b"}\n__my_setup_generated_envs\nunset -f __my_setup_generated_envs\n")
+        .await?;
 
     dst.shutdown().await?;
 
