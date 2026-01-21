@@ -4,6 +4,8 @@ __my_load_generated_profile() {
 }
 
 __my_setup_tools() {
+    test -n "${_my_tool_root}" || return
+
     # Node
     if [ -x "${FNM_DIR}/bin/fnm" ]; then
         eval "$("${FNM_DIR}/bin/fnm" env --shell bash)"
@@ -31,9 +33,10 @@ __my_setup_tools() {
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-export CPATH=/usr/local/include:$CPATH
-export LIBRARY_PATH=/usr/local/lib:$LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export C_INCLUDE_PATH="/usr/local/include:${C_INCLUDE_PATH}"
+export CPLUS_INCLUDE_PATH="/usr/local/include:${CPLUS_INCLUDE_PATH}"
+export LIBRARY_PATH="/usr/local/lib:${LIBRARY_PATH}"
+export LD_LIBRARY_PATH="/usr/local/lib:${LD_LIBRARY_PATH}"
 
 __my_load_generated_profile
 __my_setup_tools
