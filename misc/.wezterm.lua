@@ -65,8 +65,8 @@ config.color_schemes = {
     },
 
     ['everforest dark'] = {
-        foreground = "#d3c6aa",
-        background = "#333c43",
+        foreground = "#d5c3cb",
+        background = "#2c2123",
         selection_bg = "rgba(92, 63, 79, 50%)", -- #5c3f4f
 
         ansi = {"#333c43", "#e67e80", "#a7c080", "#dbbc7f", "#7fbbb3", "#d699b6", "#83c092", "#d3b987"},
