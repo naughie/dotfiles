@@ -35,7 +35,7 @@ impl ToolInstall for Tool {
     async fn get_installed_version() -> Result<Vec<Option<String>>> {
         let ver = cmd_stdout(bin_path(), &["--version"]).await?;
         if let Some((_, ver)) = ver.rsplit_once(' ') {
-            Ok(vec![Some(format!("v{ver}")), None])
+            Ok(vec![Some(format!("v{ver}"))])
         } else {
             Err(anyhow!("fish: invalid version format: {ver}"))
         }

@@ -76,12 +76,13 @@ impl ToolInstall for Tool {
         let Some((ver, _)) = ver.split_once(' ') else {
             return Err(anyhow!("deno: invalid version format: deno {ver}"));
         };
-        Ok(vec![Some(format!("v{ver}")), None])
+        let ver = format!("v{ver}");
+        Ok(vec![Some(ver.clone()), Some(ver)])
     }
 
     async fn get_latest_version() -> Result<Vec<Option<String>>> {
         let ver = github_latest_tag("denoland/deno").await?;
-        Ok(vec![Some(ver.to_owned())])
+        Ok(vec![Some(ver.to_owned()), Some(ver)])
     }
 
     async fn install(status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {

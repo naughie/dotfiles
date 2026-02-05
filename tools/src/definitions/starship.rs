@@ -45,7 +45,7 @@ impl ToolInstall for Tool {
         if let Some(line) = ver.lines().next()
             && let Some((_, ver)) = line.split_once(' ')
         {
-            Ok(vec![Some(format!("v{ver}")), None])
+            Ok(vec![Some(format!("v{ver}"))])
         } else {
             Err(anyhow!("starship: invalid version format: {ver}"))
         }
