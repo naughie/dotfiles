@@ -501,7 +501,7 @@ async fn gen_profile_impl(
         dst.write_all(env_key.as_bytes()).await?;
         dst.write_all(b"\n").await?;
     }
-    dst.write_all(b"    unset -f n_my_clear_generated_envs\n")
+    dst.write_all(b"    unset -f _my_clear_generated_envs\n")
         .await?;
 
     dst.write_all(b"}\n__my_setup_generated_envs\nunset -f __my_setup_generated_envs\n")
