@@ -239,14 +239,7 @@ async fn install_tools_impl(logger: Receiver<Vec<u8>>) -> Result<()> {
         println!(")");
 
         let tx = &notifiers[tool.name];
-        if let Err(e) = tx.send(Some(())) {
-            println!(
-                "{}{}",
-                "Could not send notification with ".red(),
-                tool.name.red()
-            );
-            return Err(e.into());
-        }
+        tx.send(Some(())).ok();
     }
 
     println!();
