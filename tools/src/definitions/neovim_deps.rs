@@ -5,6 +5,7 @@ mod dep {
     pub(super) use super::super::golang::Tool as Go;
     pub(super) use super::super::rust::Tool as Rust;
     pub(super) use super::super::uv::Tool as Uv;
+    pub(super) use super::super::zig::Tool as Zig;
 }
 use dep::*;
 
@@ -84,6 +85,42 @@ impl ToolInstall for Texlab {
         .await?;
 
         tracing::info!("texlab: install done");
+        Ok(())
+    }
+}
+
+pub struct ZigBuild;
+
+impl ToolInstall for ZigBuild {
+    const NAME: &str = "cargo-zigbuild";
+    const DEPENDS_ON: &[&str] = &[Rust::NAME, Zig::NAME];
+
+    fn install_targets() -> impl IntoIterator<Item = PathBuf> {
+        [env("CARGO_INSTALL_ROOT").join("bin/cargo-zigbuild")]
+    }
+
+    async fn already_installed() -> Result<Vec<InstallStatus>> {
+        Ok(vec![
+            InstallStatus::check_file(env("CARGO_INSTALL_ROOT").join("bin/cargo-zigbuild")).await?,
+        ])
+    }
+
+    async fn get_installed_version() -> Result<Vec<Option<String>>> {
+        Ok(vec![None])
+    }
+
+    async fn get_latest_version() -> Result<Vec<Option<String>>> {
+        Ok(vec![None])
+    }
+
+    async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
+        cmd_stdout(
+            env("CARGO_HOME").join("bin/cargo"),
+            &["install", "--locked", "cargo-zigbuild"],
+        )
+        .await?;
+
+        tracing::info!("cargo-zigbuild: install done");
         Ok(())
     }
 }

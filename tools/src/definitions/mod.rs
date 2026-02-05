@@ -269,10 +269,11 @@ mod neovim_deps;
 mod rust;
 mod starship;
 mod uv;
+mod zig;
 
 pub(super) async fn list_tools() -> Result<Vec<(&'static str, Result<Installer>)>> {
     let mut tasks = _list_tools!(
-        bun, deno, fish, fnm, golang, jaq, neovim, rust, starship, uv,
+        bun, deno, fish, fnm, golang, jaq, neovim, rust, starship, uv, zig,
     );
 
     _list_tools! {
@@ -284,6 +285,7 @@ pub(super) async fn list_tools() -> Result<Vec<(&'static str, Result<Installer>)
         Gopls,
         Ruff,
         RustAnalyzer,
+        ZigBuild,
     }
 
     let mut v = Vec::new();
