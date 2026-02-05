@@ -2,7 +2,9 @@ use super::prelude::*;
 use super::retry_get;
 
 use serde::Deserialize;
+
 use std::collections::BTreeMap;
+use std::path::Path;
 
 pub struct Tool;
 
@@ -51,7 +53,7 @@ impl ToolInstall for Tool {
 
     async fn get_latest_version() -> Result<Vec<Option<String>>> {
         let resp = get_index().await?;
-        Ok(vec![Some(resp.version.to_owned())])
+        Ok(vec![resp.version])
     }
 
     async fn install(status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
@@ -62,6 +64,14 @@ impl ToolInstall for Tool {
         let key = json_key()?;
         let ver = get_index().await?;
         let url = &ver.items[key].tarball;
+
+        let prefix = if let Some((_, fname)) = url.rsplit_once('/')
+            && let Some(prefix) = fname.strip_suffix(".tar.xz")
+        {
+            prefix
+        } else {
+            return Err(anyhow!("zig: invalid URL format: {url}"));
+        };
 
         tracing::info!("zig: fetch {url}");
         let resp = retry_get(url, None).await?;
@@ -79,11 +89,67 @@ impl ToolInstall for Tool {
         {
             let status = status[0];
             if status != InstallStatus::NotExists {
-                tokio::fs::remove_dir_all(&dst).await?;
+                fs::remove_dir_all(&dst).await?;
             }
         }
 
-        tar.unpack(&dst).await?;
+        let prefix_dot = format!("./{prefix}");
+
+        let mut entries = tar.entries()?;
+        while let Some(entry) = entries.next().await {
+            let mut entry = entry?;
+
+            let path = entry.path()?;
+
+            let path = if let Ok(path) = path.strip_prefix(prefix) {
+                path
+            } else if let Ok(path) = path.strip_prefix(&prefix_dot) {
+                path
+            } else {
+                return Err(anyhow!(
+                    "zig: path not started with {prefix:?}: {}",
+                    path.display()
+                ));
+            };
+
+            let dst = dst.join(path);
+
+            let header = entry.header();
+            let entry_type = header.entry_type();
+
+            if entry_type.is_dir() {
+                fs::create_dir_all(&dst).await?;
+            } else if entry_type.is_file() {
+                if let Some(parent) = dst.parent() {
+                    fs::create_dir_all(parent).await?;
+                }
+
+                let mut f = BufWriter::new(if path == Path::new("zig") {
+                    fs::File::options()
+                        .write(true)
+                        .create(true)
+                        .truncate(true)
+                        .mode(0o755)
+                        .open(&dst)
+                        .await?
+                } else {
+                    fs::File::options()
+                        .write(true)
+                        .create(true)
+                        .truncate(true)
+                        .mode(0o644)
+                        .open(&dst)
+                        .await?
+                });
+                copy(&mut entry, &mut f).await?;
+                f.flush().await?;
+            } else {
+                return Err(anyhow!(
+                    "zig: unknown file type {entry_type:?}: {}",
+                    path.display()
+                ));
+            }
+        }
 
         tracing::info!("zig: install done");
         Ok(())
@@ -92,12 +158,15 @@ impl ToolInstall for Tool {
 
 #[derive(Deserialize)]
 struct Version {
-    version: String,
+    #[serde(rename = "version", default)]
+    version: Option<String>,
     date: String,
     #[serde(rename = "docs")]
     _docs: String,
-    #[serde(rename = "stdDocs")]
-    _std_docs: String,
+    #[serde(rename = "stdDocs", default)]
+    _std_docs: Option<String>,
+    #[serde(rename = "notes", default)]
+    _notes: Option<String>,
     #[serde(flatten)]
     items: BTreeMap<String, Item>,
 }
