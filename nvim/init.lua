@@ -187,6 +187,10 @@ vim.opt.cursorline = true
 
 vim.opt.completeopt:append({ 'menuone', 'noselect', 'popup' })
 
+if vim.env.SSH_CONNECTION ~= nil then
+    vim.g.clipboard = 'osc52'
+end
+
 
 
 local silent_opt = { silent = true }

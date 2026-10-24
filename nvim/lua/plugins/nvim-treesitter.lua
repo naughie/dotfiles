@@ -123,27 +123,28 @@ end
 if vim.fn.executable("tree-sitter") == 0 then
     return {}
 end
+return {}
 
 
-return {
-    {
-        "nvim-treesitter/nvim-treesitter",
-        build = ":TSUpdate",
-        lazy = false,
-        branch = "main",
-        config = function () 
-            local configs = require("nvim-treesitter")
-
-            configs.install(treesitter_langs)
-
-            local treesitter_au = vim.api.nvim_create_augroup("nvim-treesitter-setup", { clear = true })
-            vim.api.nvim_create_autocmd({ "FileType" }, {
-                pattern = ft_patterns,
-                group = treesitter_au,
-                callback = function()
-                    vim.treesitter.start()
-                end,
-            })
-        end
-    },
-}
+-- return {
+--     {
+--         "nvim-treesitter/nvim-treesitter",
+--         build = ":TSUpdate",
+--         lazy = false,
+--         branch = "main",
+--         config = function ()
+--             local configs = require("nvim-treesitter")
+--
+--             configs.install(treesitter_langs)
+--
+--             local treesitter_au = vim.api.nvim_create_augroup("nvim-treesitter-setup", { clear = true })
+--             vim.api.nvim_create_autocmd({ "FileType" }, {
+--                 pattern = ft_patterns,
+--                 group = treesitter_au,
+--                 callback = function()
+--                     vim.treesitter.start()
+--                 end,
+--             })
+--         end
+--     },
+-- }

@@ -1,7 +1,7 @@
 return {
     -- https://lazy.folke.io/spec/examples
     {
-        'Maya-sama/kawaii.nvim',
+        dir = vim.fn.expand("~/etc/dotfiles/nvim/lib/kawaii.nvim"),
         lazy = false,
         priority = 1000,
         opts = {
