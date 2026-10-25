@@ -41,3 +41,5 @@ $ brew install xz fish neovim
 # Other setups
 
 - [`xremap-config`](https://github.com/naughie/xremap-config)
+- [`nvim-wrapper`](https://github.com/naughie/nvim-wrapper)
+- [`python-alias`](https://github.com/naughie/python-alias)

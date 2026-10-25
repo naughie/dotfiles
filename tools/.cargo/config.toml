@@ -1,6 +1,3 @@
-[build]
-target = "x86_64-unknown-linux-musl"
-
 [alias]
 b = "build --release"
 i = "run --release -- install"

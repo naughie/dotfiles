@@ -25,52 +25,45 @@ fn fname() -> Result<&'static str> {
 }
 
 fn bin_path() -> PathBuf {
-    env("_my_starship_install").join("starship")
+    env_path("_my_starship_install", "starship")
 }
 
 impl ToolInstall for Tool {
     const NAME: &str = "starship";
     const DEPENDS_ON: &[&str] = &[];
 
-    fn install_targets() -> impl IntoIterator<Item = PathBuf> {
-        [bin_path()]
+    fn install_targets() -> InstallTargets {
+        [bin_path()].into()
     }
 
-    async fn already_installed() -> Result<Vec<InstallStatus>> {
-        Ok(vec![InstallStatus::check_file(bin_path()).await?])
+    async fn get_installed_version(targets: &[PathBuf]) -> Result<Versions> {
+        let output = cmd_stdout(&targets[0], &["--version"]).await?;
+
+        Ok([Some(version(output, "starship ")?)].into())
     }
 
-    async fn get_installed_version() -> Result<Vec<Option<String>>> {
-        let ver = cmd_stdout(bin_path(), &["--version"]).await?;
-        if let Some(line) = ver.lines().next()
-            && let Some((_, ver)) = line.split_once(' ')
-        {
-            Ok(vec![Some(format!("v{ver}"))])
-        } else {
-            Err(anyhow!("starship: invalid version format: {ver}"))
-        }
+    async fn get_latest_version() -> Result<Versions> {
+        let tag = github_latest_tag("starship/starship").await?;
+
+        Ok([Some(version(tag, "")?)].into())
     }
 
-    async fn get_latest_version() -> Result<Vec<Option<String>>> {
-        let ver = github_latest_tag("starship/starship").await?;
-        Ok(vec![Some(ver.to_owned())])
-    }
-
-    async fn install(_status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
+    async fn install(_status: InstallStatuses, _vers: Versions) -> Result<()> {
         let resp = github_latest_dl("starship/starship", fname()?).await?;
-        fs::create_dir_all(env("_my_starship_install")).await?;
 
-        let mut tar = tar::Tar::new(gz::GzipDecoder::new(BufReader::new(resp)));
+        let mut tar = tar::Tar::new(gz::GzipDecoder::new(resp));
         let mut entries = tar.entries()?;
 
         while let Some(entry) = entries.next().await {
             let mut entry = entry?;
             let entry_type = entry.header().entry_type();
+
             if !matches!(entry_type, tar::EntryType::Regular) {
                 continue;
             }
 
             let path = entry.path()?;
+
             let Some(fname) = path.file_name() else {
                 return Err(anyhow!("starship: unknown file path: {}", path.display()));
             };
@@ -78,9 +71,7 @@ impl ToolInstall for Tool {
                 return Err(anyhow!("starship: unknown file path: {}", path.display()));
             }
 
-            let mut f = BufWriter::new(create_exec(bin_path()).await?);
-            copy(&mut entry, &mut f).await?;
-            f.flush().await?;
+            install_exec(&mut entry, bin_path()).await?;
 
             tracing::info!("starship: install done");
             return Ok(());

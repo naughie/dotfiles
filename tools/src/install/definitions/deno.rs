@@ -47,62 +47,45 @@ fn denort_fname() -> Result<&'static str> {
 }
 
 fn deno_path() -> PathBuf {
-    env("DENO_INSTALL_ROOT").join("deno")
+    env_path("DENO_INSTALL_ROOT", "deno")
 }
+
 fn denort_path() -> PathBuf {
-    env("DENO_INSTALL_ROOT").join("denort")
+    env_path("DENO_INSTALL_ROOT", "denort")
 }
 
 impl ToolInstall for Tool {
     const NAME: &str = "deno";
     const DEPENDS_ON: &[&str] = &[];
 
-    fn install_targets() -> impl IntoIterator<Item = PathBuf> {
-        [deno_path(), denort_path()]
+    fn install_targets() -> InstallTargets {
+        [deno_path(), denort_path()].into()
     }
 
-    async fn already_installed() -> Result<Vec<InstallStatus>> {
-        Ok(vec![
-            InstallStatus::check_file(deno_path()).await?,
-            InstallStatus::check_file(denort_path()).await?,
-        ])
+    async fn get_installed_version(targets: &[PathBuf]) -> Result<Versions> {
+        let output = cmd_stdout(&targets[0], &["--version"]).await?;
+
+        Ok([Some(version(output, "deno ")?), None].into())
     }
 
-    async fn get_installed_version() -> Result<Vec<Option<String>>> {
-        let ver = cmd_stdout(deno_path(), &["--version"]).await?;
-        let Some(ver) = ver.strip_prefix("deno ") else {
-            return Err(anyhow!("deno: invalid version format: {ver}"));
-        };
-        let Some((ver, _)) = ver.split_once(' ') else {
-            return Err(anyhow!("deno: invalid version format: deno {ver}"));
-        };
-        let ver = format!("v{ver}");
-        Ok(vec![Some(ver.clone()), Some(ver)])
+    async fn get_latest_version() -> Result<Versions> {
+        let tag = github_latest_tag("denoland/deno").await?;
+
+        Ok([Some(version(tag, "")?), None].into())
     }
 
-    async fn get_latest_version() -> Result<Vec<Option<String>>> {
-        let ver = github_latest_tag("denoland/deno").await?;
-        Ok(vec![Some(ver.to_owned()), Some(ver)])
-    }
-
-    async fn install(status: Vec<InstallStatus>, _vers: Vec<Option<String>>) -> Result<()> {
+    async fn install(_status: InstallStatuses, _vers: Versions) -> Result<()> {
         use zip::FuturesAsyncReadCompatExt as _;
 
-        if status[0] == InstallStatus::Exec {
-            cmd_stdout(deno_path(), &["upgrade"]).await?;
-            tracing::info!("deno: install done");
-            return Ok(());
-        }
-
         let resp = github_latest_dl("denoland/deno", deno_fname()?).await?;
-        fs::create_dir_all(env("DENO_INSTALL_ROOT")).await?;
 
-        let mut zip = zip::ZipFileReader::with_tokio(BufReader::new(resp));
+        let mut zip = zip::ZipFileReader::with_tokio(resp);
         let mut deno_installed = false;
 
         while let Some(mut entry) = zip.next_with_entry().await? {
             {
                 let reader = entry.reader_mut();
+
                 if reader.entry().dir()? {
                     zip = entry.skip().await?;
                     continue;
@@ -113,15 +96,14 @@ impl ToolInstall for Tool {
                     return Err(anyhow!("deno: unknown file path: {path:02x?}"));
                 }
 
-                let mut f = BufWriter::new(create_exec(deno_path()).await?);
                 let mut reader = reader.compat();
-                copy(&mut reader, &mut f).await?;
-                f.flush().await?;
+                install_exec(&mut reader, deno_path()).await?;
 
                 deno_installed = true;
                 break;
             }
         }
+
         if !deno_installed {
             return Err(anyhow!(
                 "deno: executable `deno` does not exist in the received zip"
@@ -130,12 +112,13 @@ impl ToolInstall for Tool {
 
         let resp = github_latest_dl("denoland/deno", denort_fname()?).await?;
 
-        let mut zip = zip::ZipFileReader::with_tokio(BufReader::new(resp));
+        let mut zip = zip::ZipFileReader::with_tokio(resp);
         let mut denort_installed = false;
 
         while let Some(mut entry) = zip.next_with_entry().await? {
             {
                 let reader = entry.reader_mut();
+
                 if reader.entry().dir()? {
                     zip = entry.skip().await?;
                     continue;
@@ -146,15 +129,14 @@ impl ToolInstall for Tool {
                     return Err(anyhow!("denort: unknown file path: {path:02x?}"));
                 }
 
-                let mut f = BufWriter::new(create_exec(denort_path()).await?);
                 let mut reader = reader.compat();
-                copy(&mut reader, &mut f).await?;
-                f.flush().await?;
+                install_exec(&mut reader, denort_path()).await?;
 
                 denort_installed = true;
                 break;
             }
         }
+
         if !denort_installed {
             return Err(anyhow!(
                 "deno: executable `denort` does not exist in the received zip"

@@ -1,40 +1,44 @@
 [package]
 name = "make"
-version = "0.2.8"
+version = "0.3.0"
 edition = "2024"
 repository = "https://github.com/naughie/dotfiles"
 
 [dependencies]
-async-channel = "2.5"
-async-compression = { version = "0.4", features = ["tokio", "gzip", "xz"] }
-futures = "0.3"
-tokio-util = { version = "0.7", features = ["compat", "io", "io-util"] }
-tokio-tar = { version = "0.5", package = "astral-tokio-tar" }
-tracing = "0.1"
-tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+ratatui = { version = "0.30.2", default-features = false, features = ["crossterm_0_29"] }
+crossterm = { version = "0.29.0", default-features = false, features = ["events"] }
 
-owo-colors = "4"
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+async-channel = "2.5.0"
+async-compression = { version = "0.4.51", features = ["tokio", "gzip", "xz"] }
+futures = "0.3.34"
+tokio-util = { version = "0.7.20", features = ["compat", "io", "io-util"] }
+tokio-tar = { version = "0.7.0", package = "astral-tokio-tar" }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
 
-anyhow = "1"
-clap = { version = "4.5", features = ["derive"] }
-dotenvy = "0.15"
+owo-colors = "4.4.0"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive"] }
+dotenvy = "0.15.7"
 
 [dependencies.async_zip]
-version = "0.0.18"
+version = "0.0.19"
 features = ["tokio", "bzip2", "deflate", "deflate64", "lzma", "xz", "zstd"]
 
 [dependencies.reqwest]
-version = "0.12"
+version = "0.13.5"
 default-features = false
-features = ["http2", "json", "rustls-tls", "stream", "system-proxy", "gzip", "brotli", "zstd", "deflate"]
+features = ["http2", "json", "rustls", "stream", "system-proxy", "gzip", "brotli", "zstd", "deflate"]
 
 [dependencies.tokio]
-version = "1"
+version = "1.54.1"
 features = ["fs", "io-util", "io-std", "macros", "process", "rt-multi-thread", "signal", "sync"]
 
 # The profile that 'dist' will build with
 [profile.dist]
 inherits = "release"
 lto = "thin"
+strip = "symbols"
