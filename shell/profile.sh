@@ -31,6 +31,11 @@ __my_setup_tools_4d75232a() {
     export LIBRARY_PATH="${__my_native_prefix}/lib${LIBRARY_PATH:+:${LIBRARY_PATH}}"
     export LD_LIBRARY_PATH="${__my_native_prefix}/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
 
+    if [ -L "${UV_PYTHON_BIN_DIR}/python" ]; then
+      local __uv_lib="$(dirname "$(dirname "$(readlink "${UV_PYTHON_BIN_DIR}/python")")")"/lib
+      export LD_LIBRARY_PATH="${__uv_lib}:${LD_LIBRARY_PATH}"
+    fi
+
     _my_clear_generated_envs
 
     if [ -x "${FNM_DIR}/bin/fnm" ]; then
