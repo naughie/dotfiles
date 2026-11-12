@@ -36,6 +36,11 @@ __my_setup_tools_4d75232a() {
       export LD_LIBRARY_PATH="${__uv_lib}:${LD_LIBRARY_PATH}"
     fi
 
+    if [ -x "${_my_tool_root}/ssh/bin/ssh" ]; then
+        export GIT_SSH_COMMAND="${_my_tool_root}/ssh/bin/ssh -F ${_my_tool_root}/ssh/config/init.lua"
+        export GIT_SSH_VARIANT=simple
+    fi
+
     _my_clear_generated_envs
 
     if [ -x "${FNM_DIR}/bin/fnm" ]; then
