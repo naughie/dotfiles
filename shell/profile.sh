@@ -59,6 +59,6 @@ __my_setup_tools_4d75232a
 
 case "$-" in
     *i*)
-        test -n "${_fish_exec_4d75232a}" && exec "${_fish_exec_4d75232a}" -il
+        test -t 0 && test -t 1 && test -n "${_fish_exec_4d75232a}" && exec "${_fish_exec_4d75232a}" -il
         ;;
 esac
