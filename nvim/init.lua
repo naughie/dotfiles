@@ -191,6 +191,33 @@ if vim.env.SSH_CONNECTION ~= nil then
     vim.g.clipboard = 'osc52'
 end
 
+local colors = {
+    "#333c43", -- black
+    "#e67e80", -- red
+    "#a7c080", -- green
+    "#dbbc7f", -- yellow
+    "#7fbbb3", -- blue
+    "#d699b6", -- magenta
+    "#83c092", -- cyan
+    "#d3b987", -- white
+}
+
+vim.g.terminal_color_0 = colors[1]
+vim.g.terminal_color_1 = colors[2]
+vim.g.terminal_color_2 = colors[3]
+vim.g.terminal_color_3 = colors[4]
+vim.g.terminal_color_4 = colors[5]
+vim.g.terminal_color_5 = colors[6]
+vim.g.terminal_color_6 = colors[7]
+vim.g.terminal_color_7 = colors[8]
+vim.g.terminal_color_8 = colors[1]
+vim.g.terminal_color_9 = colors[2]
+vim.g.terminal_color_10 = colors[3]
+vim.g.terminal_color_11 = colors[4]
+vim.g.terminal_color_12 = colors[5]
+vim.g.terminal_color_13 = colors[6]
+vim.g.terminal_color_14 = colors[7]
+vim.g.terminal_color_15 = colors[8]
 
 
 local silent_opt = { silent = true }
