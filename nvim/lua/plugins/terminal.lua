@@ -4,6 +4,7 @@ return {
         event = "VeryLazy",
         opts = {
             open_term_if_no_file = false,
+            auto_cd = false,
             dim = {
                 width = function() return math.floor(vim.api.nvim_get_option('columns') * 0.5) end,
                 height_output = function() return math.floor(vim.api.nvim_get_option('lines') * 0.8) end,
